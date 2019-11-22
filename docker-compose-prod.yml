@@ -5,15 +5,13 @@ services:
   supplyit-users:
     build:
       context: ./services/users
-      dockerfile: Dockerfile
-    volumes:
-      - './services/users:/usr/src/app'
-    ports:
-      - 5001:5000
+      dockerfile: Dockerfile-prod
+    expose:
+      - 5000
     environment:
-      - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_dev
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_test
     depends_on:
       - supplyit-users-db
@@ -31,7 +29,7 @@ services:
   nginx:
     build:
       context: ./services/nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-prod
     restart: always
     ports:
       - 80:80
