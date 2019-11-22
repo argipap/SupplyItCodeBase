@@ -4,20 +4,23 @@ services:
 
   supplyit-users:
     build:
-      context: .
+      context: ./services/users
       dockerfile: Dockerfile
     volumes:
-      - '.:/usr/src/app'
+      - './services/users:/usr/src/app'
     ports:
       - 5001:5000
     environment:
-      - FLASK_APP=project/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_test
+    depends_on:
+      - supplyit-users-db
 
   supplyit-users-db:
     build:
-      context: ./project/db
+      context: ./services/users/project/db
       dockerfile: Dockerfile
     ports:
       - 5435:5432

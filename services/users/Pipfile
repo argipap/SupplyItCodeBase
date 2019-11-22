@@ -10,6 +10,10 @@ flask = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
 psycopg2 = "==2.8.4"
+flask-testing = "*"
+marshmallow = "==3.2.2"
+flask-marshmallow = "==0.10.1"
+marshmallow-sqlalchemy = "==0.19.0"
 
 [requires]
 python_version = "3.7"

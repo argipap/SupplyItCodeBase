@@ -9,10 +9,14 @@ WORKDIR /usr/src/app
 RUN apt-get update -yqq \
 && apt-get install -yqq --no-install-recommends \
 netcat \
-&& apt-get -q clean
+&& apt-get -q clean \
+&& pip install --upgrade pip
 
 # add and install requirements
-COPY ./requirements.txt /usr/src/app/requirements.txt
+COPY Pipfile /usr/src/app
+COPY Pipfile.lock /usr/src/app
+RUN pip install pipenv \
+&& pipenv lock -r > /usr/src/app/requirements.txt
 RUN pip install -r /usr/src/app/requirements.txt
 
 # add entrypoint.sh

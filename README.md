@@ -1,1 +1,1 @@
-# users-service
+# SupplyIt microservice code base
