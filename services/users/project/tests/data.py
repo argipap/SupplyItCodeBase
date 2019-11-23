@@ -14,6 +14,12 @@ class TestData:
         "password": "123abc!",
     }
 
+    user_data_model = {
+        "username": "testmodel",
+        "email": "testmodel@test.com",
+        "password": "123abc!",
+    }
+
     message_error = "Missing data for required field."
     invalid_payload_error = {
         "username": f"{message_error}",

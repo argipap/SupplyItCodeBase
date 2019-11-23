@@ -26,7 +26,6 @@ class TestUserService(BaseTestCase):
             response = self.client.post(
                 "/users", data=json.dumps(user_data), content_type="application/json"
             )
-        TestData.add_user(**user_data)
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 201)
         self.assertIn(f"{user_data['email']} was added!", data["message"])

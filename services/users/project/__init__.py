@@ -22,6 +22,7 @@ def create_app(script_info=None):
     ma.init_app(app)
     toolbar.init_app(app)
     cors.init_app(app)
+    migrate.init_app(app, db)
 
     # register blueprints
     from project.api.views.users import users_blueprint
