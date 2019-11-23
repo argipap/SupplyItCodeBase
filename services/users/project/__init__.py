@@ -8,6 +8,8 @@ from flask import Flask
 # first we need to intialize flask sqlalchemy and then marshmallow!!
 from project.utils.sqlalc import db
 from project.utils.ma import ma
+from project.utils.toolbar import toolbar
+from project.utils.flaskcors import cors
 
 
 def create_app(script_info=None):
@@ -22,6 +24,8 @@ def create_app(script_info=None):
     # set up extensions
     db.init_app(app)
     ma.init_app(app)
+    toolbar.init_app(app)
+    cors.init_app(app)
 
     # register blueprints
     from project.api.views.users import users_blueprint

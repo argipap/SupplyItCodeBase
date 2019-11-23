@@ -17,6 +17,8 @@ marshmallow-sqlalchemy = "==0.19.0"
 coverage = "==4.5.4"
 flake8 = "==3.7.9"
 black = "==19.10b0"
+flask-debugtoolbar = "==0.10.1"
+flask-cors = "==3.0.8"
 
 [requires]
 python_version = "3.7"
