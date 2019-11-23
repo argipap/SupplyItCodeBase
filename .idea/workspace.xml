@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d31e9e3d-c525-4a15-8931-84934b1e9462" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/services/client/src/components/UsersList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/project/utils/flaskcors.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/project/utils/toolbar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/users/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/manage.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

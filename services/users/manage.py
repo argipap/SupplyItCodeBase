@@ -10,7 +10,7 @@ from project import create_app, db
 from project.api.models.users import UserModel
 
 COV = coverage.coverage(
-    branch=True, include="project/*", omit=["project/tests/*", "project/config.py",]
+    branch=True, include="project/*", omit=["project/tests/*", "project/config.py"]
 )
 COV.start()
 
