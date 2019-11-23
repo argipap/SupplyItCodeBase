@@ -5,11 +5,7 @@ import os
 
 from flask import Flask
 
-# first we need to intialize flask sqlalchemy and then marshmallow!!
-from project.utils.sqlalc import db
-from project.utils.ma import ma
-from project.utils.toolbar import toolbar
-from project.utils.flaskcors import cors
+from project.utils.lib import ma, cors, db, migrate, toolbar
 
 
 def create_app(script_info=None):

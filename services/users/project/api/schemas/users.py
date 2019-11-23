@@ -1,4 +1,4 @@
-from project.utils.ma import ma
+from project.utils.lib import ma
 from project.api.models.users import UserModel
 
 
