@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 # instantiate the db
 db = SQLAlchemy()
@@ -18,3 +19,6 @@ cors = CORS()
 
 # flask-migration for database migrations
 migrate = Migrate()
+
+# flask bcrypt for password hashing
+bcrypt = Bcrypt()

@@ -2,14 +2,11 @@
 
 
 import os
-
 from flask import Flask
-
-from project.utils.lib import ma, cors, db, migrate, toolbar
+from project.utils.lib import ma, cors, db, migrate, toolbar, bcrypt
 
 
 def create_app(script_info=None):
-
     # instantiate the app
     app = Flask(__name__)
 
@@ -23,11 +20,15 @@ def create_app(script_info=None):
     toolbar.init_app(app)
     cors.init_app(app)
     migrate.init_app(app, db)
+    bcrypt.init_app(app)
 
     # register blueprints
     from project.api.views.users import users_blueprint
 
     app.register_blueprint(users_blueprint)
+    from project.api.views.auth import auth_blueprint
+
+    app.register_blueprint(auth_blueprint)
 
     # shell context for flask cli
     @app.shell_context_processor
