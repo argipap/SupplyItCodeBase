@@ -13,7 +13,7 @@ const users = [
     },
     {
         'active': true,
-        'email': 'test2@mherman.org',
+        'email': 'test2@gmail.org',
         'id': 2,
         'username': 'test2'
     }
