@@ -20,13 +20,6 @@ class TestData:
         "password": "123abc!",
     }
 
-    message_error = "Missing data for required field."
-    invalid_payload_error = {
-        "username": f"{message_error}",
-        "password": f"{message_error}",
-        "email": f"{message_error}",
-    }
-
     @classmethod
     def add_user(cls, username, email, password):
         user = UserModel(username=username, email=email, password=password)

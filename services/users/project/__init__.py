@@ -3,7 +3,7 @@
 
 import os
 from flask import Flask
-from project.utils.lib import ma, cors, db, migrate, toolbar, bcrypt
+from project.utils.lib import cors, db, migrate, toolbar, bcrypt
 
 
 def create_app(script_info=None):
@@ -16,7 +16,6 @@ def create_app(script_info=None):
 
     # set up extensions
     db.init_app(app)
-    ma.init_app(app)
     toolbar.init_app(app)
     cors.init_app(app)
     migrate.init_app(app, db)

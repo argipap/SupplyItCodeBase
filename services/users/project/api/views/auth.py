@@ -2,38 +2,33 @@
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
-from marshmallow import ValidationError
 
 from project.api.models.users import UserModel
-from project.api.schemas.users import UserSchema
 from project import db, bcrypt
 from project.api.views.errors import InternalServerError
 
 auth_blueprint = Blueprint("auth", __name__)
-user_schema = UserSchema()
 
 
 @auth_blueprint.route("/auth/register", methods=["POST"])
 def register_user():
-    response_object = {"status": "fail", "message": "Invalid payload."}
-    try:
-        # get json data
-        json_data = request.get_json()
-        new_user = user_schema.load(json_data)
-    except ValidationError as err:
-        response_object["message"] = err.messages
-        return response_object, 400
+    response_object = {"status": "fail", "message": "Invalid Payload"}
+    # get json data
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify(response_object), 400
+    username = json_data.get("username")
+    email = json_data.get("email")
+    password = json_data.get("password")
 
     try:
         # check for existing user
         user = UserModel.query.filter(
-            or_(
-                UserModel.username == new_user.username,
-                UserModel.email == new_user.email,
-            )
+            or_(UserModel.username == username, UserModel.email == email,)
         ).first()
         if not user:
             # add new user to db
+            new_user = UserModel(username=username, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
             # generate auth token
@@ -53,30 +48,17 @@ def register_user():
 
 @auth_blueprint.route("/auth/login", methods=["POST"])
 def login_user():
-    """ User login route method.
-        For checking login password (bcrypt.check_password_hash function)
-        against stored encrypted password in database we update password of user_data
-        object to be equal with the one of request data. This is essential since with
-        Marshmallow serialization, password of user_data object is being loaded from
-        UserModel and thus is encrypted. """
-
-    response_object = {"status": "fail", "message": "Invalid payload."}
-    try:
-        # get json data
-        json_data = request.get_json()
-        user_data = user_schema.load(json_data)
-        user_data.password = json_data["password"]
-    except ValidationError as err:
-        response_object["message"] = err.messages
-        return response_object, 400
-    except ValueError as err:
-        response_object["message"] = str(err)
-        return response_object, 400
-
+    response_object = {"status": "fail", "message": "Invalid Payload"}
+    # get json data
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify(response_object), 400
+    email = json_data.get("email")
+    password = json_data.get("password")
     try:
         # fetch the user data
-        user = UserModel.query.filter_by(email=user_data.email).first()
-        if user and bcrypt.check_password_hash(user.password, user_data.password):
+        user = UserModel.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password, password):
             auth_token = user.encode_auth_token(user.id)
             if auth_token:
                 response_object["status"] = "success"
@@ -112,18 +94,17 @@ def logout_user():
 
 @auth_blueprint.route("/auth/status", methods=["GET"])
 def get_user_status():
-    response_object = {"status": "fail", "message": "Provide a valid auth token."}
     # get auth token
     auth_header = request.headers.get("Authorization")
+    response_object = {"status": "fail", "message": "Provide a valid auth token."}
     if auth_header:
         auth_token = auth_header.split(" ")[1]
         resp = UserModel.decode_auth_token(auth_token)
         if not isinstance(resp, str):
             user = UserModel.query.filter_by(id=resp).first()
-            user_data = user_schema.dump(user)
             response_object["status"] = "success"
             response_object["message"] = "Success."
-            response_object["data"] = user_data
+            response_object["data"] = user.json()
             return jsonify(response_object), 200
         response_object["message"] = resp
         return jsonify(response_object), 401

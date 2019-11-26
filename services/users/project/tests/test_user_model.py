@@ -8,11 +8,8 @@ from project import db
 from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
 from project.tests.data import TestData
-from project.api.schemas.users import UserSchema
 
 from sqlalchemy.exc import IntegrityError
-
-user_schema = UserSchema()
 
 
 class TestUserModel(BaseTestCase):
@@ -46,7 +43,7 @@ class TestUserModel(BaseTestCase):
 
     def test_deserialization(self):
         user = TestData.add_user(**TestData.user_data_1)
-        self.assertTrue(isinstance(user_schema.dump(user), dict))
+        self.assertTrue(isinstance(user.json(), dict))
 
     def test_passwords_are_random(self):
         user_one = TestData.add_user(**TestData.user_data_1)
@@ -61,16 +58,12 @@ class TestUserModel(BaseTestCase):
         with self.client:
             response = self.client.post(
                 "/users",
-                data=json.dumps(
-                    dict(username="michael", email="michael@reallynotreal.com")
-                ),
+                data=json.dumps(dict(username="test", email="test@test.com")),
                 content_type="application/json",
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            self.assertIn(
-                "Missing data for required field.", data["message"]["password"]
-            )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_encode_auth_token(self):

@@ -58,10 +58,7 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            for key in TestData.invalid_payload_error.keys():
-                self.assertIn(
-                    TestData.invalid_payload_error[key], data["message"][key][0]
-                )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_user_registration_invalid_json_keys_no_username(self):
@@ -73,9 +70,7 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            self.assertIn(
-                "Missing data for required field.", data["message"]["username"]
-            )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_user_registration_invalid_json_keys_no_email(self):
@@ -87,7 +82,7 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            self.assertIn("Missing data for required field.", data["message"]["email"])
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_user_registration_invalid_json_keys_no_password(self):
@@ -99,9 +94,7 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            self.assertIn(
-                "Missing data for required field.", data["message"]["password"]
-            )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_registered_user_login(self):

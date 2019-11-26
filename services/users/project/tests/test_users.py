@@ -39,10 +39,7 @@ class TestUserService(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            for key in TestData.invalid_payload_error.keys():
-                self.assertIn(
-                    TestData.invalid_payload_error[key], data["message"][key][0]
-                )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_add_user_invalid_json_keys(self):
@@ -57,13 +54,7 @@ class TestUserService(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
-            for key in TestData.invalid_payload_error.keys():
-                if key not in data["message"].keys():
-                    for invalid_key in data["message"].keys():
-                        self.assertIn(
-                            TestData.invalid_payload_error[key],
-                            data["message"][invalid_key][0],
-                        )
+            self.assertIn("Invalid Payload", data["message"])
             self.assertIn("fail", data["status"])
 
     def test_add_user_duplicate_email(self):
@@ -158,10 +149,7 @@ class TestUserService(BaseTestCase):
         user_data = TestData.user_data_1
         with self.client:
             response = self.client.post(
-                "/",
-                data=json.dumps(user_data),
-                content_type="application/json",
-                follow_redirects=True,
+                "/", data=dict(**user_data), follow_redirects=True
             )
             self.assertEqual(response.status_code, 200)
             self.assertIn(b"All Users", response.data)
