@@ -8,6 +8,7 @@ from project import db
 from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
 from project.tests.data import TestData
+from project.tests.utils import user_login
 
 from sqlalchemy.exc import IntegrityError
 
@@ -22,6 +23,7 @@ class TestUserModel(BaseTestCase):
         self.assertEqual(user.email, TestData.user_data_model["email"])
         self.assertTrue(user.active)
         self.assertTrue(user.password)
+        self.assertFalse(user.admin)
 
     def test_add_user_duplicate_username(self):
         user_data = TestData.user_data_model
@@ -55,11 +57,14 @@ class TestUserModel(BaseTestCase):
         Ensure error is thrown if the JSON object
         does not have a password key.
         """
+        user_auth = TestData.user_data_1
+        token = user_login(user_auth, self.client)
         with self.client:
             response = self.client.post(
                 "/users",
                 data=json.dumps(dict(username="test", email="test@test.com")),
                 content_type="application/json",
+                headers={"Authorization": f"Bearer {token}"},
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)

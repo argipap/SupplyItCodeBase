@@ -6,8 +6,10 @@ import unittest
 
 from flask import current_app
 
+from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
 from project.tests.data import TestData
+from project import db
 
 
 class TestAuthBlueprint(BaseTestCase):
@@ -198,6 +200,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data["data"]["username"] == user_data["username"])
             self.assertTrue(data["data"]["email"] == user_data["email"])
             self.assertTrue(data["data"]["active"] is True)
+            self.assertFalse(data["data"]["admin"])
             self.assertEqual(response.status_code, 200)
 
     def test_invalid_status(self):
@@ -208,6 +211,54 @@ class TestAuthBlueprint(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertTrue(data["status"] == "fail")
             self.assertTrue(data["message"] == "Invalid token. Please log in again.")
+            self.assertEqual(response.status_code, 401)
+
+    def test_invalid_logout_inactive(self):
+        user_data = TestData.user_data_1
+        TestData.add_user(**user_data)
+        # update user
+        user = UserModel.query.filter_by(email=user_data["email"]).first()
+        user.active = False
+        db.session.commit()
+        with self.client:
+            resp_login = self.client.post(
+                "/auth/login",
+                data=json.dumps(
+                    {"email": user_data["email"], "password": user_data["password"]}
+                ),
+                content_type="application/json",
+            )
+            token = json.loads(resp_login.data.decode())["auth_token"]
+            response = self.client.get(
+                "/auth/logout", headers={"Authorization": f"Bearer {token}"}
+            )
+            data = json.loads(response.data.decode())
+            self.assertTrue(data["status"] == "fail")
+            self.assertTrue(data["message"] == "Provide a valid auth token.")
+            self.assertEqual(response.status_code, 401)
+
+    def test_invalid_status_inactive(self):
+        user_data = TestData.user_data_1
+        TestData.add_user(**user_data)
+        # update user
+        user = UserModel.query.filter_by(email=user_data["email"]).first()
+        user.active = False
+        db.session.commit()
+        with self.client:
+            resp_login = self.client.post(
+                "/auth/login",
+                data=json.dumps(
+                    {"email": user_data["email"], "password": user_data["password"]}
+                ),
+                content_type="application/json",
+            )
+            token = json.loads(resp_login.data.decode())["auth_token"]
+            response = self.client.get(
+                "/auth/status", headers={"Authorization": f"Bearer {token}"}
+            )
+            data = json.loads(response.data.decode())
+            self.assertTrue(data["status"] == "fail")
+            self.assertTrue(data["message"] == "Provide a valid auth token.")
             self.assertEqual(response.status_code, 401)
 
 

@@ -6,6 +6,7 @@ from flask_restful import Resource, Api
 from sqlalchemy import exc
 from project.api.models.users import UserModel
 from project import db
+from project.api.views.utils import authenticate_restful, is_admin
 
 users_blueprint = Blueprint("users", __name__, template_folder="../templates")
 api = Api(users_blueprint)
@@ -30,10 +31,18 @@ class UsersPing(Resource):
 
 
 class UsersList(Resource):
+
+    method_decorators = {"post": [authenticate_restful]}
+
     @classmethod
-    def post(cls):
+    def post(cls, resp):
         response_object = {"status": "fail", "message": "Invalid Payload"}
         json_data = request.get_json()
+        if not is_admin(resp):
+            response_object["message"] = "You do not have permission to do that."
+            return response_object, 401
+        if not json_data:
+            return response_object, 400
         username = json_data.get("username")
         email = json_data.get("email")
         password = json_data.get("password")

@@ -2,22 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d31e9e3d-c525-4a15-8931-84934b1e9462" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/services/client/src/components/Logout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/client/src/components/UserStatus.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/Logout.test.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/users/project/api/views/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/nginx/dev.conf" beforeDir="false" afterPath="$PROJECT_DIR$/services/nginx/dev.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/Form.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/NavBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/NavBar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/UsersList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/Form.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/Form.test.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/UsersList.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/UsersList.test.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/Form.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/Form.test.jsx.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/NavBar.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/NavBar.test.jsx.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/UsersList.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/UsersList.test.jsx.snap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/api/models/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/models/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/api/schemas/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/api/schemas/users.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/views/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/api/views/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/views/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/tests/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_user_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_user_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/utils/lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/utils/lib.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -307,16 +313,15 @@
       <updated>1574014931476</updated>
       <workItem from="1574014974276" duration="44306000" />
       <workItem from="1574451989107" duration="7555000" />
-      <workItem from="1574460525772" duration="19164000" />
+      <workItem from="1574460525772" duration="19772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71025000" />
+    <option name="totallyTimeSpent" value="71633000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25670242" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

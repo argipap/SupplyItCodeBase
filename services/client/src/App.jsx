@@ -6,7 +6,9 @@ import AddUser from "./components/AddUser";
 import UsersList from "./components/UsersList";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
-import Form from './components/Form';
+import Form from "./components/Form";
+import Logout from "./components/Logout";
+import UserStatus from "./components/UserStatus";
 
 
 class App extends Component {
@@ -22,16 +24,21 @@ class App extends Component {
                 email: '',
                 password: ''
             },
+            isAuthenticated: false,
             title: 'SupplyIt'
         };
         this.addUser = this.addUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
+        this.clearFormState = this.clearFormState.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
     }
 
     componentDidMount() {
-        this.getUsers();
+        if (this.props.isAuthenticated) {
+            this.getUserStatus();
+        }
     };
 
     getUsers() {
@@ -83,9 +90,14 @@ class App extends Component {
         const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`
         axios.post(url, data)
             .then((res) => {
-                console.log(res.data);
+                this.clearFormState();
+                window.localStorage.setItem('authToken', res.data.auth_token);
+                this.setState({isAuthenticated: true,});
+                this.getUsers();
             })
-            .catch((err) => { console.log(err.response.data); });
+            .catch((err) => {
+                console.log(err.response.data);
+            });
     };
 
     handleFormChange(event) {
@@ -94,10 +106,27 @@ class App extends Component {
         this.setState(obj);
     };
 
+    clearFormState() {
+        this.setState({
+            formData: {username: '', email: '', password: ''},
+            username: '',
+            email: '',
+            password: ''
+        });
+    };
+
+    logoutUser() {
+        window.localStorage.clear();
+        this.setState({isAuthenticated: false});
+    }
+
     render() {
         return (
             <div>
-                <NavBar title={this.state.title}/>
+                <NavBar
+                    title={this.state.title}
+                    isAuthenticated={this.state.isAuthenticated}
+                />
                 <section className="section">
                     <div className="container">
                         <div className="columns">
@@ -105,20 +134,9 @@ class App extends Component {
                                 <br/>
                                 <Switch>
                                     <Route exact path='/' render={() => (
-                                        <div>
-                                            <h1 className="title is-1">All Users</h1>
-                                            <hr/>
-                                            <br/>
-                                            <AddUser
-                                                username={this.state.username}
-                                                email={this.state.email}
-                                                password={this.state.password}
-                                                addUser={this.addUser}
-                                                handleChange={this.handleChange}
-                                            />
-                                            <br/><br/>
-                                            <UsersList users={this.state.users}/>
-                                        </div>
+                                        <UsersList
+                                            users={this.state.users}
+                                        />
                                     )}/>
                                     <Route exact path='/register' render={() => (
                                         <Form
@@ -126,6 +144,7 @@ class App extends Component {
                                             formData={this.state.formData}
                                             handleUserFormSubmit={this.handleUserFormSubmit}
                                             handleFormChange={this.handleFormChange}
+                                            isAuthenticated={this.state.isAuthenticated}
                                         />
                                     )}/>
                                     <Route exact path='/login' render={() => (
@@ -134,9 +153,21 @@ class App extends Component {
                                             formData={this.state.formData}
                                             handleUserFormSubmit={this.handleUserFormSubmit}
                                             handleFormChange={this.handleFormChange}
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />
+                                    )}/>
+                                    <Route exact path='/logout' render={() => (
+                                        <Logout
+                                            logoutUser={this.logoutUser}
+                                            isAuthenticated={this.state.isAuthenticated}
                                         />
                                     )}/>
                                     <Route exact path='/about' component={About}/>
+                                    <Route exact path='/status' render={() => (
+                                        <UserStatus
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />
+                                    )}/>
                                 </Switch>
                             </div>
                         </div>
@@ -145,6 +176,6 @@ class App extends Component {
             </div>
         )
     }
-};
+}
 
 export default App;
