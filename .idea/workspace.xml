@@ -2,28 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d31e9e3d-c525-4a15-8931-84934b1e9462" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/services/client/src/components/Logout.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/client/src/components/UserStatus.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/Logout.test.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/users/project/api/views/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/client/conf/conf.d/default.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/Form.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/NavBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/NavBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/UsersList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/UsersList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/Form.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/Form.test.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/UsersList.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/UsersList.test.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/Form.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/Form.test.jsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/NavBar.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/NavBar.test.jsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/UsersList.test.jsx.snap" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/src/components/__tests__/__snapshots__/UsersList.test.jsx.snap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/api/models/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/models/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/api/views/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/views/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/api/views/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/api/views/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_user_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_user_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/users/project/tests/test_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/users/project/tests/test_users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/client/Dockerfile-prod" beforeDir="false" afterPath="$PROJECT_DIR$/services/client/Dockerfile-prod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/nginx/prod.conf" beforeDir="false" afterPath="$PROJECT_DIR$/services/nginx/prod.conf" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docker-compose-prod.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+            <state relative-caret-position="255">
+              <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -60,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/services/nginx/prod.conf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+            <state relative-caret-position="493">
+              <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -87,11 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/services/nginx/dev.conf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
+            <state relative-caret-position="459">
+              <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="34" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -188,9 +171,9 @@
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/services/users/Dockerfile" />
         <option value="$PROJECT_DIR$/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/services/nginx/dev.conf" />
         <option value="$PROJECT_DIR$/docker-compose-prod.yml" />
         <option value="$PROJECT_DIR$/services/nginx/prod.conf" />
-        <option value="$PROJECT_DIR$/services/nginx/dev.conf" />
       </list>
     </option>
   </component>
@@ -313,15 +296,16 @@
       <updated>1574014931476</updated>
       <workItem from="1574014974276" duration="44306000" />
       <workItem from="1574451989107" duration="7555000" />
-      <workItem from="1574460525772" duration="19772000" />
+      <workItem from="1574460525772" duration="21722000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71633000" />
+    <option name="totallyTimeSpent" value="73583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25670242" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -618,6 +602,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/services/nginx/Dockerfile-prod">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/nginx/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose-prod.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/services/users/Dockerfile-prod">
       <provider editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
@@ -633,45 +645,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/nginx/Dockerfile-prod">
+    <entry file="file://$PROJECT_DIR$/services/nginx/dev.conf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/nginx/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose-prod.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        <state relative-caret-position="459">
+          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="34" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/services/nginx/prod.conf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/nginx/dev.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
+        <state relative-caret-position="493">
+          <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
         </state>
       </provider>
     </entry>
