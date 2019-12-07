@@ -5,11 +5,22 @@ services:
 
 env:
   DOCKER_COMPOSE_VERSION: 1.23.2
+  COMMIT: ${TRAVIS_COMMIT::8}
+  MAIN_REPO: https://github.com/argipap/SupplyItCodeBase.git
+  USERS: supplyit-users
+  USERS_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/users
+  USERS_DB: supplyit-users-db
+  USERS_DB_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/users/project/db
+  CLIENT: supplyit-client
+  CLIENT_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/client
+  SWAGGER: supplyit-swagger
+  SWAGGER_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
+  SECRET_KEY: my_precious
 
 addons:
   apt:
     packages:
-    - libgconf-2-4
+      - libgconf-2-4
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -23,3 +34,6 @@ before_script:
 
 script:
   - bash test.sh stage
+
+after_success:
+  - bash ./docker-push.sh
