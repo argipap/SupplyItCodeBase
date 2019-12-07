@@ -68,7 +68,7 @@ def login_user():
                 response_object["auth_token"] = auth_token.decode()
                 return jsonify(response_object), 200
         else:
-            response_object["message"] = "User does not exist or password is invalid."
+            response_object["message"] = "Email or password is invalid."
             return jsonify(response_object), 404
     except InternalServerError:
         response_object["message"] = "Try again."

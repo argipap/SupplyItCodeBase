@@ -121,10 +121,10 @@ class Form extends Component {
             })
             .catch((err) => {
                 if (formType === 'Login') {
-                    this.props.createMessage('User does not exist.', 'danger');
+                    this.props.createMessage(err.response.data.message, 'danger');
                 }
                 if (formType === 'Register') {
-                    this.props.createMessage('That user already exists.', 'danger');
+                    this.props.createMessage(err.response.data.message, 'danger');
                 }
             });
     };
