@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d31e9e3d-c525-4a15-8931-84934b1e9462" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/test-ci.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test-ci.sh" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-push.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker-push.sh" afterDir="false" />
+>>>>>>> production
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,10 +26,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-ci.sh">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="714">
+=======
+            <state relative-caret-position="285">
+>>>>>>> production
               <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
             </state>
           </provider>
@@ -48,11 +57,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docker-push.sh">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="578">
               <caret line="34" column="76" selection-start-line="34" selection-start-column="76" selection-end-line="34" selection-end-column="76" />
+=======
+            <state relative-caret-position="459">
+              <caret line="27" column="37" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="37" />
+>>>>>>> production
             </state>
           </provider>
         </entry>
@@ -136,7 +150,14 @@
       <find>client npm</find>
       <find>should display user info if a user is logged in</find>
       <find>echo &quot;\n&quot;</find>
+<<<<<<< HEAD
       <find>users</find>
+=======
+      <find>$DOCKER_ENV</find>
+      <find>DOCKER_ENV=</find>
+      <find>COMMIT</find>
+      <find>USERS_REPO</find>
+>>>>>>> production
     </findStrings>
     <replaceStrings>
       <replace>than 7</replace>
@@ -202,12 +223,17 @@
         <option value="$PROJECT_DIR$/services/swagger/Dockerfile-stage" />
         <option value="$PROJECT_DIR$/services/nginx/Dockerfile-stage" />
         <option value="$PROJECT_DIR$/docker-compose-stage.yml" />
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/.travis.yml" />
+>>>>>>> production
         <option value="$PROJECT_DIR$/cypress/integration/message.spec.js" />
         <option value="$PROJECT_DIR$/cypress/integration/login.spec.js" />
         <option value="$PROJECT_DIR$/test.sh" />
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/docker-push.sh" />
         <option value="$PROJECT_DIR$/test-ci.sh" />
+        <option value="$PROJECT_DIR$/docker-push.sh" />
       </list>
     </option>
   </component>
@@ -240,6 +266,17 @@
               <item name="SupplyItCodeBase" type="462c0819:PsiDirectoryNode" />
               <item name="cypress" type="462c0819:PsiDirectoryNode" />
               <item name="integration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SupplyItCodeBase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SupplyItCodeBase" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SupplyItCodeBase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SupplyItCodeBase" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="users" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -335,7 +372,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="119169000" />
+=======
+    <option name="totallyTimeSpent" value="119939000" />
+>>>>>>> production
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -573,9 +614,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cypress/screenshots/status.spec.js/Status -- should display user info if a user is logged in (failed).png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cypress/screenshots/status.spec.js/Status -- should display user info if a user is logged in (failed).png" />
     <entry file="file://$PROJECT_DIR$/docker-compose.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="464">
@@ -690,6 +729,16 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> production
     <entry file="file://$PROJECT_DIR$/cypress/integration/message.spec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -708,6 +757,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="40" column="51" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="62" />
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
@@ -722,13 +772,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="34" column="76" selection-start-line="34" selection-start-column="76" selection-end-line="34" selection-end-column="76" />
+=======
+>>>>>>> production
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-ci.sh">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="714">
           <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+=======
+        <state relative-caret-position="285">
+          <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-push.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="37" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="37" />
+>>>>>>> production
         </state>
       </provider>
     </entry>
