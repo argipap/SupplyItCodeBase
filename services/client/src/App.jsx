@@ -9,6 +9,9 @@ import Form from "./components/forms/Form";
 import Logout from "./components/Logout";
 import UserStatus from "./components/UserStatus";
 import Message from "./components/Message";
+import GetStarted from "./components/GetStarted";
+import Footer from "./components/Footer";
+import './components/Footer.css';
 
 
 class App extends Component {
@@ -59,7 +62,7 @@ class App extends Component {
         this.createMessage('Welcome!', 'success');
     };
 
-    createMessage(name='Sanity Check', type='success') {
+    createMessage(name = 'Sanity Check', type = 'success') {
         this.setState({
             messageName: name,
             messageType: type
@@ -102,6 +105,15 @@ class App extends Component {
                                         />
                                     )}/>
                                     <Route exact path='/about' component={About}/>
+                                    <Route exact path='/getStarted' render={() => (
+                                        <GetStarted
+                                            formType={'GetStarted'}
+                                            loginUser={this.loginUser}
+                                            createMessage={this.createMessage}
+                                            removeMessage={this.removeMessage}
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />
+                                    )}/>
                                     <Route exact path='/register' render={() => (
                                         <Form
                                             formType={'Register'}
@@ -134,6 +146,7 @@ class App extends Component {
                         </div>
                     </div>
                 </section>
+                <Footer/>
             </div>
         )
     }

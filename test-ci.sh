@@ -17,10 +17,10 @@ inspect() {
 # run client and server-side tests
 dev() {
   docker-compose up -d --build
-  docker-compose exec users python manage.py test
-  inspect $? users
-  docker-compose exec users flake8 project
-  inspect $? users-lint
+  docker-compose exec supplyit-users python manage.py test
+  inspect $? supplyit-users
+  docker-compose exec supplyit-users flake8 project
+  inspect $? supplyit-users-lint
   docker-compose exec client npm run coverage
   inspect $? client
   docker-compose down
@@ -29,7 +29,7 @@ dev() {
 # run e2e tests
 e2e() {
   docker-compose -f docker-compose-$1.yml up -d --build
-  docker-compose -f docker-compose-$1.yml run users python manage.py recreate_db
+  docker-compose -f docker-compose-$1.yml run supplyit-users python manage.py recreate_db
   ./node_modules/.bin/cypress run --config baseUrl=${BASE_URL}
   inspect $? e2e
   docker-compose -f docker-compose-$1.yml down
