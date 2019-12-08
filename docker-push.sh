@@ -3,6 +3,13 @@
 if [[ -z "$TRAVIS_PULL_REQUEST" ]] || [[ "$TRAVIS_PULL_REQUEST" == "false" ]]
 then
 
+  if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
+    export DOCKER_ENV=stage
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-471661531.us-east-1.elb.amazonaws.com"
+  elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
+    export DOCKER_ENV=prod
+  fi
+
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
      [[ "$TRAVIS_BRANCH" == "production" ]]
   then
@@ -28,7 +35,7 @@ then
     docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
     docker push $REPO/$USERS_DB:$TAG
     # client
-    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=TBD
+    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
     docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
     docker push $REPO/$CLIENT:$TAG
     # swagger
