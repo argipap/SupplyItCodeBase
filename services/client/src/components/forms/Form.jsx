@@ -46,7 +46,7 @@ class Form extends Component {
         // reset all rules
         self.resetRules()
         // validate register form
-        if (self.props.formType === 'Register') {
+        if (self.props.formType === 'Register' || self.props.formType === 'GetStarted') {
             const formRules = self.state.registerFormRules;
             if (formData.username.length > 3) formRules[0].valid = true;
             if (formData.email.length > 5) formRules[1].valid = true;
@@ -67,7 +67,7 @@ class Form extends Component {
 
     allTrue() {
         let formRules = loginFormRules;
-        if (this.props.formType === 'Register') {
+        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted') {
             formRules = registerFormRules;
         }
         for (const rule of formRules) {
@@ -110,22 +110,22 @@ class Form extends Component {
             email: this.state.formData.email,
             password: this.state.formData.password
         };
-        if (formType === 'Register') {
+        if (formType === 'Register' || formType === 'GetStarted') {
             data.username = this.state.formData.username
         }
-        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType.toLowerCase()}`;
+        let operation = formType.toLowerCase();
+        if (formType === 'GetStarted') {
+            operation = 'register'
+        }
+
+        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${operation}`;
         axios.post(url, data)
             .then((res) => {
                 this.clearForm();
                 this.props.loginUser(res.data.auth_token);
             })
             .catch((err) => {
-                if (formType === 'Login') {
-                    this.props.createMessage(err.response.data.message, 'danger');
-                }
-                if (formType === 'Register') {
-                    this.props.createMessage(err.response.data.message, 'danger');
-                }
+                this.props.createMessage(err.response.data.message, 'danger');
             });
     };
 
@@ -134,7 +134,7 @@ class Form extends Component {
             return <Redirect to='/'/>;
         }
         let formRules = this.state.loginFormRules;
-        if (this.props.formType === 'Register') {
+        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted') {
             formRules = this.state.registerFormRules;
         }
         return (
@@ -145,14 +145,18 @@ class Form extends Component {
                 {this.props.formType === 'Register' &&
                 <h1 className="title is-1">Register</h1>
                 }
+                {this.props.formType !== 'GetStarted' &&
                 <hr/>
+                }
+                {this.props.formType !== 'GetStarted' &&
                 <br/>
+                }
                 <FormErrors
                     formType={this.props.formType}
                     formRules={formRules}
                 />
                 <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
-                    {this.props.formType === 'Register' &&
+                    {(this.props.formType === 'Register' || this.props.formType === 'GetStarted') &&
                     <div className="field">
                         <input
                             name="username"
