@@ -1,0 +1,12 @@
+.ticked-list li {
+    font-size: 16px;
+    margin-left: 0px;
+    padding-left: 24px;
+    line-height: 28px;
+    list-style: none;
+    background-image: url(../tick.png);
+    background-repeat: no-repeat;
+    background-position: 0px 7px;
+    background-size: 16px 13px;
+    margin-top: 15px;
+}

@@ -91,7 +91,7 @@ describe('Login', () => {
     });
     cy
       .get('.notification.is-success').should('not.be.visible')
-      .get('.notification.is-danger').contains('User does not exist.');
+      .get('.notification.is-danger').contains('Email or password is invalid');
 
     // attempt to log in
     cy
@@ -114,6 +114,6 @@ describe('Login', () => {
     });
     cy
       .get('.notification.is-success').should('not.be.visible')
-      .get('.notification.is-danger').contains('User does not exist.');
+      .get('.notification.is-danger').contains('Email or password is invalid');
   });
 });
