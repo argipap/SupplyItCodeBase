@@ -3,6 +3,12 @@
 if [[ -z "$TRAVIS_PULL_REQUEST" ]] || [[ "$TRAVIS_PULL_REQUEST" == "false" ]]
 then
 
+  if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
+    export DOCKER_ENV=stage
+  elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
+    export DOCKER_ENV=prod
+  fi
+
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
      [[ "$TRAVIS_BRANCH" == "production" ]]
   then
@@ -19,6 +25,7 @@ then
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
      [[ "$TRAVIS_BRANCH" == "production" ]]
   then
+    echo "building/pushing USERS_REPO: ${USERS_REPO} for env: {$DOCKER_ENV} ..."
     # users
     docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-$DOCKER_ENV
     docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
