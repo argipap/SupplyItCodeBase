@@ -14,6 +14,7 @@ then
     export DOCKER_ENV=stage
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-1320313720.us-east-1.elb.amazonaws.com"
   fi
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
