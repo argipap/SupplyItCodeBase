@@ -12,8 +12,12 @@ then
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
     export DOCKER_ENV=stage
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-471661531.us-east-1.elb.amazonaws.com"
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-1320313720.us-east-1.elb.amazonaws.com"
+    export DATABASE_URL="$AWS_RDS_URI"
+    export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
@@ -32,7 +36,7 @@ then
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
      [[ "$TRAVIS_BRANCH" == "production" ]]
   then
-    echo "building/pushing USERS_REPO: ${USERS_REPO} for env: {$DOCKER_ENV} ..."
+    echo "building/pushing USERS_REPO: ${USERS_REPO} for env: {$DOCKER_ENV} , REACT_APP_USERS_SERVICE_URL:{$REACT_APP_USERS_SERVICE_URL} ..."
     # users
     docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-$DOCKER_ENV
     inspect $? users_docker_build
@@ -48,7 +52,8 @@ then
     docker push $REPO/$USERS_DB:$TAG
     inspect $? usersdb_docker_push
     # client
-    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=TBD
+    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+    echo "building client repo: {$CLIENT_REPO} with REACT_APP_USERS_SERVICE_URL: {$REACT_APP_USERS_SERVICE_URL} "
     inspect $? client_docker_build
     docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
     inspect $? client_docker_tag
