@@ -10,7 +10,7 @@ describe('Status', () => {
         cy
             .visit('/status')
             .get('p').contains('You must be logged in to view this.')
-            .get('a').contains('User Status').should('not.be.visible')
+            .get('a').contains('USER STATUS').should('not.be.visible')
             .get('a').contains('Log Out').should('not.be.visible')
             .get('a').contains('Register')
             .get('a').contains('Log In')
@@ -32,13 +32,13 @@ describe('Status', () => {
         // assert '/status' is displayed properly
         cy.visit('/status');
         cy.get('.navbar-burger').click();
-        cy.contains('User Status').click();
+        cy.contains('USER STATUS').click();
         cy.get('li > strong').contains('User ID:')
             .get('li > strong').contains('Email:')
             .get('li').contains(email)
             .get('li > strong').contains('Username:')
             .get('li').contains(username)
-            .get('a').contains('User Status')
+            .get('a').contains('USER STATUS')
             .get('a').contains('Log Out')
             .get('a').contains('Register').should('not.be.visible')
             .get('a').contains('Log In').should('not.be.visible');

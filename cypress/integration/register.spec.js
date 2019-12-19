@@ -24,7 +24,7 @@ describe('Register', () => {
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('input[type="submit"]').click()
+            .get('input[type="submit"]').click();
 
         // assert user is redirected to '/'
         // assert '/' is displayed properly
@@ -33,7 +33,7 @@ describe('Register', () => {
         cy.get('.navbar-burger').click();
         cy.get('.navbar-menu').within(() => {
             cy
-                .get('.navbar-item').contains('User Status')
+                .get('.navbar-item').contains('USER STATUS')
                 .get('.navbar-item').contains('Log Out')
                 .get('.navbar-item').contains('Log In').should('not.be.visible')
                 .get('.navbar-item').contains('Register').should('not.be.visible');
@@ -43,7 +43,7 @@ describe('Register', () => {
     it('should validate the password field', () => {
         cy
             .visit('/register')
-            .get('H1').contains('Register')
+            .get('h1').contains('Register')
             .get('form')
             .get('input[disabled]')
             .get('.validation-list > .error').contains(
@@ -58,7 +58,7 @@ describe('Register', () => {
         cy.get('.navbar-item').contains('Log In').click();
         cy.get('.navbar-item').contains('Register').click();
         cy.get('.validation-list > .error').contains(
-            'Password must be greater than 7 characters.');
+            'Password must be greater than 7 characters.')
     });
 
     it('should throw an error if the username is taken', () => {
@@ -76,7 +76,7 @@ describe('Register', () => {
         cy.get('.navbar-burger').click();
         cy.get('.navbar-menu').within(() => {
             cy
-                .get('.navbar-item').contains('User Status').should('not.be.visible')
+                .get('.navbar-item').contains('USER STATUS').should('not.be.visible')
                 .get('.navbar-item').contains('Log Out').should('not.be.visible')
                 .get('.navbar-item').contains('Log In')
                 .get('.navbar-item').contains('Register');
@@ -101,7 +101,7 @@ describe('Register', () => {
         cy.get('.navbar-burger').click();
         cy.get('.navbar-menu').within(() => {
             cy
-                .get('.navbar-item').contains('User Status').should('not.be.visible')
+                .get('.navbar-item').contains('USER STATUS').should('not.be.visible')
                 .get('.navbar-item').contains('Log Out').should('not.be.visible')
                 .get('.navbar-item').contains('Log In')
                 .get('.navbar-item').contains('Register');

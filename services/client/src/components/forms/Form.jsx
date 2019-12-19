@@ -28,8 +28,8 @@ class Form extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.formType !== nextProps.formType) {
             this.clearForm();
+            this.resetRules();
         }
-        this.validateForm();
     };
 
     clearForm() {
@@ -44,15 +44,15 @@ class Form extends Component {
         // get form data
         const formData = this.state.formData;
         // reset all rules
-        self.resetRules()
+        self.resetRules();
         // validate register form
-        if (self.props.formType === 'Register' || self.props.formType === 'GetStarted') {
+        if (self.props.formType === 'Register' || self.props.formType === 'GetStarted' || self.props.formType === 'BecomeSupplier') {
             const formRules = self.state.registerFormRules;
             if (formData.username.length > 3) formRules[0].valid = true;
             if (formData.email.length > 5) formRules[1].valid = true;
             if (this.validateEmail(formData.email)) formRules[2].valid = true;
             if (formData.password.length > 7) formRules[3].valid = true;
-            self.setState({registerFormRules: formRules})
+            self.setState({registerFormRules: formRules});
             if (self.allTrue()) self.setState({valid: true});
         }
         // validate login form
@@ -60,14 +60,14 @@ class Form extends Component {
             const formRules = self.state.loginFormRules;
             if (formData.email.length > 0) formRules[0].valid = true;
             if (formData.password.length > 0) formRules[1].valid = true;
-            self.setState({loginFormRules: formRules})
+            self.setState({loginFormRules: formRules});
             if (self.allTrue()) self.setState({valid: true});
         }
     };
 
     allTrue() {
         let formRules = loginFormRules;
-        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted') {
+        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
             formRules = registerFormRules;
         }
         for (const rule of formRules) {
@@ -110,11 +110,11 @@ class Form extends Component {
             email: this.state.formData.email,
             password: this.state.formData.password
         };
-        if (formType === 'Register' || formType === 'GetStarted') {
+        if (formType === 'Register' || formType === 'GetStarted' || formType === 'BecomeSupplier') {
             data.username = this.state.formData.username
         }
         let operation = formType.toLowerCase();
-        if (formType === 'GetStarted') {
+        if (formType === 'GetStarted' || formType === 'BecomeSupplier') {
             operation = 'register'
         }
 
@@ -131,24 +131,22 @@ class Form extends Component {
 
     render() {
         if (this.props.isAuthenticated) {
-            return <Redirect to='/'/>;
+            return <Redirect to='/users'/>;
         }
         let formRules = this.state.loginFormRules;
-        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted') {
+        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
             formRules = this.state.registerFormRules;
         }
         return (
             <div>
                 {this.props.formType === 'Login' &&
-                <h1 className="title is-1">Log In</h1>
+                <h1 className="title is-2">Log In</h1>
                 }
                 {this.props.formType === 'Register' &&
-                <h1 className="title is-1">Register</h1>
+                <h1 className="title is-2">Register</h1>
                 }
-                {this.props.formType !== 'GetStarted' &&
                 <hr/>
-                }
-                {this.props.formType !== 'GetStarted' &&
+                {(this.props.formType !== 'GetStarted' && this.props.formType !== 'BecomeSupplier') &&
                 <br/>
                 }
                 <FormErrors
@@ -156,7 +154,7 @@ class Form extends Component {
                     formRules={formRules}
                 />
                 <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
-                    {(this.props.formType === 'Register' || this.props.formType === 'GetStarted') &&
+                    {(this.props.formType !== 'Login') &&
                     <div className="field">
                         <input
                             name="username"
