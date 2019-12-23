@@ -4,7 +4,9 @@
 from flask import Blueprint, request, render_template
 from flask_restful import Resource, Api
 from sqlalchemy import exc
-from project.api.models.users import UserModel
+from project.api.models.users import UserModel, UserType
+from project.api.models.suppliers import SupplierModel
+from project.api.models.retailers import RetailerModel
 from project import db
 from project.api.views.utils import authenticate_restful, is_admin
 
@@ -52,6 +54,14 @@ class UsersList(Resource):
                 new_user = UserModel(username=username, email=email, password=password)
                 db.session.add(new_user)
                 db.session.commit()
+                if new_user.user_type.name == UserType.wholesale.name:
+                    new_supplier = SupplierModel(user_id=new_user.id)
+                    db.session.add(new_supplier)
+                    db.session.commit()
+                elif new_user.user_type.name == UserType.retail.name:
+                    new_retailer = RetailerModel(user_id=new_user.id)
+                    db.session.add(new_retailer)
+                    db.session.commit()
                 response_object["status"] = "success"
                 response_object["message"] = f"{new_user.email} was added!"
                 return response_object, 201
