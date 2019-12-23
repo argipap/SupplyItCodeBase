@@ -24,16 +24,19 @@ class UserModel(db.Model):
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
     user_type = db.Column(db.Enum(UserType), default=UserType.retail, nullable=False)
-    retailer = db.relationship('RetailersModel', backref='user', uselist=False)
-    supplier = db.relationship('SuppliersModel', backref='user', uselist=False)
+    retailer = db.relationship("RetailerModel", backref="user", uselist=False)
+    supplier = db.relationship("SupplierModel", backref="user", uselist=False)
 
-    def __init__(self, username, email, password, user_type=UserType.retail):
+    def __init__(
+        self, username, email, password, admin=False, user_type=UserType.retail
+    ):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
         self.user_type = user_type
+        self.admin = admin
 
     @classmethod
     def encode_auth_token(cls, user_id):
@@ -68,7 +71,6 @@ class UserModel(db.Model):
             return "Invalid token. Please log in again."
 
     def json(self):
-        print("test: %s" % self.user_type)
         return {
             "id": self.id,
             "username": self.username,
