@@ -7,8 +7,8 @@ import json
 from project import db
 from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
-from project.tests.data import TestData
-from project.tests.utils import user_login
+from project.tests.test_data import TestData
+from project.tests.test_utils import TestUtils
 
 from sqlalchemy.exc import IntegrityError
 
@@ -44,12 +44,12 @@ class TestUserModel(BaseTestCase):
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_deserialization(self):
-        user = TestData.add_user(**TestData.user_data_1)
+        user = TestUtils.add_user(**TestData.user_data_1)
         self.assertTrue(isinstance(user.json(), dict))
 
     def test_passwords_are_random(self):
-        user_one = TestData.add_user(**TestData.user_data_1)
-        user_two = TestData.add_user(**TestData.user_data_2)
+        user_one = TestUtils.add_user(**TestData.user_data_1)
+        user_two = TestUtils.add_user(**TestData.user_data_2)
         self.assertNotEqual(user_one.password, user_two.password)
 
     def test_add_user_invalid_json_keys_no_password(self):
@@ -58,7 +58,7 @@ class TestUserModel(BaseTestCase):
         does not have a password key.
         """
         user_auth = TestData.user_data_1
-        token = user_login(user_auth, self.client)
+        token = TestUtils.user_login(user_auth, self.client)
         with self.client:
             response = self.client.post(
                 "/users",
@@ -72,12 +72,12 @@ class TestUserModel(BaseTestCase):
             self.assertIn("fail", data["status"])
 
     def test_encode_auth_token(self):
-        user = TestData.add_user(**TestData.user_data_1)
+        user = TestUtils.add_user(**TestData.user_data_1)
         auth_token = user.encode_auth_token(user.id)
         self.assertTrue(isinstance(auth_token, bytes))
 
     def test_decode_auth_token(self):
-        user = TestData.add_user(**TestData.user_data_1)
+        user = TestUtils.add_user(**TestData.user_data_1)
         auth_token = user.encode_auth_token(user.id)
         self.assertTrue(isinstance(auth_token, bytes))
         self.assertEqual(UserModel.decode_auth_token(auth_token), user.id)

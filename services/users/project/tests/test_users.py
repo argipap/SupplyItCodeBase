@@ -5,8 +5,8 @@ import json
 import unittest
 
 from project.tests.base import BaseTestCase
-from project.tests.data import TestData
-from project.tests.utils import user_login
+from project.tests.test_data import TestData
+from project.tests.test_utils import TestUtils
 from project.api.models.users import UserModel
 from project import db
 
@@ -26,7 +26,7 @@ class TestUserService(BaseTestCase):
         """Ensure a new user can be added to the database."""
         user_auth = TestData.user_data_1
         new_user = TestData.user_data_2
-        token = user_login(user_auth, self.client)
+        token = TestUtils.user_login(user_auth, self.client)
         with self.client:
             response = self.client.post(
                 "/users",
@@ -42,7 +42,7 @@ class TestUserService(BaseTestCase):
     def test_add_user_invalid_json(self):
         """Ensure error is thrown if the JSON object is empty."""
         user_auth = TestData.user_data_1
-        token = user_login(user_auth, self.client)
+        token = TestUtils.user_login(user_auth, self.client)
         with self.client:
             response = self.client.post(
                 "/users",
@@ -60,7 +60,7 @@ class TestUserService(BaseTestCase):
         Ensure error is thrown if the JSON object does not have a username key.
         """
         user_auth = TestData.user_data_1
-        token = user_login(user_auth, self.client)
+        token = TestUtils.user_login(user_auth, self.client)
         with self.client:
             response = self.client.post(
                 "/users",
@@ -77,7 +77,7 @@ class TestUserService(BaseTestCase):
         """Ensure error is thrown if the email already exists."""
         user_auth = TestData.user_data_1
         new_user = TestData.user_data_2
-        token = user_login(user_auth, self.client)
+        token = TestUtils.user_login(user_auth, self.client)
         with self.client:
             self.client.post(
                 "/users",
@@ -99,7 +99,7 @@ class TestUserService(BaseTestCase):
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
         user_data = TestData.user_data_1
-        user = TestData.add_user(**user_data)
+        user = TestUtils.add_user(**user_data)
         with self.client:
             response = self.client.get(f"/users/{user.id}")
             data = json.loads(response.data.decode())
@@ -128,8 +128,8 @@ class TestUserService(BaseTestCase):
 
     def test_all_users(self):
         """Ensure get all users behaves correctly."""
-        TestData.add_user(**TestData.user_data_1)
-        TestData.add_user(**TestData.user_data_2)
+        TestUtils.add_user(**TestData.user_data_1)
+        TestUtils.add_user(**TestData.user_data_2)
         with self.client:
             response = self.client.get("/users")
             data = json.loads(response.data.decode())
@@ -154,8 +154,8 @@ class TestUserService(BaseTestCase):
     def test_main_with_users(self):
         """Ensure the main route behaves correctly when users have been
         added to the database."""
-        TestData.add_user(**TestData.user_data_1)
-        TestData.add_user(**TestData.user_data_2)
+        TestUtils.add_user(**TestData.user_data_1)
+        TestUtils.add_user(**TestData.user_data_2)
         with self.client:
             response = self.client.get("/")
             self.assertEqual(response.status_code, 200)
@@ -184,7 +184,7 @@ class TestUserService(BaseTestCase):
 
     def test_add_user_inactive(self):
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         # update user
         user = UserModel.query.filter_by(email=user_data["email"]).first()
         user.active = False
@@ -212,7 +212,7 @@ class TestUserService(BaseTestCase):
     def test_add_user_not_admin(self):
         user_auth = TestData.user_data_1
         new_user = TestData.user_data_2
-        TestData.add_user(**user_auth)
+        TestUtils.add_user(**user_auth)
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",

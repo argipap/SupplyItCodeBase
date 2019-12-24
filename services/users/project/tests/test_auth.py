@@ -8,7 +8,9 @@ from flask import current_app
 
 from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
-from project.tests.data import TestData
+from project.tests.test_data import TestData
+from project.tests.test_utils import TestUtils
+
 from project import db
 
 
@@ -28,7 +30,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(response.status_code, 201)
 
     def test_user_registration_duplicate_email(self):
-        TestData.add_user(**TestData.user_data_1)
+        TestUtils.add_user(**TestData.user_data_1)
         with self.client:
             response = self.client.post(
                 "/auth/register",
@@ -41,7 +43,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertIn("fail", data["status"])
 
     def test_user_registration_duplicate_username(self):
-        TestData.add_user(**TestData.user_data_1)
+        TestUtils.add_user(**TestData.user_data_1)
         with self.client:
             response = self.client.post(
                 "/auth/register",
@@ -102,7 +104,7 @@ class TestAuthBlueprint(BaseTestCase):
     def test_registered_user_login(self):
         with self.client:
             user_data = TestData.user_data_1
-            TestData.add_user(**user_data)
+            TestUtils.add_user(**user_data)
             response = self.client.post(
                 "/auth/login",
                 data=json.dumps(user_data),
@@ -124,15 +126,13 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertTrue(data["status"] == "fail")
-            self.assertIn(
-                "Email or password is invalid.", data["message"]
-            )
+            self.assertIn("Email or password is invalid.", data["message"])
             self.assertTrue(response.content_type == "application/json")
             self.assertEqual(response.status_code, 404)
 
     def test_valid_logout(self):
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         with self.client:
             # user login
             resp_login = self.client.post(
@@ -153,7 +153,7 @@ class TestAuthBlueprint(BaseTestCase):
     def test_invalid_logout_expired_token(self):
         current_app.config["TOKEN_EXPIRATION_SECONDS"] = -1
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",
@@ -183,7 +183,7 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_user_status(self):
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",
@@ -215,7 +215,7 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_invalid_logout_inactive(self):
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         # update user
         user = UserModel.query.filter_by(email=user_data["email"]).first()
         user.active = False
@@ -239,7 +239,7 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_invalid_status_inactive(self):
         user_data = TestData.user_data_1
-        TestData.add_user(**user_data)
+        TestUtils.add_user(**user_data)
         # update user
         user = UserModel.query.filter_by(email=user_data["email"]).first()
         user.active = False

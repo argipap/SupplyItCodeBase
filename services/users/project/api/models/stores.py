@@ -19,18 +19,22 @@ class StoreModel(db.Model):
     retailer_id = db.Column(db.Integer, db.ForeignKey("retailers.id"), nullable=False)
     store_name = db.Column(db.String(128), nullable=False)
     store_address = db.relationship("AddressModel", backref="store", uselist=False)
+    address_id = db.Column(
+        db.Integer, db.ForeignKey("addresses.id"), unique=True, nullable=False
+    )
     store_type = db.Column(db.Enum(StoreType), default=StoreType.other, nullable=False)
 
-    def __init__(self, retailer_id, store_name, store_type):
+    def __init__(self, retailer_id, store_name, address_id, store_type=StoreType.other):
         self.retailer_id = retailer_id
-        self.store_name = store_name
+        self.store_name = (store_name,)
         self.store_type = store_type
+        self.address_id = address_id
 
     def json(self):
         return {
             "id": self.id,
             "retailer_id": self.retailer_id,
             "store_name": self.store_name,
-            "store_address": self.store_address,
-            "store_type": self.store_type,
+            "store_type": self.store_type.name,
+            "address_id": self.address_id,
         }

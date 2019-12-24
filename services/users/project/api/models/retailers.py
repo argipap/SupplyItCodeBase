@@ -20,5 +20,8 @@ class RetailerModel(db.Model):
         lazy="dynamic",
     )
 
+    def __init__(self, user_id):
+        self.user_id = user_id
+
     def json(self):
         return {"id": self.id, "user_id": self.user_id}

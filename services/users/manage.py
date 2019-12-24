@@ -11,7 +11,7 @@ from project.api.models.users import UserModel, UserType
 from project.api.models.retailers import RetailerModel
 from project.api.models.suppliers import SupplierModel
 from project.api.models.stores import StoreModel, StoreType
-from project.api.models.companies import CompanyModel, SupplyType
+from project.api.models.companies import CompanyModel, CompanyType
 from project.api.models.addresses import AddressModel
 
 COV = coverage.coverage(
@@ -51,6 +51,7 @@ def seed_db():
         user_type=UserType.wholesale,
     )
     db.session.add(user_1_s)
+    db.session.commit()
     user_2_s = UserModel(
         username="user_2",
         email="user_2@gmail.com",
@@ -86,59 +87,12 @@ def seed_db():
 
     db.session.commit()
 
-    # add companies
-    company_1 = CompanyModel(
-        supplier_id=supplier_1.id,
-        company_name="company_1",
-        supply_type=SupplyType.drinks.name,
-    )
-    db.session.add(company_1)
-
-    company_2 = CompanyModel(
-        supplier_id=supplier_1.id,
-        company_name="company_2",
-        supply_type=SupplyType.meat_and_poultry.name,
-    )
-    db.session.add(company_2)
-    company_3 = CompanyModel(
-        supplier_id=supplier_2.id,
-        company_name="company_3",
-        supply_type=SupplyType.coffee.name,
-    )
-    db.session.add(company_3)
-
-    # add stores
-    store_1 = StoreModel(
-        retailer_id=retailer_1.id,
-        store_name="store_1",
-        store_type=StoreType.cafeBar.name,
-    )
-    db.session.add(store_1)
-    store_2 = StoreModel(
-        retailer_id=retailer_2.id,
-        store_name="store_2",
-        store_type=StoreType.quick_service_restaurant.name,
-    )
-    db.session.add(store_2)
-    store_3 = StoreModel(
-        retailer_id=retailer_2.id, store_name="store_3", store_type=StoreType.other.name
-    )
-    db.session.add(store_3)
-
-    # commit for stores and companies
-    db.session.commit()
-
     # add addresses
     address_1 = AddressModel(
-        store_id=store_1.id,
-        street_name="Agaiou",
-        street_number="46",
-        city="Rafina",
-        zip_code="190 09",
+        street_name="Agaiou", street_number="46", city="Rafina", zip_code="190 09",
     )
     db.session.add(address_1)
     address_2 = AddressModel(
-        store_id=store_2.id,
         street_name="Στρ. Νικ. Πλαστήρα",
         street_number="ΠΛΑΤΕΙΑ",
         city="Ραφηνα",
@@ -146,7 +100,6 @@ def seed_db():
     )
     db.session.add(address_2)
     address_3 = AddressModel(
-        company_id=company_1.id,
         street_name="Dimarchou Christou Mpeka",
         street_number="8",
         city="Spata",
@@ -154,7 +107,6 @@ def seed_db():
     )
     db.session.add(address_3)
     address_4 = AddressModel(
-        company_id=company_2.id,
         street_name="Thessalonikis",
         street_number="119",
         city="Athens",
@@ -162,13 +114,62 @@ def seed_db():
     )
     db.session.add(address_4)
     address_5 = AddressModel(
-        company_id=company_3.id,
-        street_name="Τρωων",
-        street_number="115",
-        city="Athens",
-        zip_code="118 52",
+        street_name="Τρωων", street_number="115", city="Athens", zip_code="118 52",
     )
     db.session.add(address_5)
+    address_6 = AddressModel(
+        street_name="Τρωων", street_number="125", city="Athens", zip_code="118 52",
+    )
+    db.session.add(address_6)
+    # commit for addresses
+    db.session.commit()
+
+    # add stores
+    store_1 = StoreModel(
+        retailer_id=retailer_1.id,
+        store_name="store_1",
+        store_type=StoreType.cafeBar.name,
+        address_id=address_4.id,
+    )
+    db.session.add(store_1)
+    store_2 = StoreModel(
+        retailer_id=retailer_2.id,
+        store_name="store_2",
+        store_type=StoreType.quick_service_restaurant.name,
+        address_id=address_5.id,
+    )
+    db.session.add(store_2)
+    store_3 = StoreModel(
+        retailer_id=retailer_2.id,
+        store_name="store_3",
+        store_type=StoreType.other.name,
+        address_id=address_6.id,
+    )
+    db.session.add(store_3)
+
+    # add companies
+    company_1 = CompanyModel(
+        supplier_id=supplier_1.id,
+        company_name="company_1",
+        address_id=address_1.id,
+        company_type=CompanyType.meat_and_poultry,
+    )
+    db.session.add(company_1)
+
+    company_2 = CompanyModel(
+        supplier_id=supplier_1.id,
+        company_name="company_2",
+        company_type=CompanyType.meat_and_poultry,
+        address_id=address_2.id,
+    )
+    db.session.add(company_2)
+    company_3 = CompanyModel(
+        supplier_id=supplier_2.id,
+        company_name="company_3",
+        company_type=CompanyType.coffee_and_drinks,
+        address_id=address_3.id,
+    )
+    db.session.add(company_3)
 
     db.session.commit()
 
