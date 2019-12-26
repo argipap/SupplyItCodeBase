@@ -7,7 +7,9 @@ from flask_restful import Resource, Api
 from project.api.models.stores import StoreModel
 from project.api.views.utils import authenticate_restful
 
-stores_blueprint = Blueprint("stores", __name__, url_prefix="/users", template_folder="../templates")
+stores_blueprint = Blueprint(
+    "stores", __name__, url_prefix="/users", template_folder="../templates"
+)
 api = Api(stores_blueprint)
 
 

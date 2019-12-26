@@ -14,8 +14,8 @@ class TestSuppliersService(BaseTestCase):
 
     def test_all_suppliers(self):
         """Ensure get all suppliers behaves correctly."""
-        user_1 = TestUtils.add_user(**TestData.user_data_1)
-        user_2 = TestUtils.add_user(**TestData.user_data_2)
+        user_1 = TestUtils.add_user(**TestData.user_data_model_1)
+        user_2 = TestUtils.add_user(**TestData.user_data_model_2)
         TestUtils.add_supplier(user_1.id)
         TestUtils.add_supplier(user_2.id)
         with self.client:

@@ -6,7 +6,9 @@ from flask_restful import Resource, Api
 from project.api.models.suppliers import SupplierModel
 from project.api.views.utils import authenticate_restful
 
-suppliers_blueprint = Blueprint("suppliers", __name__, url_prefix="/users", template_folder="../templates")
+suppliers_blueprint = Blueprint(
+    "suppliers", __name__, url_prefix="/users", template_folder="../templates"
+)
 api = Api(suppliers_blueprint)
 
 

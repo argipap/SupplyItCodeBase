@@ -7,7 +7,9 @@ from flask_restful import Resource, Api
 from project.api.models.companies import CompanyModel
 from project.api.views.utils import authenticate_restful
 
-companies_blueprint = Blueprint("companies", __name__, url_prefix="/users", template_folder="../templates")
+companies_blueprint = Blueprint(
+    "companies", __name__, url_prefix="/users", template_folder="../templates"
+)
 api = Api(companies_blueprint)
 
 

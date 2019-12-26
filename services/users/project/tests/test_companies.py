@@ -14,8 +14,8 @@ class TestCompaniesService(BaseTestCase):
 
     def test_all_companies(self):
         """Ensure get all companies behaves correctly."""
-        user_1 = TestUtils.add_user(**TestData.user_data_1)
-        user_2 = TestUtils.add_user(**TestData.user_data_2)
+        user_1 = TestUtils.add_user(**TestData.user_data_model_1)
+        user_2 = TestUtils.add_user(**TestData.user_data_model_2)
         supplier_1 = TestUtils.add_supplier(user_1.id)
         supplier_2 = TestUtils.add_supplier(user_2.id)
         address_1 = TestUtils.add_address(**TestData.address_data)
@@ -23,12 +23,12 @@ class TestCompaniesService(BaseTestCase):
         address_2 = TestUtils.add_address(**TestData.address_data)
         company_1 = TestUtils.add_company(
             supplier_id=supplier_1.id,
-            company_name="TestCompany",
+            company_name="TestCompany1",
             address_id=address_1.id,
         )
         company_2 = TestUtils.add_company(
             supplier_id=supplier_2.id,
-            company_name="TestCompany",
+            company_name="TestCompany2",
             address_id=address_2.id,
         )
         with self.client:

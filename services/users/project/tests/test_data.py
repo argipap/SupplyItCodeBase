@@ -1,18 +1,36 @@
 class TestData:
-    user_data_1 = {
-        "username": "test1",
-        "email": "test1@test.com",
+    user_wholesale_data = {
+        "username": "suppliermodel",
+        "email": "suppliermodel@test.com",
         "password": "123abc!",
+        "street_name": "aigaiou",
+        "street_number": "46",
+        "city": "Rafina",
+        "zip_code": "190 09",
+        "company_name": "afoi dimitriou",
+        "company_type": "meat_and_poultry",
     }
-    user_data_2 = {
-        "username": "test2",
-        "email": "test2@test.com",
+    user_retail_data = {
+        "username": "retailermodel",
+        "email": "retailermodel@test.com",
+        "password": "123abc!",
+        "street_name": "aigaiou",
+        "street_number": "46",
+        "city": "Rafina",
+        "zip_code": "190 09",
+        "store_name": "souvlakiaaa",
+        "store_type": "other",
+    }
+
+    user_data_model_1 = {
+        "username": "testmodel1",
+        "email": "testmodel1@test.com",
         "password": "123abc!",
     }
 
-    user_data_model = {
-        "username": "testmodel",
-        "email": "testmodel@test.com",
+    user_data_model_2 = {
+        "username": "testmodel2",
+        "email": "testmodel2@test.com",
         "password": "123abc!",
     }
 

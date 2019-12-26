@@ -14,8 +14,8 @@ class TestRetailersService(BaseTestCase):
 
     def test_all_retailers(self):
         """Ensure get all retailers behaves correctly."""
-        user_1 = TestUtils.add_user(**TestData.user_data_1)
-        user_2 = TestUtils.add_user(**TestData.user_data_2)
+        user_1 = TestUtils.add_user(**TestData.user_data_model_1)
+        user_2 = TestUtils.add_user(**TestData.user_data_model_2)
         TestUtils.add_retailer(user_1.id)
         TestUtils.add_retailer(user_2.id)
         with self.client:

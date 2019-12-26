@@ -7,7 +7,9 @@ from flask_restful import Resource, Api
 from project.api.models.addresses import AddressModel
 from project.api.views.utils import authenticate_restful
 
-addresses_blueprint = Blueprint("addresses", __name__, url_prefix="/users", template_folder="../templates")
+addresses_blueprint = Blueprint(
+    "addresses", __name__, url_prefix="/users", template_folder="../templates"
+)
 api = Api(addresses_blueprint)
 
 
