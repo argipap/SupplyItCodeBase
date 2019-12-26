@@ -12,9 +12,15 @@ paths:
       responses:
         '200':
           description: Will return 'pong!'
-  '/users/{user_type}':
+  '/users':
     get:
       summary: Returns all users
+      responses:
+        '200':
+          description: user object
+  '/users/{user_type}':
+    get:
+      summary: Returns all retail or wholesale users
       parameters:
         - name: user_type
           in: path
@@ -26,11 +32,11 @@ paths:
         '200':
           description: user object
     post:
-      summary: Adds a new user
+      summary: Adds a new retail or wholesale user
       parameters:
         - name: user_type
           in: path
-          description: Type of user to fetch
+          description: Type of user to create
           required: true
           schema:
             $ref: '#/components/schemas/user_type'
@@ -54,7 +60,7 @@ paths:
           description: '''Invalid password'' OR ''Sorry. That email already exists.'''
         '401':
           description: You do not have permission to do that.
-  '/users/{id}':
+  '/users/user/{id}':
     get:
       summary: Returns a user based on a single user ID
       parameters:
@@ -70,16 +76,27 @@ paths:
           description: user object
         '404':
           description: '''User does not exist or password is invalid'' OR ''Identifier should be an integer'''
-  /auth/register:
+  /auth/{user_type}/register:
     post:
-      summary: Creates a new user
+      summary: Register a new wholesale or retail user
+      parameters:
+        - name: user_type
+          in: path
+          description: Type of user to create
+          required: true
+          schema:
+            $ref: '#/components/schemas/user_type'
       requestBody:
         description: User to add
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user-register'
+              type: array
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/user-register-wholesale'
+                  - $ref: '#/components/schemas/user-register-retail'
       responses:
         '200':
           description: user object
@@ -200,8 +217,9 @@ components:
           type: string
           enum:
             - other
-            - meat_and_poultry
-            - coffee_and_drinks
+            - cafeBar
+            - restaurant
+            - quick_service_restaurant
     user_type:
       type: string
       enum:
