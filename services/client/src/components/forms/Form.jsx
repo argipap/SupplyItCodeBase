@@ -11,7 +11,19 @@ class Form extends Component {
             formData: {
                 username: '',
                 email: '',
-                password: ''
+                password: '',
+                firstName: '',
+                lastName: '',
+                shopName: '',
+                streetName: '',
+                streetNumber: '',
+                city: '',
+                zipCode: '',
+                storeName: '',
+                storeType: '',
+                companyName: '',
+                companyType: ''
+
             },
             registerFormRules: registerFormRules,
             loginFormRules: loginFormRules,
@@ -46,7 +58,7 @@ class Form extends Component {
         // reset all rules
         self.resetRules();
         // validate register form
-        if (self.props.formType === 'Register' || self.props.formType === 'GetStarted' || self.props.formType === 'BecomeSupplier') {
+        if (self.props.formType === 'GetStarted' || self.props.formType === 'BecomeSupplier') {
             const formRules = self.state.registerFormRules;
             if (formData.username.length > 3) formRules[0].valid = true;
             if (formData.email.length > 5) formRules[1].valid = true;
@@ -67,7 +79,7 @@ class Form extends Component {
 
     allTrue() {
         let formRules = loginFormRules;
-        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
+        if (this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
             formRules = registerFormRules;
         }
         for (const rule of formRules) {
@@ -110,15 +122,27 @@ class Form extends Component {
             email: this.state.formData.email,
             password: this.state.formData.password
         };
-        if (formType === 'Register' || formType === 'GetStarted' || formType === 'BecomeSupplier') {
-            data.username = this.state.formData.username
-        }
         let operation = formType.toLowerCase();
+        let user_type = '';
+        if (formType === 'GetStarted') {
+            user_type = '/retail';
+            data.store_name = this.state.formData.storeName;
+            data.store_type = this.state.formData.storeType;
+        } else if (formType === 'BecomeSupplier') {
+            user_type = '/wholesale';
+            data.company_name = this.state.formData.companyName;
+            data.company_type = this.state.formData.companyType;
+        }
         if (formType === 'GetStarted' || formType === 'BecomeSupplier') {
-            operation = 'register'
+            data.username = this.state.formData.username;
+            data.street_name = this.state.formData.streetName;
+            data.street_number = this.state.formData.streetNumber;
+            data.city = this.state.formData.city;
+            data.zip_code = this.state.formData.zipCode;
+            operation = 'register';
         }
 
-        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${operation}`;
+        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth${user_type}/${operation}`;
         axios.post(url, data)
             .then((res) => {
                 this.clearForm();
@@ -134,16 +158,13 @@ class Form extends Component {
             return <Redirect to='/users'/>;
         }
         let formRules = this.state.loginFormRules;
-        if (this.props.formType === 'Register' || this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
+        if (this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {
             formRules = this.state.registerFormRules;
         }
         return (
-            <div>
+            <div className={this.props.formType === "Login" ? "column is-three-fifths" : ""}>
                 {this.props.formType === 'Login' &&
-                <h1 className="title is-2">Log In</h1>
-                }
-                {this.props.formType === 'Register' &&
-                <h1 className="title is-2">Register</h1>
+                <h1 className="title is-2">Sign In</h1>
                 }
                 <hr/>
                 {(this.props.formType !== 'GetStarted' && this.props.formType !== 'BecomeSupplier') &&
@@ -154,6 +175,32 @@ class Form extends Component {
                     formRules={formRules}
                 />
                 <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
+                    {(this.props.formType !== 'Login') &&
+                    <div className="field is-grouped">
+                        <p className="control is-expanded">
+                            <input
+                                name="firstName"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="First name"
+                                required
+                                value={this.state.formData.firstName}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                        <p className="control is-expanded">
+                            <input
+                                name="lastName"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="Last name"
+                                required
+                                value={this.state.formData.lastName}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                    </div>
+                    }
                     {(this.props.formType !== 'Login') &&
                     <div className="field">
                         <input
@@ -172,7 +219,7 @@ class Form extends Component {
                             name="email"
                             className="input is-medium"
                             type="email"
-                            placeholder="Enter an email address"
+                            placeholder="your@email.com"
                             required
                             value={this.state.formData.email}
                             onChange={this.handleFormChange}
@@ -189,6 +236,113 @@ class Form extends Component {
                             onChange={this.handleFormChange}
                         />
                     </div>
+                    {(this.props.formType !== 'Login') &&
+                    <div className="field is-grouped">
+                        <p className="control is-expanded">
+                            <input
+                                name="streetName"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="street name"
+                                required
+                                value={this.state.formData.streetName}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                        <p className="control is-expanded">
+                            <input
+                                name="streetNumber"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="street number"
+                                required
+                                value={this.state.formData.streetNumber}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                    </div>
+                    }
+                    {(this.props.formType !== 'Login') &&
+                    <div className="field is-grouped">
+                        <p className="control is-expanded">
+                            <input
+                                name="city"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="city"
+                                required
+                                value={this.state.formData.city}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                        <p className="control is-expanded">
+                            <input
+                                name="zipCode"
+                                className="input is-medium"
+                                type="text"
+                                placeholder="zip code"
+                                required
+                                value={this.state.formData.zipCode}
+                                onChange={this.handleFormChange}
+                            />
+                        </p>
+                    </div>
+                    }
+                    {(this.props.formType === 'GetStarted') &&
+                    <div className="field">
+                        <input
+                            name="storeName"
+                            className="input is-medium"
+                            type="text"
+                            placeholder="Store name"
+                            required
+                            value={this.state.formData.StoreName}
+                            onChange={this.handleFormChange}
+                        />
+                    </div>
+                    }
+                    {(this.props.formType === 'GetStarted') &&
+                    <div className="field select">
+                        <select
+                            name="storeType"
+                            className="input is-medium"
+                            required
+                            value={this.state.formData.storeType}
+                            onChange={this.handleFormChange}>
+                            <option>other</option>
+                            <option>cafeBar</option>
+                            <option>restaurant</option>
+                            <option>quick_service_restaurant</option>
+                        </select>
+                    </div>
+                    }
+                    {(this.props.formType === 'BecomeSupplier') &&
+                    <div className="field">
+                        <input
+                            name="companyName"
+                            className="input is-medium"
+                            type="text"
+                            placeholder="Company name"
+                            required
+                            value={this.state.formData.companyName}
+                            onChange={this.handleFormChange}
+                        />
+                    </div>
+                    }
+                    {(this.props.formType === 'BecomeSupplier') &&
+                    <div className="field select">
+                        <select
+                            name="companyType"
+                            className="input is-medium"
+                            required
+                            value={this.state.formData.companyType}
+                            onChange={this.handleFormChange}>
+                            <option>other</option>
+                            <option>meat_and_poultry</option>
+                            <option>coffee_and_drinks</option>
+                        </select>
+                    </div>
+                    }
                     <input
                         type="submit"
                         className="button is-primary is-medium is-fullwidth"

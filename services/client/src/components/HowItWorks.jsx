@@ -11,14 +11,14 @@ class HowItWorks extends Component {
             <div className="how-it-works">
                 <div className="container has-text-left">
                     <div className="columns">
-                        <div className="column is-half">
-                            <h1 className="title is-2">The Best Ordering Experience, Every Time</h1>
+                        <div className="column is-three-fifths">
+                            <h1 className="title is-3">THE BEST ORDERING EXPERIENCE, <br/> EVERY TIME</h1>
                             <hr/>
-                            <h1 className="title is-3">All Your Suppliers In One Place</h1>
+                            <h1 className="title is-4">ALL YOUR SUPPLIERS IN ONE PLACE</h1>
                             <p>Order from all your Suppliers in one place. And when you want to try someone new,
                                 choose from our network of hundreds of Suppliers across 12 categories.</p>
                             <br/>
-                            <h1 className="title is-3">Free tools To Make Your Life Easier</h1>
+                            <h1 className="title is-4">FREE TOOLS TO MAKE YOUR LIFE EASIER</h1>
                             <p>Full cost reporting, one-tap reordering, Pantry List for frequently ordered items,
                                 talk directly with your Suppliers and easily manage your accounting - anywhere,
                                 anytime.

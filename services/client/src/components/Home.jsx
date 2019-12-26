@@ -12,7 +12,7 @@ class Home extends Component {
                 <div className="container has-text-left">
                     <div className="columns">
                         <div className="column is-half">
-                            <h1 className="title is-2">ALL YOUR SUPPLIERS<br/>IN ONE PLACE</h1>
+                            <h1 className="title is-3">ALL YOUR SUPPLIERS<br/>IN ONE PLACE</h1>
                             <hr/>
                             <br/>
                             <p>Supplyit is a one-stop-shop for all your wholesale foodservice suppliers. Instant sign

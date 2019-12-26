@@ -137,14 +137,6 @@ class App extends Component {
                                             createMessage={this.createMessage}
                                         />
                                     )}/>
-                                    <Route exact path='/register' render={() => (
-                                        <Form
-                                            formType={'Register'}
-                                            isAuthenticated={this.state.isAuthenticated}
-                                            loginUser={this.loginUser}
-                                            createMessage={this.createMessage}
-                                        />
-                                    )}/>
                                     <Route exact path='/login' render={() => (
                                         <Form
                                             formType={'Login'}

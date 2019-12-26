@@ -13,9 +13,9 @@ class GetStarted extends Component {
                 <div className="container has-text-centered">
                     <div className="columns is-8 is-variable ">
                         <div className="column is-three-fifths has-text-left">
-                            <h1 className="title is-2">LET'S GET STARTED</h1>
+                            <h1 className="title is-3">LET'S GET STARTED</h1>
                             <hr/>
-                            <p className="is-size-4">No credit apps, instant ordering</p>
+                            <p className="title is-4">No credit apps, instant ordering</p>
                             <ul className="ticked-list">
                                 <li>
                                     FREE to use
@@ -29,7 +29,7 @@ class GetStarted extends Component {
                             </ul>
                         </div>
                         <div className="column is-two-fifths has-text-left">
-                            <h1 className="title is-2">JOIN US</h1>
+                            <h1 className="title is-3">JOIN US</h1>
                             <Form
                                 formType={this.props.formType}
                                 createMessage={this.props.createMessage}
