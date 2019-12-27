@@ -22,21 +22,22 @@ const NavBar = (props) => (
             </div>
             <div className="navbar-menu">
                 <div className="navbar-start">
-                    <Link to="/" className="navbar-item">Home</Link>
+                    <Link to="/" className="navbar-item">HOME</Link>
                     {!props.isAuthenticated &&
-                    <Link to="/getStarted" className="navbar-item">Get Started</Link>
+                    <Link to="/getStarted" className="navbar-item">GET STARTED</Link>
                     }
                     {props.isAuthenticated &&
-                    <Link to="/status" className="navbar-item">User Status</Link>
+                    <Link to="/status" className="navbar-item">USER STATUS</Link>
                     }
-                    <Link to="/about" className="navbar-item">About</Link>
+                    <Link to="/howItWorks" className="navbar-item">HOW IT WORKS</Link>
+                    {!props.isAuthenticated &&
+                    <Link to="/becomeSupplier" className="navbar-item">BECOME A SUPPLIER</Link>
+                    }
                 </div>
                 <div className="navbar-end">
                     {!props.isAuthenticated &&
                     <div className="navbar-item">
-                        <Link to="/register" className="button is-primary">Register</Link>
-                        &nbsp;
-                        <Link to="/login" className="button is-link">Log In</Link>
+                        <Link to="/login" className="button is-link">Sign In</Link>
                     </div>
                     }
                     {props.isAuthenticated &&

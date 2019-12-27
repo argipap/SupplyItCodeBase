@@ -1,10 +1,15 @@
 # project/api/models/users.py
 import datetime
-
+import enum
 import jwt
 from sqlalchemy.sql import func
 from flask import current_app
 from project import db, bcrypt
+
+
+class UserType(enum.Enum):
+    retail = 1
+    wholesale = 2
 
 
 class UserModel(db.Model):
@@ -18,13 +23,20 @@ class UserModel(db.Model):
     active = db.Column(db.Boolean(), default=True, nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
+    user_type = db.Column(db.Enum(UserType), default=UserType.retail, nullable=False)
+    retailer = db.relationship("RetailerModel", backref="user", uselist=False)
+    supplier = db.relationship("SupplierModel", backref="user", uselist=False)
 
-    def __init__(self, username, email, password):
+    def __init__(
+        self, username, email, password, admin=False, user_type=UserType.retail
+    ):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
+        self.user_type = user_type
+        self.admin = admin
 
     @classmethod
     def encode_auth_token(cls, user_id):
@@ -65,4 +77,5 @@ class UserModel(db.Model):
             "email": self.email,
             "active": self.active,
             "admin": self.admin,
+            "user_type": self.user_type.name,
         }

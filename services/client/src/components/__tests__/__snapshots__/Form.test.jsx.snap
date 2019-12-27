@@ -1,79 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
-<div>
-  <h1
-    className="title is-1"
-  >
-    Log In
-  </h1>
-  <hr />
-  <br />
-  <div>
-    <ul
-      className="validation-list"
-    >
-      <li
-        className="error"
-      >
-        Email is required.
-      </li>
-      <li
-        className="error"
-      >
-        Password is required.
-      </li>
-    </ul>
-    <br />
-  </div>
-  <form
-    onSubmit={[Function]}
-  >
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="email"
-        onChange={[Function]}
-        placeholder="Enter an email address"
-        required={true}
-        type="email"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="password"
-        onChange={[Function]}
-        placeholder="Enter a password"
-        required={true}
-        type="password"
-        value=""
-      />
-    </div>
-    <input
-      className="button is-primary is-medium is-fullwidth"
-      disabled={true}
-      type="submit"
-      value="Submit"
-    />
-  </form>
-</div>
-`;
-
-exports[`When not authenticated Register Form renders a snapshot properly 1`] = `
-<div>
-  <h1
-    className="title is-1"
-  >
-    Register
-  </h1>
-  <hr />
-  <br />
+exports[`When not authenticated BecomeSupplier Form renders a snapshot properly 1`] = `
+<div
+  className=""
+>
   <div>
     <ul
       className="validation-list"
@@ -101,9 +31,40 @@ exports[`When not authenticated Register Form renders a snapshot properly 1`] = 
     </ul>
     <br />
   </div>
+  <hr />
   <form
     onSubmit={[Function]}
   >
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="firstName"
+          onChange={[Function]}
+          placeholder="First name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="lastName"
+          onChange={[Function]}
+          placeholder="Last name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
     <div
       className="field"
     >
@@ -124,7 +85,393 @@ exports[`When not authenticated Register Form renders a snapshot properly 1`] = 
         className="input is-medium"
         name="email"
         onChange={[Function]}
-        placeholder="Enter an email address"
+        placeholder="your@email.com"
+        required={true}
+        type="email"
+        value=""
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="password"
+        onChange={[Function]}
+        placeholder="Enter a password"
+        required={true}
+        type="password"
+        value=""
+      />
+    </div>
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="streetName"
+          onChange={[Function]}
+          placeholder="street name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="streetNumber"
+          onChange={[Function]}
+          placeholder="street number"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="city"
+          onChange={[Function]}
+          placeholder="city"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="zipCode"
+          onChange={[Function]}
+          placeholder="zip code"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="companyName"
+        onChange={[Function]}
+        placeholder="Company name"
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="field select"
+    >
+      <select
+        className="input is-medium"
+        name="companyType"
+        onChange={[Function]}
+        required={true}
+        value=""
+      >
+        <option
+          value="other"
+        >
+          other
+        </option>
+        <option
+          value="meat_and_poultry"
+        >
+          meat & poultry
+        </option>
+        <option
+          value="coffee_and_drinks"
+        >
+          coffe & drinks
+        </option>
+      </select>
+    </div>
+    <input
+      className="button is-primary is-medium is-fullwidth"
+      disabled={true}
+      type="submit"
+      value="Submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`When not authenticated GetStarted Form renders a snapshot properly 1`] = `
+<div
+  className=""
+>
+  <div>
+    <ul
+      className="validation-list"
+    >
+      <li
+        className="error"
+      >
+        Username must be greater than 3 characters.
+      </li>
+      <li
+        className="error"
+      >
+        Email must be greater than 5 characters.
+      </li>
+      <li
+        className="error"
+      >
+        Email must be a valid email address.
+      </li>
+      <li
+        className="error"
+      >
+        Password must be greater than 7 characters.
+      </li>
+    </ul>
+    <br />
+  </div>
+  <hr />
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="firstName"
+          onChange={[Function]}
+          placeholder="First name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="lastName"
+          onChange={[Function]}
+          placeholder="Last name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="username"
+        onChange={[Function]}
+        placeholder="Enter a username"
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="email"
+        onChange={[Function]}
+        placeholder="your@email.com"
+        required={true}
+        type="email"
+        value=""
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="password"
+        onChange={[Function]}
+        placeholder="Enter a password"
+        required={true}
+        type="password"
+        value=""
+      />
+    </div>
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="streetName"
+          onChange={[Function]}
+          placeholder="street name"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="streetNumber"
+          onChange={[Function]}
+          placeholder="street number"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field is-grouped"
+    >
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="city"
+          onChange={[Function]}
+          placeholder="city"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+      <p
+        className="control is-expanded"
+      >
+        <input
+          className="input is-medium"
+          name="zipCode"
+          onChange={[Function]}
+          placeholder="zip code"
+          required={true}
+          type="text"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="storeName"
+        onChange={[Function]}
+        placeholder="Store name"
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="field select"
+    >
+      <select
+        className="input is-medium"
+        name="storeType"
+        onChange={[Function]}
+        required={true}
+        value=""
+      >
+        <option
+          value="other"
+        >
+          other
+        </option>
+        <option
+          value="cafeBar"
+        >
+          cafe-Bar
+        </option>
+        <option
+          value="restaurant"
+        >
+          restaurant
+        </option>
+        <option
+          value="quick_service_restaurant"
+        >
+          quick service restaurant
+        </option>
+      </select>
+    </div>
+    <input
+      className="button is-primary is-medium is-fullwidth"
+      disabled={true}
+      type="submit"
+      value="Submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
+<div
+  className="column is-three-fifths"
+>
+  <div>
+    <ul
+      className="validation-list"
+    >
+      <li
+        className="error"
+      >
+        Email is required.
+      </li>
+      <li
+        className="error"
+      >
+        Password is required.
+      </li>
+    </ul>
+    <br />
+  </div>
+  <h1
+    className="title is-2"
+  >
+    Sign In
+  </h1>
+  <hr />
+  <br />
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="field"
+    >
+      <input
+        className="input is-medium"
+        name="email"
+        onChange={[Function]}
+        placeholder="your@email.com"
         required={true}
         type="email"
         value=""

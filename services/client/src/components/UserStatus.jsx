@@ -10,7 +10,8 @@ class UserStatus extends Component {
             id: '',
             username: '',
             active: '',
-            admin: ''
+            admin: '',
+            user_type: ''
         };
     };
 
@@ -34,7 +35,8 @@ class UserStatus extends Component {
                     id: res.data.data.id,
                     username: res.data.data.username,
                     active: String(res.data.data.active),
-                    admin: String(res.data.data.admin)
+                    admin: String(res.data.data.admin),
+                    user_type: String(res.data.data.user_type)
                 })
             })
             .catch((error) => {
@@ -56,6 +58,7 @@ class UserStatus extends Component {
                     <li><strong>Username:</strong> {this.state.username}</li>
                     <li><strong>Active:</strong> {this.state.active}</li>
                     <li><strong>Admin:</strong> {this.state.admin}</li>
+                    <li><strong>User type:</strong> {this.state.user_type}</li>
                 </ul>
             </div>
         )

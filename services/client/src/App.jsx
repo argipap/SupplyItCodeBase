@@ -3,7 +3,6 @@ import axios from "axios";
 import {Route, Switch} from 'react-router-dom';
 
 import UsersList from "./components/UsersList";
-import About from "./components/About";
 import NavBar from "./components/NavBar";
 import Form from "./components/forms/Form";
 import Logout from "./components/Logout";
@@ -12,6 +11,9 @@ import Message from "./components/Message";
 import GetStarted from "./components/GetStarted";
 import Footer from "./components/Footer";
 import './components/Footer.css';
+import Home from "./components/Home";
+import HowItWorks from "./components/HowItWorks";
+import BecomeSupplier from "./components/BecomeSupplier";
 
 
 class App extends Component {
@@ -22,7 +24,7 @@ class App extends Component {
             isAuthenticated: false,
             messageName: null,
             messageType: null,
-            title: 'SupplyIt'
+            title: 'SUPPLYIT'
         };
         this.logoutUser = this.logoutUser.bind(this);
         this.loginUser = this.loginUser.bind(this);
@@ -96,15 +98,28 @@ class App extends Component {
                         />
                         }
                         <div className="columns">
-                            <div className="column is-one-third">
+                            <div className="column is-three-fifths">
                                 <br/>
                                 <Switch>
                                     <Route exact path='/' render={() => (
+                                        <Home
+                                            formType={'GetStarted'}
+                                            loginUser={this.loginUser}
+                                            createMessage={this.createMessage}
+                                            removeMessage={this.removeMessage}
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />
+                                    )}/>
+                                    <Route exact path='/users' render={() => (
                                         <UsersList
                                             users={this.state.users}
                                         />
                                     )}/>
-                                    <Route exact path='/about' component={About}/>
+                                    <Route exact path='/howItWorks' render={() => (
+                                        <HowItWorks
+                                            isAuthenticated={this.state.isAuthenticated}
+                                        />
+                                    )}/>
                                     <Route exact path='/getStarted' render={() => (
                                         <GetStarted
                                             formType={'GetStarted'}
@@ -114,9 +129,9 @@ class App extends Component {
                                             isAuthenticated={this.state.isAuthenticated}
                                         />
                                     )}/>
-                                    <Route exact path='/register' render={() => (
-                                        <Form
-                                            formType={'Register'}
+                                    <Route exact path='/becomeSupplier' render={() => (
+                                        <BecomeSupplier
+                                            formType={'BecomeSupplier'}
                                             isAuthenticated={this.state.isAuthenticated}
                                             loginUser={this.loginUser}
                                             createMessage={this.createMessage}

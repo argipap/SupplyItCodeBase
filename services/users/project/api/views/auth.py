@@ -3,25 +3,27 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
 
-from project.api.models.users import UserModel
+from project.api.models.users import UserModel, UserType
 from project import db, bcrypt
 from project.api.views.errors import InternalServerError
-from project.api.views.utils import authenticate
-
+from project.api.views.utils import (
+    authenticate,
+    add_wholesale_user_to_db,
+    add_retail_user_to_db,
+)
 
 auth_blueprint = Blueprint("auth", __name__)
 
 
-@auth_blueprint.route("/auth/register", methods=["POST"])
-def register_user():
+@auth_blueprint.route("/auth/<user_type>/register", methods=["POST"])
+def register_user(user_type):
     response_object = {"status": "fail", "message": "Invalid Payload"}
     # get json data
     json_data = request.get_json()
-    if not json_data:
+    if not json_data or not isinstance(json_data, dict):
         return jsonify(response_object), 400
     username = json_data.get("username")
     email = json_data.get("email")
-    password = json_data.get("password")
 
     try:
         # check for existing user
@@ -30,9 +32,12 @@ def register_user():
         ).first()
         if not user:
             # add new user to db
-            new_user = UserModel(username=username, email=email, password=password)
-            db.session.add(new_user)
-            db.session.commit()
+            if user_type == UserType.wholesale.name:
+                new_user = add_wholesale_user_to_db(**json_data)
+            elif user_type == UserType.retail.name:
+                new_user = add_retail_user_to_db(**json_data)
+            else:
+                return response_object, 400
             # generate auth token
             auth_token = new_user.encode_auth_token(new_user.id)
             response_object["status"] = "success"
@@ -43,7 +48,7 @@ def register_user():
             response_object["message"] = "Sorry. That user already exists."
             return jsonify(response_object), 400
     # handler errors
-    except (exc.IntegrityError, ValueError):
+    except (exc.IntegrityError, ValueError, TypeError):
         db.session.rollback()
         return jsonify(response_object), 400
 
