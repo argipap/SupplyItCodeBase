@@ -37,21 +37,28 @@ exports[`NavBar renders a snapshot properly 1`] = `
           href="/"
           onClick={[Function]}
         >
-          Home
+          HOME
         </a>
         <a
           className="navbar-item"
           href="/getStarted"
           onClick={[Function]}
         >
-          Get Started
+          GET STARTED
         </a>
         <a
           className="navbar-item"
-          href="/about"
+          href="/howItWorks"
           onClick={[Function]}
         >
-          About
+          HOW IT WORKS
+        </a>
+        <a
+          className="navbar-item"
+          href="/becomeSupplier"
+          onClick={[Function]}
+        >
+          BECOME A SUPPLIER
         </a>
       </div>
       <div
@@ -61,19 +68,11 @@ exports[`NavBar renders a snapshot properly 1`] = `
           className="navbar-item"
         >
           <a
-            className="button is-primary"
-            href="/register"
-            onClick={[Function]}
-          >
-            Register
-          </a>
-           
-          <a
             className="button is-link"
             href="/login"
             onClick={[Function]}
           >
-            Log In
+            Sign In
           </a>
         </div>
       </div>
