@@ -18,26 +18,6 @@ def authenticate(f):
         response_object = {"status": "fail", "message": "Provide a valid auth token."}
         auth_header = request.headers.get("Authorization")
         if not auth_header:
-            return jsonify(response_object), 403
-        auth_token = auth_header.split(" ")[1]
-        resp = UserModel.decode_auth_token(auth_token)
-        if isinstance(resp, str):
-            response_object["message"] = resp
-            return jsonify(response_object), 401
-        user = UserModel.query.filter_by(id=resp).first()
-        if not user or not user.active:
-            return jsonify(response_object), 401
-        return f(resp, *args, **kwargs)
-
-    return decorated_function
-
-
-def authenticate_restful(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        response_object = {"status": "fail", "message": "Provide a valid auth token."}
-        auth_header = request.headers.get("Authorization")
-        if not auth_header:
             return response_object, 403
         auth_token = auth_header.split(" ")[1]
         resp = UserModel.decode_auth_token(auth_token)
@@ -45,7 +25,12 @@ def authenticate_restful(f):
             response_object["message"] = resp
             return response_object, 401
         user = UserModel.query.filter_by(id=resp).first()
-        if not user or not user.active:
+        if not user:
+            return response_object, 401
+        if not user.active:
+            response_object[
+                "message"
+            ] = "You have not confirmed registration. Please check your email."
             return response_object, 401
         return f(resp, *args, **kwargs)
 
@@ -57,20 +42,23 @@ def is_admin(user_id):
     return user.admin
 
 
-def validate_store_company_input(
-    user_type, store_name, store_type, company_name, company_type
-):
-    if user_type == UserType.wholesale.name and (not company_name or not company_type):
-        raise ValueError
-    if user_type == UserType.retail.name and (not store_name or not store_type):
-        raise ValueError
-
-
 def add_user_to_db(
-    username, password, email, user_type, street_name, street_number, city, zip_code
+    username,
+    password,
+    email,
+    user_type,
+    street_name,
+    street_number,
+    city,
+    zip_code,
+    active=False,
 ):
     new_user = UserModel(
-        username=username, password=password, email=email, user_type=user_type
+        username=username,
+        password=password,
+        email=email,
+        user_type=user_type,
+        active=active,
     )
     db.session.add(new_user)
     # add address
@@ -95,6 +83,7 @@ def add_retail_user_to_db(
     zip_code,
     store_name,
     store_type,
+    active=False,
 ):
     if store_type not in set(item.name for item in StoreType):
         raise ValueError
@@ -108,6 +97,7 @@ def add_retail_user_to_db(
         street_number=street_number,
         city=city,
         zip_code=zip_code,
+        active=active,
     )
     # add retailer
     new_retailer = RetailerModel(user_id=new_user.id)
@@ -135,6 +125,7 @@ def add_wholesale_user_to_db(
     zip_code,
     company_name,
     company_type,
+    active=False,
 ):
     if company_type not in set(item.name for item in CompanyType):
         raise ValueError
@@ -148,6 +139,7 @@ def add_wholesale_user_to_db(
         street_number=street_number,
         city=city,
         zip_code=zip_code,
+        active=active,
     )
     # add supplier
     new_supplier = SupplierModel(user_id=new_user.id)

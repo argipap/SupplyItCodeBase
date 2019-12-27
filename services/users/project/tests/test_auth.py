@@ -178,7 +178,10 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_valid_logout(self):
         user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
+        user = TestUtils.add_user(**user_data)
+        user.active = True
+        db.session.add(user)
+        db.session.commit()
         with self.client:
             # user login
             resp_login = self.client.post(
@@ -229,7 +232,10 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_user_status(self):
         user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
+        user = TestUtils.add_user(**user_data)
+        user.active = True
+        db.session.add(user)
+        db.session.commit()
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",
@@ -280,7 +286,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertTrue(data["status"] == "fail")
-            self.assertTrue(data["message"] == "Provide a valid auth token.")
+            self.assertTrue(
+                data["message"]
+                == "You have not confirmed registration. Please check your email."
+            )
             self.assertEqual(response.status_code, 401)
 
     def test_invalid_status_inactive(self):
@@ -304,7 +313,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertTrue(data["status"] == "fail")
-            self.assertTrue(data["message"] == "Provide a valid auth token.")
+            self.assertTrue(
+                data["message"]
+                == "You have not confirmed registration. Please check your email."
+            )
             self.assertEqual(response.status_code, 401)
 
 

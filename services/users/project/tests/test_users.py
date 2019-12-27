@@ -153,7 +153,7 @@ class TestUserService(BaseTestCase):
                 TestData.user_data_model_2["username"], data["data"][1]["username"]
             )
             self.assertIn(TestData.user_data_model_2["email"], data["data"][1]["email"])
-            self.assertTrue(data["data"][1]["active"])
+            self.assertFalse(data["data"][1]["active"])
             self.assertFalse(data["data"][1]["admin"])
             self.assertIn("success", data["status"])
 
@@ -223,12 +223,18 @@ class TestUserService(BaseTestCase):
                 )
                 data = json.loads(response.data.decode())
                 self.assertTrue(data["status"] == "fail")
-                self.assertTrue(data["message"] == "Provide a valid auth token.")
+                self.assertTrue(
+                    data["message"]
+                    == "You have not confirmed registration. Please check your email."
+                )
                 self.assertEqual(response.status_code, 401)
 
     def test_add_user_not_admin(self):
         user_auth = TestData.user_data_model_1
-        TestUtils.add_user(**user_auth)
+        user = TestUtils.add_user(**user_auth)
+        user.active = True
+        db.session.add(user)
+        db.session.commit()
         for user_type in ("retail", "wholesale"):
             if user_type == "wholesale":
                 new_user = TestData.user_wholesale_data

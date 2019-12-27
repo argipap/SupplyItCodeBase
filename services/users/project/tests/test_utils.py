@@ -15,6 +15,7 @@ class TestUtils:
         cls.add_user(**user_data)
         user = UserModel.query.filter_by(email=user_data["email"]).first()
         user.admin = True
+        user.active = True
         db.session.commit()
         resp_login = client.post(
             "/auth/login",

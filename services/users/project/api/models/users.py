@@ -20,7 +20,7 @@ class UserModel(db.Model):
     username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    active = db.Column(db.Boolean(), default=True, nullable=False)
+    active = db.Column(db.Boolean(), default=False, nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
     user_type = db.Column(db.Enum(UserType), default=UserType.retail, nullable=False)
@@ -28,7 +28,13 @@ class UserModel(db.Model):
     supplier = db.relationship("SupplierModel", backref="user", uselist=False)
 
     def __init__(
-        self, username, email, password, admin=False, user_type=UserType.retail
+        self,
+        username,
+        email,
+        password,
+        admin=False,
+        active=False,
+        user_type=UserType.retail,
     ):
         self.username = username
         self.email = email
@@ -37,6 +43,7 @@ class UserModel(db.Model):
         ).decode()
         self.user_type = user_type
         self.admin = admin
+        self.active = active
 
     @classmethod
     def encode_auth_token(cls, user_id):

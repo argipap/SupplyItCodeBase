@@ -5,7 +5,6 @@ from flask import Blueprint
 from flask_restful import Resource, Api
 
 from project.api.models.addresses import AddressModel
-from project.api.views.utils import authenticate_restful
 
 addresses_blueprint = Blueprint(
     "addresses", __name__, url_prefix="/users", template_folder="../templates"
@@ -14,8 +13,6 @@ api = Api(addresses_blueprint)
 
 
 class AddressList(Resource):
-    method_decorators = {"post": [authenticate_restful]}
-
     @classmethod
     def get(cls):
         response_object = {}

@@ -7,7 +7,7 @@ from sqlalchemy import exc
 from project.api.models.users import UserModel, UserType
 from project import db
 from project.api.views.utils import (
-    authenticate_restful,
+    authenticate,
     is_admin,
     add_wholesale_user_to_db,
     add_retail_user_to_db,
@@ -37,7 +37,7 @@ class UsersPing(Resource):
 
 class UsersListByType(Resource):
 
-    method_decorators = {"post": [authenticate_restful]}
+    method_decorators = {"post": [authenticate]}
 
     @classmethod
     def post(cls, resp, user_type):
@@ -49,6 +49,8 @@ class UsersListByType(Resource):
         if not json_data or not isinstance(json_data, dict):
             return response_object, 400
         email = json_data.get("email")
+        # adding active to json_data in order to activate without reg link
+        json_data["active"] = True
         try:
             already_existed_user = UserModel.query.filter_by(email=email).first()
             if not already_existed_user:

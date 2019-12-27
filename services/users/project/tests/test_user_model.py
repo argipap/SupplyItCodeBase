@@ -21,7 +21,7 @@ class TestUserModel(BaseTestCase):
         self.assertTrue(user.id)
         self.assertEqual(user.username, TestData.user_data_model_1["username"])
         self.assertEqual(user.email, TestData.user_data_model_1["email"])
-        self.assertTrue(user.active)
+        self.assertFalse(user.active)
         self.assertTrue(user.password)
         self.assertFalse(user.admin)
 
