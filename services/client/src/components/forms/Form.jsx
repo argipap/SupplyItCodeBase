@@ -35,18 +35,47 @@ class Form extends Component {
 
     componentDidMount() {
         this.clearForm();
+        this.resetRules();
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.formType !== nextProps.formType) {
-            this.clearForm();
-            this.resetRules();
-        }
-    };
+
+    // componentDidUpdate(nextProps) {
+    //     const {propsFormType} = this.props.formType;
+    //     if (nextProps.formType !== propsFormType) {
+    //         if (propsFormType) {
+    //             this.clearForm();
+    //             this.resetRules();
+    //         }
+    //     }
+    // };
+    //
+    // componentWillReceiveProps(nextProps) {
+    //     console.log("change from: " + this.props.formType + " to: " + nextProps.formType);
+    //     if (this.props.formType !== nextProps.formType) {
+    //         console.log("change from: " + this.props.formType + " to: " + nextProps.formType);
+    //         this.clearForm();
+    //         this.resetRules();
+    //     }
+    // };
 
     clearForm() {
         this.setState({
-            formData: {username: '', email: '', password: ''}
+            formData: {
+                username: '',
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                shopName: '',
+                streetName: '',
+                streetNumber: '',
+                city: '',
+                zipCode: '',
+                storeName: '',
+                storeType: '',
+                companyName: '',
+                companyType: ''
+            }
         });
     };
 
@@ -163,6 +192,10 @@ class Form extends Component {
         }
         return (
             <div className={this.props.formType === "Login" ? "column is-three-fifths" : ""}>
+                <FormErrors
+                    formType={this.props.formType}
+                    formRules={formRules}
+                />
                 {this.props.formType === 'Login' &&
                 <h1 className="title is-2">Sign In</h1>
                 }
@@ -170,10 +203,6 @@ class Form extends Component {
                 {(this.props.formType !== 'GetStarted' && this.props.formType !== 'BecomeSupplier') &&
                 <br/>
                 }
-                <FormErrors
-                    formType={this.props.formType}
-                    formRules={formRules}
-                />
                 <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
                     {(this.props.formType !== 'Login') &&
                     <div className="field is-grouped">
@@ -296,7 +325,7 @@ class Form extends Component {
                             type="text"
                             placeholder="Store name"
                             required
-                            value={this.state.formData.StoreName}
+                            value={this.state.formData.storeName}
                             onChange={this.handleFormChange}
                         />
                     </div>
@@ -309,10 +338,10 @@ class Form extends Component {
                             required
                             value={this.state.formData.storeType}
                             onChange={this.handleFormChange}>
-                            <option>other</option>
-                            <option>cafeBar</option>
-                            <option>restaurant</option>
-                            <option>quick_service_restaurant</option>
+                            <option value="other">other</option>
+                            <option value="cafeBar">cafe-Bar</option>
+                            <option value="restaurant">restaurant</option>
+                            <option value="quick_service_restaurant">quick service restaurant</option>
                         </select>
                     </div>
                     }
@@ -337,9 +366,9 @@ class Form extends Component {
                             required
                             value={this.state.formData.companyType}
                             onChange={this.handleFormChange}>
-                            <option>other</option>
-                            <option>meat_and_poultry</option>
-                            <option>coffee_and_drinks</option>
+                            <option value="other">other</option>
+                            <option value="meat_and_poultry">meat & poultry</option>
+                            <option value="coffee_and_drinks">coffe & drinks</option>
                         </select>
                     </div>
                     }
