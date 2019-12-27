@@ -42,14 +42,14 @@ class TestAuthBlueprint(BaseTestCase):
                     username=user_data["username"],
                     email=user_data["email"],
                     password=user_data["password"],
-                    user_type="wholesale"
+                    user_type="wholesale",
                 )
             else:
                 user_data = TestData.user_retail_data
                 TestUtils.add_user(
                     username=user_data["username"],
                     email=user_data["email"],
-                    password=user_data["password"]
+                    password=user_data["password"],
                 )
             with self.client:
                 response = self.client.post(
@@ -70,14 +70,14 @@ class TestAuthBlueprint(BaseTestCase):
                     username=user_data["username"],
                     email=user_data["email"],
                     password=user_data["password"],
-                    user_type="wholesale"
+                    user_type="wholesale",
                 )
             else:
                 user_data = TestData.user_retail_data
                 TestUtils.add_user(
                     username=user_data["username"],
                     email=user_data["email"],
-                    password=user_data["password"]
+                    password=user_data["password"],
                 )
             with self.client:
                 response = self.client.post(

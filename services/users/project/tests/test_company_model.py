@@ -27,7 +27,8 @@ class TestCompanyModel(BaseTestCase):
         self.assertEqual(address.id, company.address_id)
 
     def test_add_company_with_invalid_retailer(self):
-        """Test is to confirm that integrity db error (ForeignKeyViolation) will be raised"""
+        """Test is to confirm that integrity db error
+        (ForeignKeyViolation) will be raised"""
         address = TestUtils.add_address(**TestData.address_data)
         company = CompanyModel(
             supplier_id=999, company_name="TestStore", address_id=address.id
@@ -36,7 +37,8 @@ class TestCompanyModel(BaseTestCase):
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_add_company_with_invalid_address(self):
-        """Test is to confirm that integrity db error (ForeignKeyViolation) will be raised"""
+        """Test is to confirm that integrity db error
+        (ForeignKeyViolation) will be raised"""
         user = TestUtils.add_user(**TestData.retailer_data_model)
         supplier = TestUtils.add_supplier(user.id)
         company = CompanyModel(

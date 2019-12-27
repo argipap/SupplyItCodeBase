@@ -3,8 +3,6 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
 
-from project.api.models.retailers import RetailerModel
-from project.api.models.suppliers import SupplierModel
 from project.api.models.users import UserModel, UserType
 from project import db, bcrypt
 from project.api.views.errors import InternalServerError

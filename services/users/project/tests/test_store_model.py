@@ -1,5 +1,4 @@
 # services/users/project/tests/test_store_model.py
-import json
 import unittest
 
 from project import db
@@ -26,7 +25,8 @@ class TestStoreModel(BaseTestCase):
         self.assertEqual(address.id, store.address_id)
 
     def test_add_store_with_invalid_retailer(self):
-        """Test is to confirm that integrity db error (ForeignKeyViolation) will be raised"""
+        """Test is to confirm that integrity db error
+        (ForeignKeyViolation) will be raised"""
         address = TestUtils.add_address(**TestData.address_data)
         store = StoreModel(
             retailer_id=999, store_name="TestStore", address_id=address.id
@@ -35,7 +35,8 @@ class TestStoreModel(BaseTestCase):
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_add_store_with_invalid_address(self):
-        """Test is to confirm that integrity db error (ForeignKeyViolation) will be raised"""
+        """Test is to confirm that integrity db error
+        (ForeignKeyViolation) will be raised"""
         user = TestUtils.add_user(**TestData.retailer_data_model)
         retailer = TestUtils.add_retailer(user.id)
         store = StoreModel(

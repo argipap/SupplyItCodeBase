@@ -148,15 +148,11 @@ class TestUserService(BaseTestCase):
             self.assertIn(
                 TestData.user_data_model_1["username"], data["data"][0]["username"]
             )
-            self.assertIn(
-                TestData.user_data_model_1["email"], data["data"][0]["email"]
-            )
+            self.assertIn(TestData.user_data_model_1["email"], data["data"][0]["email"])
             self.assertIn(
                 TestData.user_data_model_2["username"], data["data"][1]["username"]
             )
-            self.assertIn(
-                TestData.user_data_model_2["email"], data["data"][1]["email"]
-            )
+            self.assertIn(TestData.user_data_model_2["email"], data["data"][1]["email"])
             self.assertTrue(data["data"][1]["active"])
             self.assertFalse(data["data"][1]["admin"])
             self.assertIn("success", data["status"])
@@ -255,7 +251,9 @@ class TestUserService(BaseTestCase):
                 )
                 data = json.loads(response.data.decode())
                 self.assertTrue(data["status"] == "fail")
-                self.assertTrue(data["message"] == "You do not have permission to do that.")
+                self.assertTrue(
+                    data["message"] == "You do not have permission to do that."
+                )
                 self.assertEqual(response.status_code, 401)
 
 
