@@ -368,7 +368,7 @@ class Form extends Component {
                             onChange={this.handleFormChange}>
                             <option value="other">other</option>
                             <option value="meat_and_poultry">meat & poultry</option>
-                            <option value="coffee_and_drinks">coffe & drinks</option>
+                            <option value="coffee_and_drinks">coffee & drinks</option>
                         </select>
                     </div>
                     }

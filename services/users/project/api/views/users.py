@@ -73,6 +73,10 @@ class UsersListByType(Resource):
     @classmethod
     def get(cls, user_type):
         response_object = {}
+        if user_type not in set(item.name for item in UserType):
+            response_object["status"] = "fail"
+            response_object["message"] = "Invalid Payload"
+            return response_object, 400
         users = [
             user.json() for user in UserModel.query.filter_by(user_type=user_type).all()
         ]
