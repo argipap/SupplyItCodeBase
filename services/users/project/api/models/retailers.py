@@ -12,12 +12,14 @@ class RetailerModel(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey("users.id"), unique=True, nullable=False
     )
-    stores = db.relationship("StoreModel", backref="retailer")
+    stores = db.relationship(
+        "StoreModel", backref="retailer", lazy="dynamic", cascade="all, delete-orphan"
+    )
     suppliers = db.relationship(
         "SupplierModel",
         secondary=retailers_to_suppliers,
         backref="retailers",
-        lazy="dynamic",
+        lazy="dynamic"
     )
 
     def __init__(self, user_id):

@@ -1,8 +1,10 @@
 # services/users/project/api/auth.py
+import traceback
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
 
+from project.api.models.confirmations import ConfirmationModel
 from project.api.models.users import UserModel, UserType
 from project import db, bcrypt
 from project.api.views.errors import InternalServerError
@@ -11,6 +13,7 @@ from project.api.views.utils import (
     add_wholesale_user_to_db,
     add_retail_user_to_db,
 )
+from project.utils.mailgun import Mailgun, MailGunException
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -39,11 +42,24 @@ def register_user(user_type):
             else:
                 return response_object, 400
             # generate auth token
-            auth_token = new_user.encode_auth_token(new_user.id)
-            response_object["status"] = "success"
-            response_object["message"] = "Successfully registered."
-            response_object["auth_token"] = auth_token.decode()
-            return jsonify(response_object), 201
+            # auth_token = new_user.encode_auth_token(new_user.id)
+            try:
+                confirmation = ConfirmationModel(new_user.id)
+                confirmation.save_to_db()
+                new_user.send_confirmation_mail()
+                response_object["status"] = "success"
+                response_object["message"] = "Successfully registered."
+                # response_object["auth_token"] = auth_token.decode()
+                return jsonify(response_object), 201
+            except MailGunException as e:
+                new_user.delete_from_db()
+                response_object["message"] = str(e)
+                return jsonify(response_object), 500
+            except Exception as e:
+                traceback.print_exc()
+                new_user.delete_from_db()
+                response_object["message"] = str(e)
+                return jsonify(response_object), 500
         else:
             response_object["message"] = "Sorry. That user already exists."
             return jsonify(response_object), 400
@@ -66,12 +82,19 @@ def login_user():
         # fetch the user data
         user = UserModel.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            auth_token = user.encode_auth_token(user.id)
-            if auth_token:
+            confirmation = user.most_recent_confirmation
+            if confirmation and confirmation.confirmed:
+                auth_token = user.encode_auth_token(user.id)
                 response_object["status"] = "success"
                 response_object["message"] = "Successfully logged in."
                 response_object["auth_token"] = auth_token.decode()
                 return jsonify(response_object), 200
+            else:
+                response_object["message"] = (
+                    f"You have not confirmed registration. "
+                    f"Please check your email: {user.email}"
+                )
+                return jsonify(response_object), 400
         else:
             response_object["message"] = "Email or password is invalid."
             return jsonify(response_object), 404

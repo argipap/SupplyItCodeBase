@@ -43,22 +43,10 @@ def is_admin(user_id):
 
 
 def add_user_to_db(
-    username,
-    password,
-    email,
-    user_type,
-    street_name,
-    street_number,
-    city,
-    zip_code,
-    active=False,
+    username, password, email, user_type, street_name, street_number, city, zip_code,
 ):
     new_user = UserModel(
-        username=username,
-        password=password,
-        email=email,
-        user_type=user_type,
-        active=active,
+        username=username, password=password, email=email, user_type=user_type,
     )
     db.session.add(new_user)
     # add address
@@ -83,7 +71,6 @@ def add_retail_user_to_db(
     zip_code,
     store_name,
     store_type,
-    active=False,
 ):
     if store_type not in set(item.name for item in StoreType):
         raise ValueError
@@ -97,7 +84,6 @@ def add_retail_user_to_db(
         street_number=street_number,
         city=city,
         zip_code=zip_code,
-        active=active,
     )
     # add retailer
     new_retailer = RetailerModel(user_id=new_user.id)
@@ -125,7 +111,6 @@ def add_wholesale_user_to_db(
     zip_code,
     company_name,
     company_type,
-    active=False,
 ):
     if company_type not in set(item.name for item in CompanyType):
         raise ValueError
@@ -139,7 +124,6 @@ def add_wholesale_user_to_db(
         street_number=street_number,
         city=city,
         zip_code=zip_code,
-        active=active,
     )
     # add supplier
     new_supplier = SupplierModel(user_id=new_user.id)

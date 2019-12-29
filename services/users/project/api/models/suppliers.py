@@ -11,7 +11,9 @@ class SupplierModel(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey("users.id"), unique=True, nullable=False
     )
-    companies = db.relationship("CompanyModel", backref="supplier")
+    companies = db.relationship(
+        "CompanyModel", backref="supplier", lazy="dynamic", cascade="all, delete-orphan"
+    )
 
     def __init__(self, user_id):
         self.user_id = user_id

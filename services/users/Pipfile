@@ -20,6 +20,7 @@ flask-migrate = "==2.5.2"
 flask-bcrypt = "==0.7.1"
 pyjwt = "==1.7.1"
 gunicorn = "==20.0.2"
+requests = "*"
 
 [requires]
 python_version = "3.7"
