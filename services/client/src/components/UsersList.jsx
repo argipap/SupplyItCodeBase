@@ -11,7 +11,7 @@ const UsersList = (props) => {
                     <th>ID</th>
                     <th>Email</th>
                     <th>Username</th>
-                    <th>Active</th>
+                    <th>Confirmed</th>
                     <th>Admin</th>
                 </tr>
                 </thead>
@@ -23,7 +23,7 @@ const UsersList = (props) => {
                                 <td>{user.id}</td>
                                 <td>{user.email}</td>
                                 <td>{user.username}</td>
-                                <td>{String(user.active)}</td>
+                                <td>{String(user.confirmed)}</td>
                                 <td>{String(user.admin)}</td>
                             </tr>
                         )

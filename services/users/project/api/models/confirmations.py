@@ -15,12 +15,12 @@ class ConfirmationModel(db.Model):
     expire_at = db.Column(db.Integer, nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    user = db.relationship("UserModel")
 
-    def __init__(self, user_id: int):
+    def __init__(self, user_id: int, confirmed=False):
         self.user_id = user_id
         self.id = uuid4().hex
         self.expire_at = int(time()) + CONFIRMATION_EXPIRATION_DELTA
+        self.confirmed = confirmed
 
     def save_to_db(self) -> None:
         db.session.add(self)

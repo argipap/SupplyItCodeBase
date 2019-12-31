@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {Redirect, browserHistory} from 'react-router-dom';
 import {loginFormRules, registerFormRules} from "./form-rules";
 import FormErrors from "./FormErrors";
+import ConfirmationPending from "../ConfirmationPending";
 
 class Form extends Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class Form extends Component {
                 companyType: ''
 
             },
+            registration_email: '',
             registerFormRules: registerFormRules,
             loginFormRules: loginFormRules,
             valid: false
@@ -174,8 +176,14 @@ class Form extends Component {
         const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth${user_type}/${operation}`;
         axios.post(url, data)
             .then((res) => {
+                this.setState({registration_email: this.state.formData.email});
                 this.clearForm();
-                this.props.loginUser(res.data.auth_token);
+                if (operation === 'login') {
+                    this.props.loginUser(res.data.auth_token);
+                }
+                else {
+                    this.props.confirmUser();
+                }
             })
             .catch((err) => {
                 this.props.createMessage(err.response.data.message, 'danger');
@@ -185,6 +193,14 @@ class Form extends Component {
     render() {
         if (this.props.isAuthenticated) {
             return <Redirect to='/users'/>;
+        }
+        if (this.props.email_confirmation === 'pending') {
+            return (
+            <ConfirmationPending
+                email={this.state.registration_email}
+                createMessage={this.props.createMessage}
+            />
+            );
         }
         let formRules = this.state.loginFormRules;
         if (this.props.formType === 'GetStarted' || this.props.formType === 'BecomeSupplier') {

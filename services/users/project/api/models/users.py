@@ -34,7 +34,10 @@ class UserModel(db.Model):
         "SupplierModel", backref="user", uselist=False, cascade="all, delete-orphan",
     )
     confirmation = db.relationship(
-        "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan"
+        "ConfirmationModel",
+        backref="user",
+        lazy="dynamic",
+        cascade="all, delete-orphan",
     )
 
     def __init__(
@@ -90,7 +93,7 @@ class UserModel(db.Model):
 
     @classmethod
     def find_by_id(cls, _id: int) -> "UserModel":
-        return cls.query.filter_by(id=_id).first()
+        return cls.query.get(_id)
 
     @property
     def most_recent_confirmation(self) -> "ConfirmationModel":
@@ -99,8 +102,8 @@ class UserModel(db.Model):
     def send_confirmation_mail(self):
         subject = "Registration Confirmation"
         link = (
-            f"{os.environ.get('REACT_APP_USERS_SERVICE_URL', 'http://localhost')}"
-            f"/users/user/confirmation/{self.most_recent_confirmation.id}"
+            f"{current_app.config.get('REACT_APP_USERS_SERVICE_URL')}"
+            f"/auth/confirmation/{self.most_recent_confirmation.id}"
         )
         # link = request.url_root[:-1] + url_for(
         #     "/users/user/confirmation",
@@ -111,9 +114,7 @@ class UserModel(db.Model):
             f"<html>Please click the link to confirm your registration:"
             f"<a href={link}>link</a></html>"
         )
-        response = Mailgun.send_email(
-            ["argipapaefstathiou@gmail.com"], subject, text, html
-        )
+        response = Mailgun.send_email([self.email], subject, text, html)
         return response
 
     def json(self):
@@ -123,4 +124,5 @@ class UserModel(db.Model):
             "email": self.email,
             "admin": self.admin,
             "user_type": self.user_type.name,
+            "confirmed": self.most_recent_confirmation.confirmed,
         }

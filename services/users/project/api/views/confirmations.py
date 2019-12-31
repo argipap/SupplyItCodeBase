@@ -1,7 +1,8 @@
 # project/api/views/confirmations.py
+import os
 import traceback
 from time import time
-from flask import Blueprint, make_response, render_template
+from flask import Blueprint, make_response, render_template, current_app
 from flask_restful import Resource, Api
 
 from project.api.models.confirmations import ConfirmationModel
@@ -9,7 +10,7 @@ from project.api.models.users import UserModel
 from project.utils.mailgun import MailGunException
 
 confirmations_blueprint = Blueprint(
-    "confirmations", __name__, url_prefix="/users", template_folder="../templates"
+    "confirmations", __name__, url_prefix="/auth", template_folder="../templates"
 )
 api = Api(confirmations_blueprint)
 
@@ -35,7 +36,12 @@ class Confirmation(Resource):
         confirmation.save_to_db()
         headers = {"Content-type": "text/html"}
         return make_response(
-            render_template("confirmation_page.html", email=confirmation.user.email),
+            render_template(
+                "confirmation_page.html",
+                email=confirmation.user.email,
+                login_uri=f"{current_app.config.get('REACT_APP_USERS_SERVICE_URL')}"
+                          f"/login",
+            ),
             200,
             headers,
         )
@@ -52,7 +58,7 @@ class ConfirmationByUser(Resource):
     def get(cls, user_id: int):
         """Returns confirmation for specific user"""
 
-        response_object = {"status": "fail", "message": "User Not found"}
+        response_object = {"status": "fail"}
         user = UserModel.find_by_id(_id=user_id)
         if not user:
             return response_object, 404
@@ -99,5 +105,5 @@ class ConfirmationByUser(Resource):
             return response_object, 500
 
 
-api.add_resource(Confirmation, "/user/confirmation/<string:confirmation_id>")
-api.add_resource(ConfirmationByUser, "/user/confirmation/<int:user_id>")
+api.add_resource(Confirmation, "/confirmation/<string:confirmation_id>")
+api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
