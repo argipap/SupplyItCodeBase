@@ -24,10 +24,11 @@ def authenticate(f):
         if isinstance(resp, str):
             response_object["message"] = resp
             return response_object, 401
-        user = UserModel.query.filter_by(id=resp).first()
+        user = UserModel.find_by_id(_id=resp)
         if not user:
             return response_object, 401
-        if not user.active:
+        confirmation = user.most_recent_confirmation
+        if not confirmation or not confirmation.confirmed:
             response_object[
                 "message"
             ] = "You have not confirmed registration. Please check your email."

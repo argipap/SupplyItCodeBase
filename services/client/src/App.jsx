@@ -14,6 +14,7 @@ import './components/Footer.css';
 import Home from "./components/Home";
 import HowItWorks from "./components/HowItWorks";
 import BecomeSupplier from "./components/BecomeSupplier";
+import ConfirmationPending from "./components/ConfirmationPending";
 
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
         this.state = {
             users: [],
             isAuthenticated: false,
+            email_confirmation: null,
             messageName: null,
             messageType: null,
             title: 'SUPPLYIT'
@@ -30,11 +32,13 @@ class App extends Component {
         this.loginUser = this.loginUser.bind(this);
         this.createMessage = this.createMessage.bind(this);
         this.removeMessage = this.removeMessage.bind(this);
+        this.confirmUser = this.confirmUser.bind(this);
     }
 
     componentWillMount() {
         if (window.localStorage.getItem('authToken')) {
             this.setState({isAuthenticated: true});
+            this.setState({email_confirmation: 'complete'});
         }
     };
 
@@ -52,17 +56,28 @@ class App extends Component {
             });
     };
 
+
     logoutUser() {
         window.localStorage.clear();
         this.setState({isAuthenticated: false});
     };
 
     loginUser(token) {
-        window.localStorage.setItem('authToken', token);
-        this.setState({isAuthenticated: true});
-        this.getUsers();
-        this.createMessage('Welcome!', 'success');
+        if (token) {
+            window.localStorage.setItem('authToken', token);
+            this.setState({isAuthenticated: true});
+            this.getUsers();
+            this.createMessage('Welcome!', 'success');
+        } else {
+            this.state.email_confirmation = 'pending';
+            this.createMessage('PendingConfirmation!', 'warning');
+        }
     };
+
+    confirmUser() {
+        this.state.email_confirmation = 'pending';
+        this.createMessage('PendingConfirmation!', 'warning');
+    }
 
     createMessage(name = 'Sanity Check', type = 'success') {
         this.setState({
@@ -87,6 +102,7 @@ class App extends Component {
                 <NavBar
                     title={this.state.title}
                     isAuthenticated={this.state.isAuthenticated}
+                    email={this.state.email}
                 />
                 <section className="section">
                     <div className="container">
@@ -124,9 +140,10 @@ class App extends Component {
                                         <GetStarted
                                             formType={'GetStarted'}
                                             loginUser={this.loginUser}
+                                            confirmUser={this.confirmUser}
                                             createMessage={this.createMessage}
-                                            removeMessage={this.removeMessage}
                                             isAuthenticated={this.state.isAuthenticated}
+                                            email_confirmation={this.state.email_confirmation}
                                         />
                                     )}/>
                                     <Route exact path='/becomeSupplier' render={() => (
@@ -134,7 +151,9 @@ class App extends Component {
                                             formType={'BecomeSupplier'}
                                             isAuthenticated={this.state.isAuthenticated}
                                             loginUser={this.loginUser}
+                                            confirmUser={this.confirmUser}
                                             createMessage={this.createMessage}
+                                            email_confirmation={this.email_confirmation}
                                         />
                                     )}/>
                                     <Route exact path='/login' render={() => (

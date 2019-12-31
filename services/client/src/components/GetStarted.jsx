@@ -34,7 +34,9 @@ class GetStarted extends Component {
                                 formType={this.props.formType}
                                 createMessage={this.props.createMessage}
                                 loginUser={this.props.loginUser}
+                                confirmUser={this.props.confirmUser}
                                 isAuthenticated={this.props.isAuthenticated}
+                                email_confirmation={this.props.email_confirmation}
                             />
                         </div>
                     </div>

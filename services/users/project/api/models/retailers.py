@@ -19,7 +19,7 @@ class RetailerModel(db.Model):
         "SupplierModel",
         secondary=retailers_to_suppliers,
         backref="retailers",
-        lazy="dynamic"
+        lazy="dynamic",
     )
 
     def __init__(self, user_id):
