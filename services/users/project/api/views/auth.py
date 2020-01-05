@@ -1,6 +1,7 @@
 # services/users/project/api/auth.py
 import traceback
 
+import jwt
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
 
@@ -13,7 +14,7 @@ from project.api.views.utils import (
     add_wholesale_user_to_db,
     add_retail_user_to_db,
 )
-from project.utils.mailgun import Mailgun, MailGunException
+from project.utils.mailgun import MailGunException
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -41,15 +42,12 @@ def register_user(user_type):
                 new_user = add_retail_user_to_db(**json_data)
             else:
                 return response_object, 400
-            # generate auth token
-            # auth_token = new_user.encode_auth_token(new_user.id)
             try:
                 confirmation = ConfirmationModel(new_user.id)
                 confirmation.save_to_db()
                 new_user.send_confirmation_mail()
                 response_object["status"] = "success"
                 response_object["message"] = "Successfully registered."
-                # response_object["auth_token"] = auth_token.decode()
                 return jsonify(response_object), 201
             except MailGunException as e:
                 new_user.delete_from_db()
@@ -84,10 +82,12 @@ def login_user():
         if user and bcrypt.check_password_hash(user.password, password):
             confirmation = user.most_recent_confirmation
             if confirmation and confirmation.confirmed:
-                auth_token = user.encode_auth_token(user.id)
+                auth_token = user.encode_token(user.id, "access")
+                refresh_token = user.encode_token(user.id, "refresh")
                 response_object["status"] = "success"
                 response_object["message"] = "Successfully logged in."
                 response_object["auth_token"] = auth_token.decode()
+                response_object["refresh_token"] = refresh_token.decode()
                 return jsonify(response_object), 200
             else:
                 response_object["message"] = (
@@ -116,3 +116,37 @@ def get_user_status(resp):
     user = UserModel.query.filter_by(id=resp).first()
     response_object = {"status": "success", "message": "success", "data": user.json()}
     return jsonify(response_object), 200
+
+
+@auth_blueprint.route("/auth/refresh", methods=["POST"])
+def refresh_user_token():
+    response_object = {"status": "fail", "message": "Provide a valid refresh token."}
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        return jsonify(response_object), 403
+    refresh_token = auth_header.split(" ")[1]
+
+    try:
+        resp = UserModel.decode_token(refresh_token)
+        user = UserModel.find_by_id(resp)
+        if not user:
+            response_object["status"] = "fail"
+            response_object["message"] = "Invalid token"
+            return jsonify(response_object), 401
+        new_access_token = user.encode_token(user.id, "access")
+        new_refresh_token = user.encode_token(user.id, "refresh")
+
+        response_object = {
+            "status": "success",
+            "access_token": new_access_token.decode(),
+            "refresh_token": new_refresh_token.decode(),
+        }
+        return response_object, 200
+    except jwt.ExpiredSignatureError:
+        response_object["status"] = "fail"
+        response_object["message"] = "Signature expired. Please log in again."
+        return jsonify(response_object), 401
+    except jwt.InvalidTokenError:
+        response_object["status"] = "fail"
+        response_object["message"] = "Invalid token. Please log in again.."
+        return jsonify(response_object), 401

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Redirect, browserHistory} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {loginFormRules, registerFormRules} from "./form-rules";
 import FormErrors from "./FormErrors";
 import ConfirmationPending from "../ConfirmationPending";
@@ -179,7 +179,7 @@ class Form extends Component {
                 this.setState({registration_email: this.state.formData.email});
                 this.clearForm();
                 if (operation === 'login') {
-                    this.props.loginUser(res.data.auth_token);
+                    this.props.loginUser(res.data.refresh_token, res.data.access_token);
                 }
                 else {
                     this.props.confirmUser();
@@ -191,7 +191,7 @@ class Form extends Component {
     };
 
     render() {
-        if (this.props.isAuthenticated) {
+        if (this.props.isAuthenticated()) {
             return <Redirect to='/users'/>;
         }
         if (this.props.email_confirmation === 'pending') {
@@ -354,6 +354,7 @@ class Form extends Component {
                             required
                             value={this.state.formData.storeType}
                             onChange={this.handleFormChange}>
+                            <option value="">--Store Type--</option>
                             <option value="other">other</option>
                             <option value="cafeBar">cafe-Bar</option>
                             <option value="restaurant">restaurant</option>
@@ -382,6 +383,7 @@ class Form extends Component {
                             required
                             value={this.state.formData.companyType}
                             onChange={this.handleFormChange}>
+                            <option value="">--Company Type--</option>
                             <option value="other">other</option>
                             <option value="meat_and_poultry">meat & poultry</option>
                             <option value="coffee_and_drinks">coffee & drinks</option>

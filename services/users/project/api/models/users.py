@@ -5,7 +5,7 @@ import datetime
 import enum
 import jwt
 from sqlalchemy.sql import func
-from flask import current_app, request, url_for
+from flask import current_app
 from project import db, bcrypt
 from project.api.models.confirmations import ConfirmationModel
 from project.utils.mailgun import Mailgun
@@ -51,27 +51,43 @@ class UserModel(db.Model):
         self.user_type = user_type
         self.admin = admin
 
+    # @classmethod
+    # def encode_auth_token(cls, user_id):
+    #     """Generates the auth token"""
+    #     try:
+    #         payload = {
+    #             "exp": datetime.datetime.utcnow()
+    #             + datetime.timedelta(
+    #                 days=current_app.config.get("TOKEN_EXPIRATION_DAYS"),
+    #                 seconds=current_app.config.get("TOKEN_EXPIRATION_SECONDS"),
+    #             ),
+    #             "iat": datetime.datetime.utcnow(),
+    #             "sub": user_id,
+    #         }
+    #         return jwt.encode(
+    #             payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
+    #         )
+    #     except Exception as e:
+    #         return e
+        
     @classmethod
-    def encode_auth_token(cls, user_id):
-        """Generates the auth token"""
-        try:
-            payload = {
-                "exp": datetime.datetime.utcnow()
-                + datetime.timedelta(
-                    days=current_app.config.get("TOKEN_EXPIRATION_DAYS"),
-                    seconds=current_app.config.get("TOKEN_EXPIRATION_SECONDS"),
-                ),
-                "iat": datetime.datetime.utcnow(),
-                "sub": user_id,
-            }
-            return jwt.encode(
-                payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
-            )
-        except Exception as e:
-            return e
+    def encode_token(cls, user_id, token_type):
+        if token_type == "access":
+            seconds = current_app.config.get("ACCESS_TOKEN_EXPIRATION")
+        else:
+            seconds = current_app.config.get("REFRESH_TOKEN_EXPIRATION")
+
+        payload = {
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=seconds),
+            "iat": datetime.datetime.utcnow(),
+            "sub": user_id,
+        }
+        return jwt.encode(
+            payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
+        )
 
     @classmethod
-    def decode_auth_token(cls, token):
+    def decode_token(cls, token):
         """Decodes auth token given"""
         try:
             payload = jwt.decode(

@@ -14,6 +14,8 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
+    ACCESS_TOKEN_EXPIRATION = 900  # 15 minutes
+    REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
 
 
 class DevelopmentConfig(BaseConfig):
@@ -32,6 +34,8 @@ class TestingConfig(BaseConfig):
     BCRYPT_LOG_ROUNDS = 4
     TOKEN_EXPIRATION_DAYS = 0
     TOKEN_EXPIRATION_SECONDS = 3
+    ACCESS_TOKEN_EXPIRATION = 3
+    REFRESH_TOKEN_EXPIRATION = 3
 
 
 class StagingConfig(BaseConfig):
@@ -45,5 +49,3 @@ class ProductionConfig(BaseConfig):
 
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
-    TOKEN_EXPIRATION_DAYS = 0
-    TOKEN_EXPIRATION_SECONDS = 3600

@@ -20,7 +20,7 @@ def authenticate(f):
         if not auth_header:
             return response_object, 403
         auth_token = auth_header.split(" ")[1]
-        resp = UserModel.decode_auth_token(auth_token)
+        resp = UserModel.decode_token(auth_token)
         if isinstance(resp, str):
             response_object["message"] = resp
             return response_object, 401
