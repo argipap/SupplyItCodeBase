@@ -12,6 +12,6 @@ class Logout extends Component {
             </div>
         )
     };
-};
+}
 
 export default Logout;

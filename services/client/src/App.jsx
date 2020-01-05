@@ -14,7 +14,6 @@ import './components/Footer.css';
 import Home from "./components/Home";
 import HowItWorks from "./components/HowItWorks";
 import BecomeSupplier from "./components/BecomeSupplier";
-import ConfirmationPending from "./components/ConfirmationPending";
 
 
 class App extends Component {
@@ -22,7 +21,7 @@ class App extends Component {
         super();
         this.state = {
             users: [],
-            isAuthenticated: false,
+            accessToken: null,
             email_confirmation: null,
             messageName: null,
             messageType: null,
@@ -33,11 +32,12 @@ class App extends Component {
         this.createMessage = this.createMessage.bind(this);
         this.removeMessage = this.removeMessage.bind(this);
         this.confirmUser = this.confirmUser.bind(this);
+        this.validRefresh = this.validRefresh.bind(this);
+        this.isAuthenticated = this.isAuthenticated.bind(this);
     }
 
     componentWillMount() {
-        if (window.localStorage.getItem('authToken')) {
-            this.setState({isAuthenticated: true});
+        if (window.localStorage.getItem('refreshToken')) {
             this.setState({email_confirmation: 'complete'});
         }
     };
@@ -56,16 +56,49 @@ class App extends Component {
             });
     };
 
-
-    logoutUser() {
-        window.localStorage.clear();
-        this.setState({isAuthenticated: false});
+    isAuthenticated = () => {
+        if (this.state.accessToken || this.validRefresh()) {
+            return true;
+        }
+        return false;
     };
 
-    loginUser(token) {
+    validRefresh = () => {
+        const token = window.localStorage.getItem("refreshToken");
         if (token) {
-            window.localStorage.setItem('authToken', token);
-            this.setState({isAuthenticated: true});
+            const options = {
+                url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/refresh`,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            };
+            axios(options)
+                .then(res => {
+                    this.setState({accessToken: res.data.access_token});
+                    this.getUsers();
+                    window.localStorage.setItem("refreshToken", res.data.refresh_token);
+                    return true;
+                })
+                .catch(err => {
+                    return false;
+                });
+        }
+        return false;
+    };
+
+
+    logoutUser = () => {
+        window.localStorage.removeItem("refreshToken");
+        this.setState({accessToken: null});
+        this.createMessage("You have logged out.", "success");
+    };
+
+    loginUser(refresh_token, access_token) {
+        if (refresh_token) {
+            window.localStorage.setItem("refreshToken", refresh_token);
+            this.setState({accessToken: access_token});
             this.getUsers();
             this.createMessage('Welcome!', 'success');
         } else {
@@ -101,8 +134,9 @@ class App extends Component {
             <div>
                 <NavBar
                     title={this.state.title}
-                    isAuthenticated={this.state.isAuthenticated}
+                    isAuthenticated={this.isAuthenticated}
                     email={this.state.email}
+                    logoutUser={this.logoutUser}
                 />
                 <section className="section">
                     <div className="container">
@@ -123,7 +157,7 @@ class App extends Component {
                                             loginUser={this.loginUser}
                                             createMessage={this.createMessage}
                                             removeMessage={this.removeMessage}
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                         />
                                     )}/>
                                     <Route exact path='/users' render={() => (
@@ -133,7 +167,7 @@ class App extends Component {
                                     )}/>
                                     <Route exact path='/howItWorks' render={() => (
                                         <HowItWorks
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                         />
                                     )}/>
                                     <Route exact path='/getStarted' render={() => (
@@ -142,14 +176,14 @@ class App extends Component {
                                             loginUser={this.loginUser}
                                             confirmUser={this.confirmUser}
                                             createMessage={this.createMessage}
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                             email_confirmation={this.state.email_confirmation}
                                         />
                                     )}/>
                                     <Route exact path='/becomeSupplier' render={() => (
                                         <BecomeSupplier
                                             formType={'BecomeSupplier'}
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                             loginUser={this.loginUser}
                                             confirmUser={this.confirmUser}
                                             createMessage={this.createMessage}
@@ -159,7 +193,7 @@ class App extends Component {
                                     <Route exact path='/login' render={() => (
                                         <Form
                                             formType={'Login'}
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                             loginUser={this.loginUser}
                                             createMessage={this.createMessage}
                                         />
@@ -167,12 +201,12 @@ class App extends Component {
                                     <Route exact path='/logout' render={() => (
                                         <Logout
                                             logoutUser={this.logoutUser}
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                         />
                                     )}/>
                                     <Route exact path='/status' render={() => (
                                         <UserStatus
-                                            isAuthenticated={this.state.isAuthenticated}
+                                            isAuthenticated={this.isAuthenticated}
                                         />
                                     )}/>
                                 </Switch>
