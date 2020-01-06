@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 from flask import current_app
 from project import db, bcrypt
 from project.api.models.confirmations import ConfirmationModel
-from tasks import send_async_mail_task
+from project.utils.tasks import send_async_mail_task
 
 
 class UserType(enum.Enum):
@@ -50,25 +50,6 @@ class UserModel(db.Model):
         self.user_type = user_type
         self.admin = admin
 
-    # @classmethod
-    # def encode_auth_token(cls, user_id):
-    #     """Generates the auth token"""
-    #     try:
-    #         payload = {
-    #             "exp": datetime.datetime.utcnow()
-    #             + datetime.timedelta(
-    #                 days=current_app.config.get("TOKEN_EXPIRATION_DAYS"),
-    #                 seconds=current_app.config.get("TOKEN_EXPIRATION_SECONDS"),
-    #             ),
-    #             "iat": datetime.datetime.utcnow(),
-    #             "sub": user_id,
-    #         }
-    #         return jwt.encode(
-    #             payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
-    #         )
-    #     except Exception as e:
-    #         return e
-
     @classmethod
     def encode_token(cls, user_id, token_type):
         if token_type == "access":
@@ -109,6 +90,10 @@ class UserModel(db.Model):
     @classmethod
     def find_by_id(cls, _id: int) -> "UserModel":
         return cls.query.get(_id)
+
+    @classmethod
+    def find_by_email(cls, email: str) -> "UserModel":
+        return cls.query.filter_by(email=email).first()
 
     @property
     def most_recent_confirmation(self) -> "ConfirmationModel":

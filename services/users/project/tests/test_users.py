@@ -26,6 +26,10 @@ class TestUserService(BaseTestCase):
         """Ensure a new user can be added to the database."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
+        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user.admin = True
+        admin_user.save_to_db()
+        TestUtils.confirm_user(admin_user.id)
         for user_type in ("retail", "wholesale"):
             if user_type == "wholesale":
                 new_user = TestData.user_wholesale_data
@@ -47,6 +51,10 @@ class TestUserService(BaseTestCase):
         """Ensure error is thrown if the JSON object is empty."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
+        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user.admin = True
+        admin_user.save_to_db()
+        TestUtils.confirm_user(admin_user.id)
         for user_type in ("retail", "wholesale"):
             with self.client:
                 response = self.client.post(
@@ -66,6 +74,10 @@ class TestUserService(BaseTestCase):
         """
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
+        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user.admin = True
+        admin_user.save_to_db()
+        TestUtils.confirm_user(admin_user.id)
         for user_type in ("retail", "wholesale"):
             with self.client:
                 response = self.client.post(
@@ -83,6 +95,10 @@ class TestUserService(BaseTestCase):
         """Ensure error is thrown if the email already exists."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
+        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user.admin = True
+        admin_user.save_to_db()
+        TestUtils.confirm_user(admin_user.id)
         for user_type in ("retail", "wholesale"):
             if user_type == "wholesale":
                 new_user = TestData.user_wholesale_data
@@ -110,6 +126,7 @@ class TestUserService(BaseTestCase):
         """Ensure get single user behaves correctly."""
         user_data = TestData.user_data_model_1
         user = TestUtils.add_user(**user_data)
+        TestUtils.confirm_user(user.id)
         with self.client:
             response = self.client.get(f"/users/user/{user.id}")
             data = json.loads(response.data.decode())
@@ -138,8 +155,10 @@ class TestUserService(BaseTestCase):
 
     def test_all_users(self):
         """Ensure get all users behaves correctly."""
-        TestUtils.add_user(**TestData.user_data_model_1)
-        TestUtils.add_user(**TestData.user_data_model_2)
+        user_1 = TestUtils.add_user(**TestData.user_data_model_1)
+        TestUtils.confirm_user(user_1.id)
+        user_2 = TestUtils.add_user(**TestData.user_data_model_2)
+        TestUtils.confirm_user(user_2.id)
         with self.client:
             response = self.client.get("/users")
             data = json.loads(response.data.decode())
@@ -153,7 +172,7 @@ class TestUserService(BaseTestCase):
                 TestData.user_data_model_2["username"], data["data"][1]["username"]
             )
             self.assertIn(TestData.user_data_model_2["email"], data["data"][1]["email"])
-            self.assertFalse(data["data"][1]["active"])
+            self.assertTrue(data["data"][1]["confirmed"])
             self.assertFalse(data["data"][1]["admin"])
             self.assertIn("success", data["status"])
 
@@ -198,43 +217,10 @@ class TestUserService(BaseTestCase):
             self.assertNotIn(b"<p>No users!</p>", response.data)
             self.assertIn(f'{user_data["username"]}'.encode("utf-8"), response.data)
 
-    def test_add_user_inactive(self):
-        user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
-        # update user
-        user = UserModel.query.filter_by(email=user_data["email"]).first()
-        user.active = False
-        db.session.commit()
-        for user_type in ("retail", "wholesale"):
-            with self.client:
-                resp_login = self.client.post(
-                    "/auth/login",
-                    data=json.dumps(
-                        {"email": user_data["email"], "password": user_data["password"]}
-                    ),
-                    content_type="application/json",
-                )
-                token = json.loads(resp_login.data.decode())["auth_token"]
-                response = self.client.post(
-                    f"/users/{user_type}",
-                    data=json.dumps(user_data),
-                    content_type="application/json",
-                    headers={"Authorization": f"Bearer {token}"},
-                )
-                data = json.loads(response.data.decode())
-                self.assertTrue(data["status"] == "fail")
-                self.assertTrue(
-                    data["message"]
-                    == "You have not confirmed registration. Please check your email."
-                )
-                self.assertEqual(response.status_code, 401)
-
     def test_add_user_not_admin(self):
         user_auth = TestData.user_data_model_1
         user = TestUtils.add_user(**user_auth)
-        user.active = True
-        db.session.add(user)
-        db.session.commit()
+        TestUtils.confirm_user(user.id)
         for user_type in ("retail", "wholesale"):
             if user_type == "wholesale":
                 new_user = TestData.user_wholesale_data

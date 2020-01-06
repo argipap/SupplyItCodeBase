@@ -49,8 +49,6 @@ class UsersListByType(Resource):
         if not json_data or not isinstance(json_data, dict):
             return response_object, 400
         email = json_data.get("email")
-        # adding active to json_data in order to activate without reg link
-        json_data["active"] = True
         try:
             already_existed_user = UserModel.query.filter_by(email=email).first()
             if not already_existed_user:
