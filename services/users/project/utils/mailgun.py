@@ -1,4 +1,5 @@
 from typing import List
+
 from requests import Response, post
 
 FAILED_LOAD_API_KEY = "Failed to load MailGun API key."
@@ -42,5 +43,4 @@ class Mailgun:
 
         if response.status_code != 200:
             raise MailGunException(ERROR_SENDING_EMAIL)
-
         return response

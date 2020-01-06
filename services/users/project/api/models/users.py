@@ -1,6 +1,5 @@
 # project/api/models/users.py
 
-import os
 import datetime
 import enum
 import jwt
@@ -8,7 +7,7 @@ from sqlalchemy.sql import func
 from flask import current_app
 from project import db, bcrypt
 from project.api.models.confirmations import ConfirmationModel
-from project.utils.mailgun import Mailgun
+from tasks import send_async_mail_task
 
 
 class UserType(enum.Enum):
@@ -69,7 +68,7 @@ class UserModel(db.Model):
     #         )
     #     except Exception as e:
     #         return e
-        
+
     @classmethod
     def encode_token(cls, user_id, token_type):
         if token_type == "access":
@@ -130,8 +129,10 @@ class UserModel(db.Model):
             f"<html>Please click the link to confirm your registration:"
             f"<a href={link}>link</a></html>"
         )
-        response = Mailgun.send_email([self.email], subject, text, html)
-        return response
+        # response = Mailgun.send_email([self.email], subject, text, html)
+        send_async_mail_task.delay(
+            email=self.email, subject=subject, text=text, html=html
+        )
 
     def json(self):
         return {

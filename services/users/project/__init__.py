@@ -2,6 +2,7 @@
 
 
 import os
+
 from flask import Flask
 from project.utils.lib import cors, db, migrate, toolbar, bcrypt
 
