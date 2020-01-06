@@ -16,6 +16,8 @@ class BaseConfig:
     TOKEN_EXPIRATION_SECONDS = 0
     ACCESS_TOKEN_EXPIRATION = 900  # 15 minutes
     REFRESH_TOKEN_EXPIRATION = 2592000  # 30 days
+    CELERY_BROKER = os.environ.get("CELERY_BROKER")
+    CELERY_BACKEND = os.environ.get("CELERY_BACKEND")
 
 
 class DevelopmentConfig(BaseConfig):

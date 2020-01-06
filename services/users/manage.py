@@ -1,6 +1,5 @@
 # services/users/manage.py
-
-
+import os
 import sys
 import unittest
 import coverage
@@ -14,6 +13,8 @@ from project.api.models.suppliers import SupplierModel
 from project.api.models.stores import StoreModel, StoreType
 from project.api.models.companies import CompanyModel, CompanyType
 from project.api.models.addresses import AddressModel
+from tasks import celery_app
+from celery.bin import worker
 
 COV = coverage.coverage(
     branch=True, include="project/*", omit=["project/tests/*", "project/config.py"]

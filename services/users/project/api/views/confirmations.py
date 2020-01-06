@@ -40,7 +40,7 @@ class Confirmation(Resource):
                 "confirmation_page.html",
                 email=confirmation.user.email,
                 login_uri=f"{current_app.config.get('REACT_APP_USERS_SERVICE_URL')}"
-                          f"/login",
+                f"/login",
             ),
             200,
             headers,
