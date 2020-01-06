@@ -12,8 +12,7 @@ celery_app = celery.Celery("tasks", broker=CELERY_BROKER, backend=CELERY_BACKEND
 
 
 @celery_app.task(
-    bind=True,
-    retry_kwargs={"max_retries": 3},
+    bind=True, retry_kwargs={"max_retries": 3},
 )
 def send_async_mail_task(self, email, subject, text, html):
     try:

@@ -78,7 +78,7 @@ services:
     image: users
     volumes:
       - './services/users:/usr/src/app'
-    command: celery -A tasks worker --loglevel=info
+    command: celery -A project.utils.tasks worker --loglevel=info
     environment:
       - CELERY_BROKER=redis://redis:6379/0
       - CELERY_BACKEND=redis://redis:6379/0
@@ -90,7 +90,7 @@ services:
     image: users
     ports:
       - 5555:5555
-    command:  flower -A tasks --port=5555 --broker=redis://redis:6379/0
+    command:  flower -A project.utils.tasks --port=5555 --broker=redis://redis:6379/0
     depends_on:
       - supplyit-users
       - redis

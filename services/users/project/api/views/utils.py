@@ -44,10 +44,10 @@ def is_admin(user_id):
 
 
 def add_user_to_db(
-    username, password, email, user_type, street_name, street_number, city, zip_code,
+    username, password, email, user_type, street_name, street_number, city, zip_code
 ):
     new_user = UserModel(
-        username=username, password=password, email=email, user_type=user_type,
+        username=username, password=password, email=email, user_type=user_type
     )
     db.session.add(new_user)
     # add address
