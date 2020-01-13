@@ -13,7 +13,7 @@ const NavBar = props => {
             <LinkContainer to="/getStarted"><Nav.Link>Δοκιμάστε</Nav.Link></LinkContainer>
             <LinkContainer to="/howItWorks"><Nav.Link>Πως δουλεύει</Nav.Link></LinkContainer>
             <LinkContainer to="/becomeSupplier"><Nav.Link>Γίνετε προμηθευτής</Nav.Link></LinkContainer>
-            <LinkContainer to="/login"><Button variant="outline-success" data-testid="nav-login">Σύνδεση</Button></LinkContainer>
+            <LinkContainer to="/login"><Button className="btn-square" variant="outline-success" data-testid="nav-login">Σύνδεση</Button></LinkContainer>
         </Nav>
         
 
@@ -38,7 +38,7 @@ const NavBar = props => {
             <Nav className="ml-auto">
                 <LinkContainer to="/status"><Nav.Link>Status</Nav.Link></LinkContainer>
                 <LinkContainer to="/howItWorks"><Nav.Link>Πως δουλεύει</Nav.Link></LinkContainer>
-               <LinkContainer to="/logout"><Button variant="outline-danger" href="/logout">Αποσύνδεση</Button></LinkContainer> 
+               <LinkContainer to="/logout"><Button className="btn-square" variant="outline-danger" href="/logout">Αποσύνδεση</Button></LinkContainer> 
             </Nav>
 
             // Bulma version

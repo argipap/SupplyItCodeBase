@@ -1,26 +1,55 @@
 body {
-    font-family: 'Source Sans Pro', sans-serif !important;
+	font-family: 'Source Sans Pro', sans-serif !important;
+}
+
+.btn-square {
+  border-radius: 0;
 }
 
 .ticked-list li {
-    font-size: 16px;
-    margin-left: 0px;
-    padding-left: 24px;
-    line-height: 28px;
-    list-style: none;
-    background-image: url(../tick.png);
-    background-repeat: no-repeat;
-    background-position: 0px 7px;
-    background-size: 16px 13px;
-    margin-top: 15px;
+	font-size: 16px;
+	margin-left: 0px;
+	padding-left: 24px;
+	line-height: 28px;
+	list-style: none;
+	background-image: url(../tick.png);
+	background-repeat: no-repeat;
+	background-position: 0px 7px;
+	background-size: 16px 13px;
+	margin-top: 15px;
 }
 
 .intro {
-  background:linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.4)), url("https://images.unsplash.com/photo-1474440692490-2e83ae13ba29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80");
-  background-size: cover;
-  min-height: 100vh;
-  min-width: 100vw;
-  color: whitesmoke;
-  display: flex;
-}   
+	background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .4)),
+		url("https://images.unsplash.com/photo-1474440692490-2e83ae13ba29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80");
+	background-size: cover;
+	min-height: 100vh;
+	min-width: 100vw;
+	color: whitesmoke;
+	display: flex;
+}
 
+.become-a-supplier .container-fluid {
+  margin-bottom: 50px;
+}
+
+.become-a-supplier .container-fluid .left-col {
+	background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)),
+		url(https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80)
+			no-repeat 0;
+	height: 80vh;
+	min-height: 570px;
+	background-size: cover;
+	overflow: hidden;
+}
+
+.become-a-supplier h1 {
+	margin-bottom: 1em;
+	font-weight: 700;
+}
+
+@media screen and (min-width: 768px) {
+	.become-a-supplier .supplier-text {
+		padding-left: 40px;
+	}
+}
