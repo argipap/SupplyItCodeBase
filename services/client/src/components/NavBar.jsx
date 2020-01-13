@@ -3,16 +3,17 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import { LinkContainer } from "react-router-bootstrap"
 import "./NavBar.css";
-import { Navbar, Container, NavbarBrand, NavLink, Nav, Button } from "react-bootstrap";
+import { Navbar, Container, NavbarBrand, NavLink, Nav, Button, Image } from "react-bootstrap";
+import Logo from "../logo.png"
 
 const NavBar = props => {
     let menu = (
-        <Nav className="mr-auto">
-            <Nav.Item href="/">Αρχική</Nav.Item>
-            <Nav.Link href="/getStarted">Δοκιμάστε</Nav.Link>
-            <Nav.Link href="/howItWorks">Πως δουλεύει</Nav.Link>
-            <Nav.Link href="/howItWorks">Γίνετε προμηθευτής</Nav.Link>
-            <Button variant="success" data-testid="nav-login">Σύνδεση</Button>
+        <Nav className="ml-auto">
+            <LinkContainer to="/"><Nav.Link>Αρχική</Nav.Link></LinkContainer>
+            <LinkContainer to="/getStarted"><Nav.Link>Δοκιμάστε</Nav.Link></LinkContainer>
+            <LinkContainer to="/howItWorks"><Nav.Link>Πως δουλεύει</Nav.Link></LinkContainer>
+            <LinkContainer to="/becomeSupplier"><Nav.Link>Γίνετε προμηθευτής</Nav.Link></LinkContainer>
+            <LinkContainer to="/login"><Button variant="outline-success" data-testid="nav-login">Σύνδεση</Button></LinkContainer>
         </Nav>
         
 
@@ -34,10 +35,10 @@ const NavBar = props => {
     );
     if (props.isAuthenticated()) {
         menu = (
-            <Nav className="mr-auto">
-                <Nav.Link href="/status">Status</Nav.Link>
-                <Nav.Link href="/howItWorks">Πως δουλεύει</Nav.Link>
-                <Button variant="danger" href="/logout">Αποσύνδεση</Button>
+            <Nav className="ml-auto">
+                <LinkContainer to="/status"><Nav.Link>Status</Nav.Link></LinkContainer>
+                <LinkContainer to="/howItWorks"><Nav.Link>Πως δουλεύει</Nav.Link></LinkContainer>
+               <LinkContainer to="/logout"><Button variant="outline-danger" href="/logout">Αποσύνδεση</Button></LinkContainer> 
             </Nav>
 
             // Bulma version
@@ -52,14 +53,27 @@ const NavBar = props => {
             // </div>
         );
     }
+
+    // const icon = (
+    //     <span className="logo">
+    //         <a href="/">
+    //             <img src="./logo.png" height="33" width="120" alt="Supply IT logo"/>
+    //         </a>
+    //     </span>
+    // )
     return (
         <Navbar
             role="navigation"
             aria-label="main navigation"
-            bg="light"
             expand="lg"
         >
-                <Navbar.Brand href="/">{props.title}</Navbar.Brand>
+                <Navbar.Brand href="/"><Image 
+                    src={Logo}
+                    className="d-inline-block align-top"
+                    alt="SupplyIT logo"
+                    width="100"
+                />
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-bar"></Navbar.Toggle>
                 <Navbar.Collapse id="navbar-bar">
                 {menu}    

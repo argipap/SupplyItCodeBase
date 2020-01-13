@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap'
 
 import UsersList from "./components/UsersList";
 import NavBar from "./components/NavBar";
@@ -17,6 +18,7 @@ import BecomeSupplier from "./components/BecomeSupplier";
 
 
 
+
 class App extends Component {
     constructor() {
         super();
@@ -26,6 +28,7 @@ class App extends Component {
             email_confirmation: null,
             messageName: null,
             messageType: null,
+            messageTitle: null,
             title: 'SUPPLYIT'
         };
         this.logoutUser = this.logoutUser.bind(this);
@@ -93,7 +96,7 @@ class App extends Component {
     logoutUser = () => {
         window.localStorage.removeItem("refreshToken");
         this.setState({accessToken: null});
-        this.createMessage("You have logged out.", "success");
+        this.createMessage("Έχετε αποσυνδεθεί","Εις το επανιδείν!", "danger");
     };
 
     loginUser(refresh_token, access_token) {
@@ -101,22 +104,23 @@ class App extends Component {
             window.localStorage.setItem("refreshToken", refresh_token);
             this.setState({accessToken: access_token});
             this.getUsers();
-            this.createMessage('Welcome!', 'success');
+            this.createMessage('Καλώς Ήλθατε!','Η ομάδα του Supply IT σας ευχεται μια ευχάριστη διαμονή!', 'success');
         } else {
             this.state.email_confirmation = 'pending';
-            this.createMessage('PendingConfirmation!', 'warning');
+            this.createMessage('Επιβεβαίωση email','Παρακαλώ δείτε το inbox σας για να επιβεβαιώσετε το email σας.', 'warning');
         }
     };
 
     confirmUser() {
         this.state.email_confirmation = 'pending';
-        this.createMessage('PendingConfirmation!', 'warning');
+        this.createMessage('Επιβεβαίωση email','Παρακαλώ δείτε το inbox σας για να επιβεβαιώσετε το email σας.', 'warning');
     }
 
-    createMessage(name = 'Sanity Check', type = 'success') {
+    createMessage(title='Title Check', name = 'Sanity Check', variant = 'success') {
         this.setState({
+            messageTitle: title,
             messageName: name,
-            messageType: type
+            messageType: variant
         });
         setTimeout(() => {
             this.removeMessage();
@@ -125,6 +129,7 @@ class App extends Component {
 
     removeMessage() {
         this.setState({
+            messageTitle: null,
             messageName: null,
             messageType: null
         });
@@ -132,25 +137,23 @@ class App extends Component {
 
     render() {
         return (
-            <div>
+            <main>
                 <NavBar
                     title={this.state.title}
                     isAuthenticated={this.isAuthenticated}
                     email={this.state.email}
                     logoutUser={this.logoutUser}
                 />
-                <section className="section">
-                    <div className="container">
-                        {this.state.messageName && this.state.messageType &&
+                <content>
+                        {this.state.messageTitle && this.state.messageName && this.state.messageType &&
                         <Message
+                            messageTitle={this.state.messageTitle}
                             messageName={this.state.messageName}
                             messageType={this.state.messageType}
                             removeMessage={this.removeMessage}
                         />
                         }
-                        <div className="columns">
-                            <div className="column is-three-fifths">
-                                <br/>
+                      
                                 <Switch>
                                     <Route exact path='/' render={() => (
                                         <Home
@@ -178,7 +181,7 @@ class App extends Component {
                                             confirmUser={this.confirmUser}
                                             createMessage={this.createMessage}
                                             isAuthenticated={this.isAuthenticated}
-                                            email_confirmation={this.state.email_confirmation}
+                                            email_confirmation={this.email_confirmation}
                                         />
                                     )}/>
                                     <Route exact path='/becomeSupplier' render={() => (
@@ -211,12 +214,9 @@ class App extends Component {
                                         />
                                     )}/>
                                 </Switch>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                                </content>
                 <Footer/>
-            </div>
+            </main>
         )
     }
 }
