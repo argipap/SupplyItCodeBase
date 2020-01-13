@@ -16,12 +16,11 @@ class Home extends Component {
 						<h1>Supply IT - Όλοι οι αγαπημένοι προμηθευτές σας!</h1>
 						<hr />
 						<p>
-							Supplyit is a one-stop-shop for all your wholesale foodservice suppliers. Instant sign up,
-							one order, one payment, zero headaches.
+						 Το Supply It είναι ενα one-stop-shop για όλους τους προμηθευτές σας. Άμεση εγγραφή, μία παραγγελία, μία πληρωμή, μηδέν σπαζοκεφαλιές.
 						</p>
 
 						<Link to="/getStarted">
-							<Button variant="info">GET STARTED</Button>
+							<Button variant="info btn-square">Ξεκινήστε δωρεάν</Button>
 						</Link>
 					</Col>
                     <Col md={4}>

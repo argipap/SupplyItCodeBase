@@ -6,14 +6,7 @@ function Logout(props) {
 		props.logoutUser();
 	});
 
-	const [ redirect, setRedirect ] = useState(false);
-
-	useEffect(() => {
-		let timer1 = setTimeout(() => setRedirect(true), 1000);
-		return () => {
-			clearTimeout(timer1)
-		}
-	}, []);
+	
 	return ( 
 		<div>
 			<p>
