@@ -206,14 +206,14 @@ class Forms extends Component {
 		return (
 			<div className={this.props.formType === 'Login' ? '' : ''}>
 				<FormErrors formType={this.props.formType} formRules={formRules} />
-				{this.props.formType === 'Login' && <h1 className="title is-2">Sign In</h1>}
+				{this.props.formType === 'Login' && <h1>Σύνδεση</h1>}
 				<hr />
 				{this.props.formType !== 'GetStarted' && this.props.formType !== 'BecomeSupplier' && <br />}
 				<form onSubmit={(event) => this.handleUserFormSubmit(event)}>
 					{this.props.formType !== 'Login' && (
 						<Form.Row>
 							<Form.Group as={Col} controlId="formFirstName">
-								<Form.Label>Όνομα</Form.Label>
+								{/* <Form.Label>Όνομα</Form.Label> */}
 								<Form.Control
 									name="firstName"
 									type="text"
@@ -224,7 +224,7 @@ class Forms extends Component {
 								/>
 							</Form.Group>
 							<Form.Group as={Col} controlId="formLastName">
-								<Form.Label>Επίθετο</Form.Label>
+								{/* <Form.Label>Επίθετο</Form.Label> */}
 								<Form.Control
 									name="lastName"
 									className="input is-medium"
@@ -240,7 +240,7 @@ class Forms extends Component {
 					<Form.Row>
 						{this.props.formType !== 'Login' && (
 							<Form.Group as={Col} controlId="formUsername">
-								<Form.Label>Όνομα χρήστη</Form.Label>
+								{/* <Form.Label>Όνομα χρήστη</Form.Label> */}
 								<Form.Control
 									name="username"
 									type="text"
@@ -252,7 +252,7 @@ class Forms extends Component {
 							</Form.Group>
 						)}
 						<Form.Group as={Col} controlId="formEmail">
-							<Form.Label>Email</Form.Label>
+							{/* <Form.Label>Email</Form.Label> */}
 							<Form.Control
 								name="email"
 								type="email"
@@ -263,11 +263,11 @@ class Forms extends Component {
 							/>
 						</Form.Group>
 						<Form.Group as={Col} controlId="formPassword">
-							<Form.Label>Password</Form.Label>
+							{/* <Form.Label>Password</Form.Label> */}
 							<Form.Control
 								name="password"
 								type="password"
-								placeholder="Enter a password"
+								placeholder="Κωδικός"
 								required
 								value={this.state.formData.password}
 								onChange={this.handleFormChange}
@@ -277,7 +277,7 @@ class Forms extends Component {
 					{this.props.formType !== 'Login' && (
 						<Form.Row>
 							<Form.Group as={Col} controlId="formAddress">
-								<Form.Label>Οδός</Form.Label>
+								{/* <Form.Label>Οδός</Form.Label> */}
 								<Form.Control
 									placeholder="Οδός"
 									name="streetName"
@@ -288,7 +288,7 @@ class Forms extends Component {
 								/>
 							</Form.Group>
 							<Form.Group as={Col} controlId="formAddressNumber">
-								<Form.Label>Αριθμός διεύθυνσης</Form.Label>
+								{/* <Form.Label>Αριθμός διεύθυνσης</Form.Label> */}
 								<Form.Control
 									placeholder="Αριθμός"
 									name="streetNumber"
@@ -303,7 +303,7 @@ class Forms extends Component {
 					{this.props.formType !== 'Login' && (
 						<Form.Row>
 							<Form.Group as={Col} controlId="formCity">
-								<Form.Label>Πόλη</Form.Label>
+								{/* <Form.Label>Πόλη</Form.Label> */}
 								<Form.Control
 									placeholder="Πόλη"
 									name="city"
@@ -314,7 +314,7 @@ class Forms extends Component {
 								/>
 							</Form.Group>
 							<Form.Group as={Col} controlId="formZip">
-								<Form.Label>Τ.Κ.</Form.Label>
+								{/* <Form.Label>Τ.Κ.</Form.Label> */}
 								<Form.Control
 									placeholder="Τ.Κ."
 									name="zipCode"
@@ -329,7 +329,7 @@ class Forms extends Component {
 					{this.props.formType === 'GetStarted' && (
 						<Form.Row>
 							<Form.Group as={Col} controlId="formStore">
-								<Form.Label>Όνομα εταιρείας</Form.Label>
+								{/* <Form.Label>Όνομα εταιρείας</Form.Label> */}
 								<Form.Control
 									placeholder="Όνομα εταιρείας"
 									name="storeName"
@@ -340,7 +340,7 @@ class Forms extends Component {
 								/>
 							</Form.Group>
 							<Form.Group as={Col} controlId="FormStoreType">
-								<Form.Label>Είδος μαγαζιού</Form.Label>
+								{/* <Form.Label>Είδος μαγαζιού</Form.Label> */}
 								<Form.Control
 									as="select"
 									placeholder="Είδος προιόντων"
@@ -361,7 +361,7 @@ class Forms extends Component {
 					{this.props.formType === 'BecomeSupplier' && (
 						<Form.Row>
 							<Form.Group as={Col} controlId="formStore">
-								<Form.Label>Όνομα εταιρείας</Form.Label>
+								{/* <Form.Label>Όνομα εταιρείας</Form.Label> */}
 								<Form.Control
 									placeholder="Όνομα εταιρείας"
 									name="companyName"
@@ -372,7 +372,7 @@ class Forms extends Component {
 								/>
 							</Form.Group>
 							<Form.Group as={Col} controlId="ForCompanyType">
-								<Form.Label>Είδος προιόντων</Form.Label>
+								{/* <Form.Label>Είδος προιόντων</Form.Label> */}
 								<Form.Control
 									as="select"
 									placeholder="Είδος προιόντων"
@@ -390,12 +390,12 @@ class Forms extends Component {
 						</Form.Row>
 					)}
 					{this.props.formType !== 'Login' && (
-						<Button type="submit" className="button" value="Submit" disabled={!this.state.valid}>
+						<Button  variant="danger" type="submit" className="button btn-square" value="Submit" disabled={!this.state.valid}>
 							Εγγραφή
 						</Button>
 					)}
 					{this.props.formType === 'Login' && (
-						<Button type="submit" className="button" value="Submit" disabled={!this.state.valid}>
+						<Button variant="success" type="submit" className="button btn-square" value="Submit" disabled={!this.state.valid}>
 							Σύνδεση
 						</Button>
 					)}

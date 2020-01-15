@@ -1,58 +1,83 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './mystyle.css';
-import Form from "./forms/Form";
+import Form from './forms/Form';
+import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 
 class BecomeSupplier extends Component {
-    constructor(props) {
-        super(props);
-    };
+	constructor(props) {
+		super(props);
+	}
 
-    render() {
-        return (
-            <div className="become-supplier">
-                <div className="container has-text-centered">
-                    <div className="columns is-8 is-variable ">
-                        <div className="column is-three-fifths has-text-left">
-                            <h1 className="title is-3">BECOME A SUPPLIER</h1>
-                            <hr/>
-                            <h1 className="title is-4">FREE TO JOIN, EASY TO USE</h1>
-                            <p>
-                                Join SupplyIt for free and pay a small fee for the sales we get you. Easily manage your
-                                products and customers in the cloud. Give customers the best ordering experience
-                                on desktop and mobile every time.
-                            </p>
-                            <br/>
-                            <h1 className="title is-4">NEW CUSTOMERS, NO HEADACHES</h1>
-                            <p>
-                                SupplyIt facilitates payments so you get paid on time everytime (no accounts receivable
-                                team necessary). Our fantastic customer service team is here to help solve any issues,
-                                meaning your sales can increase rapidly without any headaches for your business.
-                            </p>
-                            <br/>
-                            <h1 className="title is-4">YOUR PRODUCT, OUR SALES & MARKETING</h1>
-                            <p>
-                                We have an on ground sales force in addition to an incredible marketing and promotions
-                                platform. With SupplyIt your products and business will be pushed to our growing list of
-                                foodservice venues. We'll work with you to find the best customers for your product and
-                                help you grow.
-                            </p>
-                        </div>
-                        <div className="column is-two-fifths has-text-left">
-                            <h1 className="title is-3">JOIN US</h1>
-                            <Form
-                                formType={this.props.formType}
-                                createMessage={this.props.createMessage}
-                                loginUser={this.props.loginUser}
-                                confirmUser={this.props.confirmUser}
-                                isAuthenticated={this.props.isAuthenticated}
-                                email_confirmation={this.props.email_confirmation}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    };
+	render() {
+		return (
+			<div className="become-a-supplier">
+				<Container fluid className="text-center">
+					<Row className="vertical-align">
+						<Col className="d-none d-sm-flex left-col" sm={6} />
+						<Col sm={6} className="supplier-text text-left d-none d-sm-block">
+							<h1>Γίνετε προμηθευτής στο Supply It</h1>
+							<h3>Δωρεάν εγγραφή, ευκολόχρηστο</h3>
+							<p>
+								Διαχειριστείτε εύκολα τα προϊόντα σας, τις τιμές και τους πελάτες σας στο cloud! Δώστε
+								στους πελάτες σας την καλύτερη εμπειρία παραγγελίας που έχουν ζήσει! Εύκολα και γρήγορα,
+								σε υπολογιστές και κινητά. Όλα αυτά μόνο με μια μικρή χρέωση για τις πωλήσεις που
+								λαμβάνουμε.
+							</p>
+							<h3>Αποκτήστε νέους πελάτες, χωρίς κόπο</h3>
+							<p>
+								Η φανταστική ομάδα εξυπηρέτησης πελατών μας είναι εδώ για να βοηθήσει στην επίλυση
+								οποιωνδήποτε ζητημάτων, πράγμα που σημαίνει ότι οι πωλήσεις σας μπορούν να αυξηθούν
+								γρήγορα χωρίς ανησυχίες για την επιχείρησή σας.
+							</p>
+							<h3>Το προϊόν σας, οι πωλήσεις μας & το marketing</h3>
+							<p>
+								Έχουμε πωλήσεις που εκτοξεύονται από την απίστευτη πλατφόρμα μάρκετινγκ και προώθησης
+								που κατέχουμε. Με το Supply It τα προϊόντα σας θα προωθηθούν σαν ποτέ ξανά. Θα
+								συνεργαστούμε μαζί σας για να βρούμε τους καλύτερους πελάτες για το προϊόν σας και θα
+								βελτιώσουμε τις πωλήσεις σας.
+							</p>
+							<Button variant="danger btn-square ">Εγγραφή</Button>
+						</Col>
+						<Col sm={6} className="supplier-text d-block d-sm-none">
+							<h1>Γίνετε προμηθευτής στο Supply It</h1>
+							<Image
+								src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80)"
+								rounded
+								fluid
+								cover
+							/>
+
+							<ul className="ticked-list">
+								<li>Δωρεάν εγγραφή και ευκολόχρηστο</li>
+								<li>Αποκτήστε νέους πελάτες, χωρίς κόπο</li>
+								<li>Το προϊόν σας, οι πωλήσεις μας & το marketing</li>
+							</ul>
+							<Button variant="danger btn-square">Εγγραφή</Button>
+						</Col>
+					</Row>
+				</Container>
+				<Container id="join-us" className="d-flex">
+					<Row className="vertical-align justify-content-md-center align-items-center">
+						<Col xs={12} md={6}>
+							<h1>Συνεργαστείτε μαζί μας</h1>
+							<p>Ενδιαφέρεστε να συμμετάσχετε στο δίκτυο μας ως προμηθευτής;</p>
+							<p>Συμπληρώστε αυτήν τη φόρμα και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν.</p>
+						</Col>
+						<Col xs={12} md={6} className="p-5 text-left btm-right-col-supplier">
+							<Form
+								formType={this.props.formType}
+								createMessage={this.props.createMessage}
+								loginUser={this.props.loginUser}
+								confirmUser={this.props.confirmUser}
+								isAuthenticated={this.props.isAuthenticated}
+								email_confirmation={this.props.email_confirmation}
+							/>
+						</Col>
+					</Row>
+				</Container>
+			</div>
+		);
+	}
 }
 
 export default BecomeSupplier;
