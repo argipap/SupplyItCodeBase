@@ -107,21 +107,21 @@ TO BE DOCUMENTED ...
 
 ## Development workflow (if services have been deployed on AWS)
 
-####Development:
+#### Development:
 
 * Create a new feature branch from the master branch
 * Make an arbitrary change; commit and push it up to GitHub
 * After the build passes, open a PR against the development branch to trigger a new build on Travis
 * Merge the PR after the build passes
 
-####Staging:
+#### Staging:
 
 * Open PR from the development branch against the staging branch to trigger a new build on Travis
 * Merge the PR after the build passes to trigger a new build
 * After the build passes, images are created, tagged staging, and pushed to ECR,
 revisions are added to the Task Definitions, and the Service is updated
 
-####Production:
+#### Production:
 
 * Open PR from the staging branch against the production branch to trigger a new build on Travis
 * Merge the PR after the build passes to trigger a new build
