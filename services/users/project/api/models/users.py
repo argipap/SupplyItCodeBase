@@ -105,10 +105,6 @@ class UserModel(db.Model):
             f"{current_app.config.get('REACT_APP_USERS_SERVICE_URL')}"
             f"/auth/confirmation/{self.most_recent_confirmation.id}"
         )
-        # link = request.url_root[:-1] + url_for(
-        #     "/users/user/confirmation",
-        #     confirmation_id=self.most_recent_confirmation.id
-        # )
         text = f"Please click the link to confirm your registration: {link}"
         html = (
             f"<html>Please click the link to confirm your registration:"

@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from requests import Response, post
@@ -13,10 +14,15 @@ class MailGunException(Exception):
 
 
 class Mailgun:
-    MAILGUN_API_KEY = "***REMOVED***"
-    MAILGUN_DOMAIN = "***REMOVED***"
+    # MAILGUN_API_KEY = "***REMOVED***"
+    # MAILGUN_DOMAIN = "***REMOVED***"
+    #
+    # FROM_TITLE = "SUPPLYIT"
+    # FROM_EMAIL = f"do-not-reply@{MAILGUN_DOMAIN}"
 
-    FROM_TITLE = "SUPPLYIT"
+    MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
+    MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
+    FROM_TITLE = os.getenv('FROM_TITLE')
     FROM_EMAIL = f"do-not-reply@{MAILGUN_DOMAIN}"
 
     @classmethod
@@ -28,7 +34,6 @@ class Mailgun:
 
         if cls.MAILGUN_DOMAIN is None:
             raise MailGunException(FAILED_LOAD_DOMAIN)
-
         response = post(
             f"https://api.mailgun.net/v3/{cls.MAILGUN_DOMAIN}/messages",
             auth=("api", cls.MAILGUN_API_KEY),

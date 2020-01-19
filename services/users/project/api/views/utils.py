@@ -80,7 +80,7 @@ def add_retail_user_to_db(
         username=username,
         password=password,
         email=email,
-        user_type=UserType.wholesale.name,
+        user_type=UserType.retail.name,
         street_name=street_name,
         street_number=street_number,
         city=city,
