@@ -142,4 +142,4 @@ revisions are added to the Task Definitions, and the Service is updated
  [ECS](https://aws.amazon.com/ecs/), 
  [ALB](https://aws.amazon.com/elasticloadbalancing/), 
  [RDS](https://aws.amazon.com/rds/))
-* [mailgun](https://www.mailgun.com/)
+* [mailgun](https://www.mailgun.com/) - Third party app for sending emails
