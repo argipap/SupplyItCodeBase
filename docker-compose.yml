@@ -68,3 +68,32 @@ services:
       - URL=swagger.json
     depends_on:
       - supplyit-users
+
+  products:
+    build:
+      context: ./services/products
+      dockerfile: Dockerfile
+    volumes:
+      - './services/products:/usr/src/app'
+    ports:
+      - 5002:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - USERS_SERVICE_URL=http://supplyit-users:5000
+      - SECRET_KEY=my_precious
+      - DATABASE_URL=postgres://postgres:postgres@products-db:5432/products_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@products-db:5432/products_test
+    depends_on:
+      - supplyit-users
+      - products-db
+
+  products-db:
+    build:
+      context: ./services/products/db
+      dockerfile: Dockerfile
+    ports:
+      - 5437:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

@@ -21,6 +21,10 @@ dev() {
   inspect $? supplyit-users
   docker-compose exec supplyit-users flake8 project
   inspect $? supplyit-users-lint
+  docker-compose exec products python manage.py test
+  inspect $? products
+  docker-compose exec products flake8 project
+  inspect $? products-lint
   docker-compose exec client npm run coverage
   inspect $? client
   docker-compose down
