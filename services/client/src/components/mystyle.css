@@ -44,7 +44,7 @@ hr {
 
 .intro {
 	background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .4)),
-		url('../Assets/home-img.jpeg');
+		url('../Assets/home-img.jpg');
 	background-size: cover;
 	min-height: 100vh;
 	min-width: 100vw;
@@ -58,7 +58,7 @@ hr {
 
 .become-a-supplier .container-fluid .left-col {
 	background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)),
-		url(../Assets/supplier-img.jpeg)
+		url(../Assets/supplier-img.jpg)
 			no-repeat 0;
 	height: 80vh;
 	min-height: 570px;
@@ -74,7 +74,7 @@ hr {
 
 .get-started .container-fluid .left-col-start {
 	background: linear-gradient(rgba(255, 255, 255, .1), rgba(0, 0, 0, .3)),
-		url(../Assets/getstarted-img.jpeg)
+		url(../Assets/getstarted-img.jpg)
 			no-repeat 0;
 	height: 85vh;
 	min-height: 570px;
