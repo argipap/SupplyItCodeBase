@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import styled from 'styled-components'
+import ScrollUpButton from 'react-scroll-up-button';
 
 import UsersList from './components/UsersList';
 import NavBar from './components/NavBar';
@@ -16,6 +16,7 @@ import './components/Footer.css';
 import Home from './components/Home';
 import HowItWorks from './components/HowItWorks';
 import BecomeSupplier from './components/BecomeSupplier';
+import SuppliersList from './components/SuppliersList';
 
 class App extends Component {
 	constructor() {
@@ -27,7 +28,7 @@ class App extends Component {
 			messageName: null,
 			messageType: null,
 			messageTitle: null,
-            title: 'Supply It',
+			title: 'Supply It'
 		};
 		this.logoutUser = this.logoutUser.bind(this);
 		this.loginUser = this.loginUser.bind(this);
@@ -139,10 +140,9 @@ class App extends Component {
 			messageName: null,
 			messageType: null
 		});
-    }
+	}
 
-
-	render() {
+	render(props) {
 		return (
 			<main>
 				<NavBar
@@ -152,8 +152,6 @@ class App extends Component {
 					logoutUser={this.logoutUser}
 				/>
 				<content>
-
-
 					{this.state.messageTitle &&
 					this.state.messageName &&
 					this.state.messageType && (
@@ -180,6 +178,13 @@ class App extends Component {
 							)}
 						/>
 						<Route exact path="/users" render={() => <UsersList users={this.state.users} />} />
+
+						<Route
+							exact
+							path="/suppliersList"
+							render={() => <SuppliersList suppliers={this.state.suppliers} />}
+						/>
+
 						<Route
 							exact
 							path="/howItWorks"
@@ -217,14 +222,23 @@ class App extends Component {
 							exact
 							path="/login"
 							render={() => (
-								<Form
-									formType={'Login'}
-									isAuthenticated={this.isAuthenticated}
-									loginUser={this.loginUser}
-									createMessage={this.createMessage}
-								/>
+								<Container className="login-container">
+									<Row>
+										<Col />
+										<Col sm={6}>
+											<Form
+												formType={'Login'}
+												isAuthenticated={this.isAuthenticated}
+												loginUser={this.loginUser}
+												createMessage={this.createMessage}
+											/>
+										</Col>
+										<Col />
+									</Row>
+								</Container>
 							)}
 						/>
+
 						<Route
 							exact
 							path="/logout"
@@ -239,10 +253,12 @@ class App extends Component {
 						/>
 					</Switch>
 				</content>
-				<Footer />
+				{this.props.location.pathname !== '/suppliersList' ? <Footer /> : ''}
+
+				<ScrollUpButton />
 			</main>
 		);
 	}
 }
 
-export default App;
+export default withRouter(App);

@@ -1,40 +1,70 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+// Merged into home
 
-class HowItWorks extends Component {
-    constructor(props) {
-        super(props);
-    };
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import styled from 'styled-components';
+import './mystyle.css';
 
-    render() {
-        return (
-            <div className="how-it-works">
-                <div className="container has-text-left">
-                    <div className="columns">
-                        <div className="column is-three-fifths">
-                            <h1 className="title is-3">THE BEST ORDERING EXPERIENCE, <br/> EVERY TIME</h1>
-                            <hr/>
-                            <h1 className="title is-4">ALL YOUR SUPPLIERS IN ONE PLACE</h1>
-                            <p>Order from all your Suppliers in one place. And when you want to try someone new,
-                                choose from our network of hundreds of Suppliers across 12 categories.</p>
-                            <br/>
-                            <h1 className="title is-4">FREE TOOLS TO MAKE YOUR LIFE EASIER</h1>
-                            <p>Full cost reporting, one-tap reordering, Pantry List for frequently ordered items,
-                                talk directly with your Suppliers and easily manage your accounting - anywhere,
-                                anytime.
-                            </p>
-                            <br/>
-                            {!this.props.isAuthenticated &&
-                            <Link to="/getStarted" className="button is-danger">GET STARTED</Link>
-                            }
-                            &nbsp;
-                            <Link to="/#" className="button is-success">FREE DEMO</Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    };
+const MainView = styled.div`
+	/* background-color: rgba(255,255,255); */
+	background: linear-gradient(rgba(255, 255, 255, .2), rgba(0, 0, 0, .7)),
+		url(https://images.unsplash.com/photo-1543776231-5350211df62c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
+	background-size: cover;
+	min-height: 100vh;
+	min-width: 100vw;
+	color: rgba(255, 255, 255);
+	display: flex;
+	text-align: right;
+
+	.how-it-works {
+	}
+`;
+
+
+function HowItWorks(props) {
+	return (
+		<MainView>
+			<Container className="d-flex">
+				<Row className="text-shadow align-content-center">
+					<Col sm={4} />
+					<Col className="" sm={8}>
+						<h1>
+							Η απόλυτη εμπειρία παραγγελίας<br />
+						</h1>
+						<hr />
+						<h3>Όλοι οι αγαπημένοι προμηθευτές σας, σε ένα μέρος</h3>
+						<p>
+							Παραγγείλετε από όλους τους αγαπημένους προμηθευτές σας, με ένα κλίκ. Μεγάλη επιλογή
+							προμηθευτών εάν θελήσετε να δοκιμάσετε καινούργιους!
+						</p>
+						<h1>Οι καλύτερες τιμές, εγγυημένα</h1>
+
+						<p>
+							Απολαύστε τις καλύτερες τιμές του κλάδου χάρη στις διαπραγματεύσεις μας με τους προμηθευτές.
+						</p>
+
+						<h3>Δωρεάν εργαλεία για να κάνουν τη ζωή σας εύκολη</h3>
+
+						<p>
+							Αναφορές κόστους, οργάνωση, λίστα με τις τελευταίες παραγγελίες μαζί με τα τιμολόγια τους,
+							άμεση επικοινωνία με τους προμηθευτές και εύκολη διαχείρηση της λογιστικής σας - όπου κι αν
+							βρίσκεστε και όποτε θέλετε.
+						</p>
+						<br />
+						{!props.isAuthenticated && (
+							<Link to="/getStarted">
+								<Button variant="info btn-square">Ξεκινήστε δωρεάν</Button>
+							</Link>
+						)}
+						<Link to="/#">
+							<Button variant="info btn-square">Δοκιμάστε το δωρεάν</Button>
+						</Link>
+					</Col>
+				</Row>
+			</Container>
+		</MainView>
+	);
 }
 
 export default HowItWorks;
