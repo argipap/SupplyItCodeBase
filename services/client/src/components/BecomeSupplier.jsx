@@ -3,7 +3,7 @@ import './mystyle.css';
 import Form from './forms/Form';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
-import SupplierImg from '../Assets/supplier-img.jpeg'
+import SupplierImg from '../Assets/supplier-img.jpg';
 class BecomeSupplier extends Component {
 	constructor(props) {
 		super(props);

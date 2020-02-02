@@ -3,7 +3,7 @@ import AnchorLink from 'react-anchor-link-smooth-scroll';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Form from './forms/Form';
 import styled from 'styled-components';
-import howItWorksImg from '../Assets/supplyit-img-2.jpeg';
+import howItWorksImg from '../Assets/howitworks-img.jpg';
 
 import './mystyle.css';
 
@@ -16,9 +16,6 @@ const HowItWorks = styled.div`
 	color: rgba(255, 255, 255);
 	display: flex;
 	text-align: right;
-
-	.how-it-works {
-	}
 `;
 
 const BoxShadow = styled.div`
