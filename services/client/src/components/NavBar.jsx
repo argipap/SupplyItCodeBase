@@ -1,24 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import './NavBar.css';
-import { Navbar, Container, NavbarBrand, NavLink, Nav, Button, Image } from 'react-bootstrap';
+import { Navbar, Nav, Button, Image } from 'react-bootstrap';
 import Logo from '../logo.png';
-import LoginModal from './LoginModal'
+import { genericHashLink } from 'react-router-hash-link';
 
 const NavBar = (props) => {
+	const HashLink = (props) => genericHashLink(props, LinkContainer);
+	const location = useLocation();
+
 	let menu = (
 		<Nav className="ml-auto">
 			<LinkContainer to="/">
 				<Nav.Link>Αρχική</Nav.Link>
 			</LinkContainer>
-			<LinkContainer to="/getStarted">
-				<Nav.Link>Δοκιμάστε</Nav.Link>
-			</LinkContainer>
-			<LinkContainer to="/howItWorks">
+
+			{location.pathname !== '/becomeSupplier' ? (
+				<HashLink smooth to="/#getstarted">
+					<Nav.Link>Δοκιμάστε</Nav.Link>
+				</HashLink>
+			) : (
+				<HashLink to="/#getstarted">
+					<Nav.Link>Δοκιμάστε</Nav.Link>
+				</HashLink>
+			)}
+
+			<HashLink smooth to="/#howitworks">
 				<Nav.Link>Πως δουλεύει</Nav.Link>
-			</LinkContainer>
+			</HashLink>
 			<LinkContainer to="/becomeSupplier">
 				<Nav.Link>Γίνετε προμηθευτής</Nav.Link>
 			</LinkContainer>
@@ -50,7 +61,7 @@ const NavBar = (props) => {
 	return (
 		<Navbar role="navigation" aria-label="main navigation" expand="lg">
 			<Navbar.Brand href="/">
-				<Image src={Logo} className="d-inline-block align-top" alt="SupplyIT logo" width="100" />
+				<Image src={Logo} className="d-inline-block align-top" alt="SupplyIT logo" width="110" />
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="navbar-bar" />
 			<Navbar.Collapse id="navbar-bar">{menu}</Navbar.Collapse>

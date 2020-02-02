@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './mystyle.css';
 import Form from './forms/Form';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
-
+import AnchorLink from 'react-anchor-link-smooth-scroll';
+import SupplierImg from '../Assets/supplier-img.jpeg'
 class BecomeSupplier extends Component {
 	constructor(props) {
 		super(props);
@@ -11,10 +12,10 @@ class BecomeSupplier extends Component {
 	render() {
 		return (
 			<div className="become-a-supplier">
-				<Container fluid className="text-center">
-					<Row className="vertical-align">
-						<Col className="d-none d-sm-flex left-col" sm={6} />
-						<Col sm={6} className="supplier-text text-left d-none d-sm-block">
+				<Container fluid>
+					<Row className="">
+						<Col sm={6} className="d-none d-lg-block left-col col-lg-6"/>
+						<Col sm={6} className="py-5 supplier-text text-left d-none d-lg-block col-lg-6">
 							<h1>Γίνετε προμηθευτής στο Supply It</h1>
 							<h3>Δωρεάν εγγραφή, ευκολόχρηστο</h3>
 							<p>
@@ -36,12 +37,14 @@ class BecomeSupplier extends Component {
 								συνεργαστούμε μαζί σας για να βρούμε τους καλύτερους πελάτες για το προϊόν σας και θα
 								βελτιώσουμε τις πωλήσεις σας.
 							</p>
-							<Button variant="danger btn-square ">Εγγραφή</Button>
+							<AnchorLink href="#join-us">
+								<Button variant="danger btn-square ">Εγγραφή</Button>
+							</AnchorLink>
 						</Col>
-						<Col sm={6} className="supplier-text d-block d-sm-none">
+						<Col sm={10} className="mx-auto my-2 mt-1 supplier-text d-lg-none">
 							<h1>Γίνετε προμηθευτής στο Supply It</h1>
 							<Image
-								src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2767&q=80)"
+								src="${SupplierImg})"
 								rounded
 								fluid
 								cover

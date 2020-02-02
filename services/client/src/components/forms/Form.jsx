@@ -5,7 +5,6 @@ import { loginFormRules, registerFormRules } from './form-rules';
 import FormErrors from './FormErrors';
 import ConfirmationPending from '../ConfirmationPending';
 import { Form, Col, Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 
 class Forms extends Component {
 	constructor(props) {
@@ -186,7 +185,7 @@ class Forms extends Component {
 				}
 			})
 			.catch((err) => {
-				this.props.createMessage(err.response.data.message, 'danger');
+				this.props.createMessage(err.response.data.message, 'Invalid Username/Password');
 			});
 	}
 

@@ -3,7 +3,8 @@
 }
 
 .validation-list > li {
-    display: block;
+    /* display: block; */
+    display: none;
 }
 
 li:before {
