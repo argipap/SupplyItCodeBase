@@ -26,10 +26,15 @@ const NavBar = (props) => {
 					<Nav.Link>Δοκιμάστε</Nav.Link>
 				</HashLink>
 			)}
-
-			<HashLink smooth to="/#howitworks">
-				<Nav.Link>Πως δουλεύει</Nav.Link>
-			</HashLink>
+			{location.pathname !== '/becomeSupplier' ? (
+				<HashLink smooth to="/#howitworks">
+					<Nav.Link>Δοκιμάστε</Nav.Link>
+				</HashLink>
+			) : (
+				<HashLink to="/#howitworks">
+					<Nav.Link>Δοκιμάστε</Nav.Link>
+				</HashLink>
+			)}
 			<LinkContainer to="/becomeSupplier">
 				<Nav.Link>Γίνετε προμηθευτής</Nav.Link>
 			</LinkContainer>
