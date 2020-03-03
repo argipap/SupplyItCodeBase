@@ -110,22 +110,6 @@ class Home extends Component {
                             </Row>
                         </Container>
                     </HowItWorks>
-                    <Container fluid id="join-retail">
-                        <Row className="vertical-align justify-content-md-center">
-                            <Col className="btm-left-col-start text-left" xs={12} md={6}>
-                                <h2>Συμπληρώστε την παρακάτω φόρμα για να εγγραφείτε</h2>
-                                <Form
-                                    formType={this.props.formType}
-                                    createMessage={this.props.createMessage}
-                                    loginUser={this.props.loginUser}
-                                    confirmUser={this.props.confirmUser}
-                                    isAuthenticated={this.props.isAuthenticated}
-                                    email_confirmation={this.props.email_confirmation}
-                                />
-                            </Col>
-                            <Col xs={12} md={6} className="btm-right-col-start"/>
-                        </Row>
-                    </Container>
                 </div>
             </div>
         );
