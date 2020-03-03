@@ -1,25 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer renders a snapshot properly 1`] = `
-<footer
-  className="footer"
+<div
+  className="container"
 >
   <div
-    className="container"
+    className="footer-trust_top"
   >
-    <small
-      className="has-text-grey"
-    >
-      <span>
-        Copyright 2019 
-        <a
-          href="#"
-        >
-          Supplyit.gr
-        </a>
-        .
-      </span>
-    </small>
+    <p>
+      Μας προτείνουν
+    </p>
+    <div
+      className="trustlogos"
+    />
   </div>
-</footer>
+  <hr />
+  <div
+    className="footer-main row"
+  >
+    <div
+      className="col-md-3 col-12"
+    >
+      <h4>
+        Περισσότερα
+      </h4>
+      <ul
+        className="footer-list"
+      >
+        <li>
+          <a
+            href="/"
+          >
+            Αρχική
+          </a>
+        </li>
+        <li>
+          <a
+            href="/HowItWorks"
+          >
+            Πως δουλεύει
+          </a>
+        </li>
+        <li>
+          <a
+            href="/GetStarted"
+          >
+            Δοκιμάστε
+          </a>
+        </li>
+        <li>
+          <a
+            href="BecomeSupplier"
+          >
+            Γίνετε προμηθευτής
+          </a>
+        </li>
+        <li>
+          <a
+            href="/login"
+          >
+            Σύνδεση
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      className="footer-middle col-md-6 col-12"
+    >
+      <h4>
+        Εγγραφείτε στο Newsletter μας
+      </h4>
+      <p>
+        Εγγραφείτε για να λαμβάνετε τα νέα της πλατφόρμας και άλλα πολλά.
+      </p>
+      <form
+        className="hero-cta__form"
+      >
+        <div
+          className="elcontainer"
+        >
+          <div
+            className="inner-wrap submit-container"
+          >
+            <div
+              className="hero-cta__input-wrap"
+            >
+              <input
+                id="hero-cta-email"
+                name="data[email]"
+                placeholder="Το email σας"
+                required=""
+                type="email"
+              />
+            </div>
+            <button
+              className="emailsignup"
+              type="submit"
+            >
+              Εγγραφή
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      className="footer-right col-md-3 col-12"
+    >
+      <div
+        className="footerbox"
+      >
+        <h4>
+          Επικοινωνία
+        </h4>
+        <p>
+          Είμαστε εδώ για εσάς
+        </p>
+        <ul
+          className="footer-list"
+        >
+          <li>
+            Σταθερό
+          </li>
+          <li
+            className="phone"
+          >
+            +30 88888888
+          </li>
+          <li>
+            Κινητό
+          </li>
+          <li
+            className="phone"
+          >
+            +30 23123123
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div
+    className="footer-bottom row"
+  >
+    <div
+      className="footer-copyright col-lg-3 col-md-3"
+    >
+      <p>
+        ©2019 Supplyit.gr
+      </p>
+    </div>
+    <div
+      className="footer-partners col-md-9 col-12"
+    >
+      <img
+        alt=""
+        src="https://www.authenticireland.com/wp-content/uploads/2018/04/Bottom_Trust2.png"
+      />
+    </div>
+  </div>
+</div>
 `;

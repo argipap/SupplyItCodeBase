@@ -36,180 +36,207 @@ exports[`When not authenticated BecomeSupplier Form renders a snapshot properly 
     onSubmit={[Function]}
   >
     <div
-      className="field is-grouped"
+      className="form-row"
     >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formFirstName"
           name="firstName"
           onChange={[Function]}
-          placeholder="First name"
+          placeholder="Όνομα"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="input is-medium form-control"
+          id="formLastName"
           name="lastName"
           onChange={[Function]}
-          placeholder="Last name"
+          placeholder="Επίθετο"
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field"
+      className="form-row"
     >
-      <input
-        className="input is-medium"
-        name="username"
-        onChange={[Function]}
-        placeholder="Enter a username"
-        required={true}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="email"
-        onChange={[Function]}
-        placeholder="your@email.com"
-        required={true}
-        type="email"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="password"
-        onChange={[Function]}
-        placeholder="Enter a password"
-        required={true}
-        type="password"
-        value=""
-      />
-    </div>
-    <div
-      className="field is-grouped"
-    >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formUsername"
+          name="username"
+          onChange={[Function]}
+          placeholder="Όνομα χρήστη"
+          required={true}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formEmail"
+          name="email"
+          onChange={[Function]}
+          placeholder="your@email.com"
+          required={true}
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formPassword"
+          name="password"
+          onChange={[Function]}
+          placeholder="Κωδικός"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="form-row"
+    >
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formAddress"
           name="streetName"
           onChange={[Function]}
-          placeholder="street name"
+          placeholder="Οδός"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formAddressNumber"
           name="streetNumber"
           onChange={[Function]}
-          placeholder="street number"
+          placeholder="Αριθμός"
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field is-grouped"
+      className="form-row"
     >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formCity"
           name="city"
           onChange={[Function]}
-          placeholder="city"
+          placeholder="Πόλη"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formZip"
           name="zipCode"
           onChange={[Function]}
-          placeholder="zip code"
+          placeholder="Τ.Κ."
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field"
+      className="form-row"
     >
-      <input
-        className="input is-medium"
-        name="companyName"
-        onChange={[Function]}
-        placeholder="Company name"
-        required={true}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field select"
-    >
-      <select
-        className="input is-medium"
-        name="companyType"
-        onChange={[Function]}
-        required={true}
-        value=""
+      <div
+        className="form-group col"
       >
-        <option
-          value="other"
+        <input
+          className="form-control"
+          id="formStore"
+          name="companyName"
+          onChange={[Function]}
+          placeholder="Όνομα εταιρείας"
+          required={true}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <select
+          className="form-control"
+          id="ForCompanyType"
+          name="companyType"
+          onChange={[Function]}
+          placeholder="Είδος προιόντων"
+          required={true}
+          value=""
         >
-          other
-        </option>
-        <option
-          value="meat_and_poultry"
-        >
-          meat & poultry
-        </option>
-        <option
-          value="coffee_and_drinks"
-        >
-          coffe & drinks
-        </option>
-      </select>
+          <option
+            value=""
+          >
+            Είδος προιόντων
+          </option>
+          <option
+            value="meat_and_poultry"
+          >
+            Κρεατικά
+          </option>
+          <option
+            value="coffee_and_drinks"
+          >
+            Καφές και ποτά
+          </option>
+          <option
+            value="other"
+          >
+            Άλλο
+          </option>
+        </select>
+      </div>
     </div>
-    <input
-      className="button is-primary is-medium is-fullwidth"
+    <button
+      className="button btn-square btn btn-danger"
       disabled={true}
       type="submit"
       value="Submit"
-    />
+    >
+      Εγγραφή
+    </button>
   </form>
 </div>
 `;
@@ -250,192 +277,219 @@ exports[`When not authenticated GetStarted Form renders a snapshot properly 1`] 
     onSubmit={[Function]}
   >
     <div
-      className="field is-grouped"
+      className="form-row"
     >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formFirstName"
           name="firstName"
           onChange={[Function]}
-          placeholder="First name"
+          placeholder="Όνομα"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="input is-medium form-control"
+          id="formLastName"
           name="lastName"
           onChange={[Function]}
-          placeholder="Last name"
+          placeholder="Επίθετο"
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field"
+      className="form-row"
     >
-      <input
-        className="input is-medium"
-        name="username"
-        onChange={[Function]}
-        placeholder="Enter a username"
-        required={true}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="email"
-        onChange={[Function]}
-        placeholder="your@email.com"
-        required={true}
-        type="email"
-        value=""
-      />
-    </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="password"
-        onChange={[Function]}
-        placeholder="Enter a password"
-        required={true}
-        type="password"
-        value=""
-      />
-    </div>
-    <div
-      className="field is-grouped"
-    >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formUsername"
+          name="username"
+          onChange={[Function]}
+          placeholder="Όνομα χρήστη"
+          required={true}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formEmail"
+          name="email"
+          onChange={[Function]}
+          placeholder="your@email.com"
+          required={true}
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formPassword"
+          name="password"
+          onChange={[Function]}
+          placeholder="Κωδικός"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="form-row"
+    >
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formAddress"
           name="streetName"
           onChange={[Function]}
-          placeholder="street name"
+          placeholder="Οδός"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formAddressNumber"
           name="streetNumber"
           onChange={[Function]}
-          placeholder="street number"
+          placeholder="Αριθμός"
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field is-grouped"
+      className="form-row"
     >
-      <p
-        className="control is-expanded"
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formCity"
           name="city"
           onChange={[Function]}
-          placeholder="city"
+          placeholder="Πόλη"
           required={true}
           type="text"
           value=""
         />
-      </p>
-      <p
-        className="control is-expanded"
+      </div>
+      <div
+        className="form-group col"
       >
         <input
-          className="input is-medium"
+          className="form-control"
+          id="formZip"
           name="zipCode"
           onChange={[Function]}
-          placeholder="zip code"
+          placeholder="Τ.Κ."
           required={true}
           type="text"
           value=""
         />
-      </p>
+      </div>
     </div>
     <div
-      className="field"
+      className="form-row"
     >
-      <input
-        className="input is-medium"
-        name="storeName"
-        onChange={[Function]}
-        placeholder="Store name"
-        required={true}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="field select"
-    >
-      <select
-        className="input is-medium"
-        name="storeType"
-        onChange={[Function]}
-        required={true}
-        value=""
+      <div
+        className="form-group col"
       >
-        <option
-          value="other"
+        <input
+          className="form-control"
+          id="formStore"
+          name="storeName"
+          onChange={[Function]}
+          placeholder="Όνομα εταιρείας"
+          required={true}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <select
+          className="form-control"
+          id="FormStoreType"
+          name="storeType"
+          onChange={[Function]}
+          placeholder="Είδος προιόντων"
+          required={true}
+          value=""
         >
-          other
-        </option>
-        <option
-          value="cafeBar"
-        >
-          cafe-Bar
-        </option>
-        <option
-          value="restaurant"
-        >
-          restaurant
-        </option>
-        <option
-          value="quick_service_restaurant"
-        >
-          quick service restaurant
-        </option>
-      </select>
+          <option
+            value=""
+          >
+            Είδος μαγαζιού
+          </option>
+          <option
+            value="other"
+          >
+            Άλλο
+          </option>
+          <option
+            value="coffee_and_drinks"
+          >
+            Cafe - Bar
+          </option>
+          <option
+            value="restaurant"
+          >
+            Εστιατόριο
+          </option>
+          <option
+            value="quick_service_restaurant"
+          >
+            Fast-food
+          </option>
+        </select>
+      </div>
     </div>
-    <input
-      className="button is-primary is-medium is-fullwidth"
+    <button
+      className="button btn-square btn btn-danger"
       disabled={true}
       type="submit"
       value="Submit"
-    />
+    >
+      Εγγραφή
+    </button>
   </form>
 </div>
 `;
 
 exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
 <div
-  className="column is-three-fifths"
+  className=""
 >
   <div>
     <ul
@@ -454,10 +508,8 @@ exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
     </ul>
     <br />
   </div>
-  <h1
-    className="title is-2"
-  >
-    Sign In
+  <h1>
+    Σύνδεση
   </h1>
   <hr />
   <br />
@@ -465,37 +517,45 @@ exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="field"
+      className="form-row"
     >
-      <input
-        className="input is-medium"
-        name="email"
-        onChange={[Function]}
-        placeholder="your@email.com"
-        required={true}
-        type="email"
-        value=""
-      />
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formEmail"
+          name="email"
+          onChange={[Function]}
+          placeholder="your@email.com"
+          required={true}
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group col"
+      >
+        <input
+          className="form-control"
+          id="formPassword"
+          name="password"
+          onChange={[Function]}
+          placeholder="Κωδικός"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
     </div>
-    <div
-      className="field"
-    >
-      <input
-        className="input is-medium"
-        name="password"
-        onChange={[Function]}
-        placeholder="Enter a password"
-        required={true}
-        type="password"
-        value=""
-      />
-    </div>
-    <input
-      className="button is-primary is-medium is-fullwidth"
+    <button
+      className="button btn-square btn btn-success"
       disabled={true}
       type="submit"
       value="Submit"
-    />
+    >
+      Σύνδεση
+    </button>
   </form>
 </div>
 `;

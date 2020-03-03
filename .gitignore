@@ -4,3 +4,4 @@ htmlcov
 env
 node_modules
 venv
+start.sh

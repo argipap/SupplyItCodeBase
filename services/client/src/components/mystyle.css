@@ -1,138 +1,149 @@
- /* html {
-	scroll-behavior: smooth;
-}   */
+/*html {*/
+/*   scroll-behavior: smooth;*/
+/*}*/
 
 
 body {
-	font-family: 'Source Sans Pro', sans-serif !important;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    /*padding-top: 70px;*/
 }
 
 .btn-square {
-	border-radius: 0.1;
+    border-radius: 0.1;
 }
 
 .btn-square:hover {
     transform: scale(1.05);
-  }
+}
 
 
 .text-shadow {
-	text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 hr {
-	border: 0;
-	height: 1px;
-	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
 .ticked-list {
-	padding-left: 0;
+    padding-left: 0;
 }
+
 .ticked-list li {
-	font-size: 17px;
-	margin-left: 0px;
-	padding-left: 24px;
-	line-height: 28px;
-	list-style: none;
-	background-image: url(../tick.png);
-	background-repeat: no-repeat;
-	background-position: 0px 7px;
-	background-size: 16px 13px;
-	margin-top: 1em;
+    font-size: 17px;
+    margin-left: 0px;
+    padding-left: 24px;
+    line-height: 28px;
+    list-style: none;
+    background-image: url(../tick.png);
+    background-repeat: no-repeat;
+    background-position: 0px 7px;
+    background-size: 16px 13px;
+    margin-top: 1em;
 }
 
 .intro {
-	background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .4)),
-		url('../Assets/home-img.jpg');
-	background-size: cover;
-	min-height: 100vh;
-	min-width: 100vw;
-	color: whitesmoke;
-	display: flex;
+    background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .4)),
+    url('../Assets/home-img.jpg');
+    background-size: cover;
+    min-height: 100vh;
+    min-width: 100%;
+    color: whitesmoke;
+    display: flex;
+}
+
+.toast {
+    opacity: 1 !important;
+    position: relative;
+}
+
+.toast-header {
+    font-weight: 700;
 }
 
 .become-a-supplier .container-fluid {
-	margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .become-a-supplier .container-fluid .left-col {
-	background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)),
-		url(../Assets/supplier-img.jpg)
-			no-repeat 0;
-	height: 80vh;
-	min-height: 570px;
-	background-size: cover;
-	overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)),
+    url(../Assets/supplier-img.jpg) no-repeat 0;
+    height: 80vh;
+    min-height: 570px;
+    background-size: cover;
+    overflow: hidden;
 }
 
 .get-started h1,
 .become-a-supplier h1 {
-	margin-bottom: 1em;
-	font-weight: 700;
+    margin-bottom: 1em;
+    font-weight: 700;
+    height:auto;
 }
 
 .get-started .container-fluid .left-col-start {
-	background: linear-gradient(rgba(255, 255, 255, .1), rgba(0, 0, 0, .3)),
-		url(../Assets/getstarted-img.jpg)
-			no-repeat 0;
-	height: 85vh;
-	min-height: 570px;
-	background-size: cover;
-	overflow: hidden;
+    background: linear-gradient(rgba(255, 255, 255, .1), rgba(0, 0, 0, .3)),
+    url(../Assets/getstarted-img.jpg) no-repeat 0;
+    height: 100vh;
+    min-height: 570px;
+    background-size: cover;
+    overflow: hidden;
 }
 
 .get-started .container-fluid .btm-right-col-start {
-	background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)), url(../Assets/image-shop.jpg) no-repeat 0;
-	height: 100vh;
-	min-height: 570px;
-	background-size: cover;
-	overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .3)), url(../Assets/image-shop.jpg) no-repeat 0;
+    min-height: 570px;
+    background-size: cover;
+    overflow: hidden;
 }
 
 MainView Button {
-	text-align: right;
+    text-align: right;
 }
 
 .validation-list {
-font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 
-.login-container { 
-	flex: auto;
-	justify-content: center;
+.login-container {
+    flex: auto;
+    justify-content: center;
 }
 
 .login-container .form-row {
-	flex-direction: column;
+    flex-direction: column;
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) { 
-	
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
 
 }
 
 @media screen and (min-width: 768px) {
-	.get-started .get-started-text,
-	.become-a-supplier .supplier-text {
-		padding-left: 40px;
-	}
+    .get-started .get-started-text,
+    .become-a-supplier .supplier-text {
+        padding-left: 40px;
+    }
 
-	.get-started .btm-left-col-start {
-		padding: 5em;
-	}
+    .get-started .btm-left-col-start {
+        padding: 5em;
+    }
 }
+
 @media (max-width: 767.98px) {
-	.supplier-text {
-		margin-top: 1em;
-	}
+    .supplier-text {
+        margin-top: 1em;
+    }
 
-	.get-started .btm-left-col-start {
-		padding: 1em;
-	}
+    .get-started .btm-left-col-start {
+        padding: 1em;
+    }
 
-	.get-started .button {
-		text-align: center;
-	}
+    .get-started .button {
+        text-align: center;
+    }
 }
