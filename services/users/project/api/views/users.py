@@ -93,7 +93,7 @@ class UsersList(Resource):
         return response_object, 200
 
 
-class Users(Resource):
+class UserById(Resource):
     @classmethod
     def get(cls, user_id):
         """Get single user details"""
@@ -111,7 +111,26 @@ class Users(Resource):
             return response_object, 404
 
 
+class UserByEmail(Resource):
+    @classmethod
+    def get(cls, user_email):
+        """Get single user details"""
+        response_object = {"status": "fail", "message": "User does not exist"}
+        try:
+            user = UserModel.query.filter_by(email=user_email).first()
+            if user:
+                response_object["status"] = "success"
+                response_object["data"] = user.json()
+                response_object.pop("message")
+                return response_object, 200
+            return response_object, 404
+        except ValueError:
+            response_object["message"] = "Identifier (id) should be a valid email"
+            return response_object, 404
+
+
 api.add_resource(UsersPing, "/users/ping")
 api.add_resource(UsersListByType, "/users/<user_type>")
 api.add_resource(UsersList, "/users")
-api.add_resource(Users, "/users/user/<user_id>")
+api.add_resource(UserById, "/users/id/<user_id>")
+api.add_resource(UserByEmail, "/users/email/<user_email>")

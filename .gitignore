@@ -5,3 +5,4 @@ env
 node_modules
 venv
 start.sh
+cypress.env.json

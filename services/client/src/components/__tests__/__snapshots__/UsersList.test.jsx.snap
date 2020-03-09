@@ -4,6 +4,10 @@ exports[`UsersList renders a snapshot properly 1`] = `
 <div
   className="mt-3 container"
 >
+  <h1>
+    Χρήστες
+  </h1>
+  <hr />
   <div
     className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
   >
