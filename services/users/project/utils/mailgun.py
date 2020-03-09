@@ -14,11 +14,6 @@ class MailGunException(Exception):
 
 
 class Mailgun:
-    # MAILGUN_API_KEY = "656274a23925e9f7b99f774bcfc48d1a-b9c15f4c-db9565a7"
-    # MAILGUN_DOMAIN = "sandboxa14d28aceeab4056a78c62f9a357fbc4.mailgun.org"
-    #
-    # FROM_TITLE = "SUPPLYIT"
-    # FROM_EMAIL = f"do-not-reply@{MAILGUN_DOMAIN}"
 
     MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
     MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
@@ -47,5 +42,5 @@ class Mailgun:
         )
 
         if response.status_code != 200:
-            raise MailGunException(ERROR_SENDING_EMAIL)
+            raise MailGunException(response.text)
         return response
