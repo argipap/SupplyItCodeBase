@@ -30,7 +30,7 @@ class Mailgun:
         if cls.MAILGUN_DOMAIN is None:
             raise MailGunException(FAILED_LOAD_DOMAIN)
         response = post(
-            f"https://api.mailgun.net/v3/{cls.MAILGUN_DOMAIN}/messages",
+            f"https://api.eu.mailgun.net/v3/{cls.MAILGUN_DOMAIN}/messages",
             auth=("api", cls.MAILGUN_API_KEY),
             data={
                 "from": f"{cls.FROM_TITLE} <{cls.FROM_EMAIL}>",
