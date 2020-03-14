@@ -142,7 +142,9 @@ class UserByEmail(Resource):
                 return response_object, 200
             return response_object, 404
         except ValueError:
-            response_object["message"] = "Identifier (id) should be a valid email"
+            response_object[
+                "message"
+            ] = "Identifier (user_email) should be a valid email"
             return response_object, 404
 
 
