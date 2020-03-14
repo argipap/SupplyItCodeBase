@@ -1,7 +1,7 @@
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
-const email = `${username}@test.com`;
+const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
 const password = '12345678';
 const firstName = 'Argi';
 const lastName = 'Pap';
@@ -10,22 +10,28 @@ const streetNumber = '46';
 const city = 'Rafina';
 const zipCode = '190 09';
 const storeName = 'Argi Shop';
-const storeType = 'cafeBar';
+const storeType = 'other';
 
-
+let emailBody;
 describe('Register', () => {
     it('should display the registration form', () => {
         cy
             .visit('/getStarted')
-            .get('h1').contains('LET\'S GET STARTED')
+            .get('h2').contains('Συμπληρώστε την παρακάτω φόρμα για να εγγραφείτε')
             .get('form')
-            .get('input[disabled]')
-            .get('.validation-list')
-            .get('.validation-list > .error').first().contains(
-            'Username must be greater than 3 characters.');
+            .get('button[disabled]');
+            // .get('.validation-list')
+            // .get('.validation-list > .error').first().contains(
+            // 'Username must be greater than 3 characters.');
     });
 
     it('should allow a user to register', () => {
+        //delete user first
+        cy.request({url: `/users/email/${email}`, method: 'DELETE', failOnStatusCode: false});
+        const inboxId = email.split('@')[0];
+        //first empty inbox from old emails
+        cy.emptyInbox(inboxId);
+
         // register user
         cy
             .visit('/getStarted')
@@ -40,42 +46,46 @@ describe('Register', () => {
             .get('input[name="zipCode"]').type(zipCode)
             .get('input[name="storeName"]').type(storeName)
             .get('select[name="storeType"]').select(storeType)
-            .get('input[type="submit"]').click();
+            .get('button[value="Submit"]').click()
+            .wait(100);
 
-        // assert user is redirected to '/'
-        // assert '/' is displayed properly
-        cy.contains('All Users');
-        cy.contains(username);
-        cy.get('.navbar-burger').click();
-        cy.get('.navbar-menu').within(() => {
-            cy
-                .get('.navbar-item').contains('USER STATUS')
-                .get('.navbar-item').contains('Log Out')
-                .get('.navbar-item').contains('Sign In').should('not.be.visible')
-                .get('.navbar-item').contains('GET STARTED').should('not.be.visible')
-                .get('.navbar-item').contains('BECOME A SUPPLIER').should('not.be.visible');
+
+        // assert flash messages are removed when user clicks the 'x'
+        cy
+            .get('.fade.toast').contains('Επιβεβαίωση email')
+            .get('.close').click()
+            .get('.fade.toast').should('not.be.visible');
+
+        //then get last email
+        cy.waitForLatestEmail(inboxId).then((registrationEmail) => {
+            var el = document.createElement('html');
+            emailBody = registrationEmail.body;
+            el.innerHTML = emailBody;
+            let res = el.getElementsByTagName('a')[0].href;
+            cy.request(res);
         });
+        
     });
 
     it('should validate the password field', () => {
         cy
             .visit('/getStarted')
-            .get('h1').contains('LET\'S GET STARTED')
+            .get('h2').contains('Συμπληρώστε την παρακάτω φόρμα για να εγγραφείτε')
             .get('form')
-            .get('input[disabled]')
-            .get('.validation-list > .error').contains(
-            'Password must be greater than 7 characters.')
-            .get('input[name="password"]').type(password)
-            .get('.validation-list')
-            .get('.validation-list > .error').contains(
-            'Password must be greater than 7 characters.').should('not.be.visible')
-            .get('.validation-list > .success').contains(
-            'Password must be greater than 7 characters.');
-        cy.get('.navbar-burger').click();
-        cy.get('.navbar-item').contains('Sign In').click();
-        cy.get('.navbar-item').contains('GET STARTED').click();
-        cy.get('.validation-list > .error').contains(
-            'Password must be greater than 7 characters.')
+            .get('button[disabled]');
+            // .get('.validation-list > .error').contains(
+            // 'Password must be greater than 7 characters.')
+            // .get('input[name="password"]').type(password)
+            // .get('.validation-list')
+            // .get('.validation-list > .error').contains(
+            // 'Password must be greater than 7 characters.').should('not.be.visible')
+            // .get('.validation-list > .success').contains(
+            // 'Password must be greater than 7 characters.');
+        cy.get('.navbar-nav').click();
+        cy.get('a.btn-square').contains('Σύνδεση').click();
+        cy.get('a.nav-link').contains('Δοκιμάστε').click();
+        // cy.get('.validation-list > .error').contains(
+        //     'Password must be greater than 7 characters.')
     });
 
     it('should throw an error if the username is taken', () => {
@@ -93,29 +103,28 @@ describe('Register', () => {
             .get('input[name="zipCode"]').type(zipCode)
             .get('input[name="storeName"]').type(storeName)
             .get('select[name="storeType"]').select(storeType)
-            .get('input[type="submit"]').click();
+            .get('button[value="Submit"]').click();
 
         // assert user registration failed
         cy.contains('All Users').should('not.be.visible');
-        cy.contains('LET\'S GET STARTED');
-        cy.get('.navbar-burger').click();
-        cy.get('.navbar-menu').within(() => {
+        cy.contains('Συμπληρώστε την παρακάτω φόρμα για να εγγραφείτε');
+        cy.get('.navbar-collapse').click();
+        cy.get('.navbar-nav').within(() => {
             cy
-                .get('.navbar-item').contains('USER STATUS').should('not.be.visible')
-                .get('.navbar-item').contains('Log Out').should('not.be.visible')
-                .get('.navbar-item').contains('Sign In')
-                .get('.navbar-item').contains('GET STARTED')
-                .get('.navbar-item').contains('BECOME A SUPPLIER');
-        });
+                .get('a.nav-link').contains('Status').should('not.be.visible')
+                .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
+                .get('a.btn-square').contains('Σύνδεση')
+                .get('a.nav-link').contains('Δοκιμάστε')
+                .get('a.nav-link').contains('Γίνετε προμηθευτής');
+        })
+            .wait(100);
         cy
-            .get('.notification.is-success').should('not.be.visible')
-            .get('.notification.is-danger').contains('That user already exists.');
+            .get('.fade.toast').contains('That user already exists.');
     });
 
     it('should throw an error if the email is taken', () => {
         // register user with duplicate email
         cy
-            .visit('/getStarted')
             .visit('/getStarted')
             .get('input[name="firstName"]').type(firstName)
             .get('input[name="lastName"]').type(lastName)
@@ -128,22 +137,22 @@ describe('Register', () => {
             .get('input[name="zipCode"]').type(zipCode)
             .get('input[name="storeName"]').type(storeName)
             .get('select[name="storeType"]').select(storeType)
-            .get('input[type="submit"]').click();
+            .get('button[value="Submit"]').click();
 
         // assert user registration failed
         cy.contains('All Users').should('not.be.visible');
-        cy.contains('GET STARTED');
-        cy.get('.navbar-burger').click();
-        cy.get('.navbar-menu').within(() => {
+        cy.contains('Δοκιμάστε');
+        cy.get('.navbar-collapse').click();
+        cy.get('.navbar-nav').within(() => {
             cy
-                .get('.navbar-item').contains('USER STATUS').should('not.be.visible')
-                .get('.navbar-item').contains('Log Out').should('not.be.visible')
-                .get('.navbar-item').contains('Sign In')
-                .get('.navbar-item').contains('GET STARTED')
-                .get('.navbar-item').contains('BECOME A SUPPLIER');
-        });
+                .get('a.nav-link').contains('Status').should('not.be.visible')
+                .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
+                .get('a.btn-square').contains('Σύνδεση')
+                .get('a.nav-link').contains('Δοκιμάστε')
+                .get('a.nav-link').contains('Γίνετε προμηθευτής');
+        })
+            .wait(100);
         cy
-            .get('.notification.is-success').should('not.be.visible')
-            .get('.notification.is-danger').contains('That user already exists.');
+            .get('.fade.toast').contains('That user already exists.');
     });
 });
