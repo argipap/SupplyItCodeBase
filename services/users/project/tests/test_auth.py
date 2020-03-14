@@ -10,8 +10,6 @@ from project.tests.base import BaseTestCase
 from project.tests.test_data import TestData
 from project.tests.test_utils import TestUtils
 
-from project import db
-
 
 class TestAuthBlueprint(BaseTestCase):
     def test_user_registration(self):

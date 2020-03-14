@@ -1,5 +1,4 @@
 # services/users/manage.py
-import os
 import sys
 import unittest
 import coverage

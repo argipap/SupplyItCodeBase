@@ -8,7 +8,6 @@ from project.tests.base import BaseTestCase
 from project.tests.test_data import TestData
 from project.tests.test_utils import TestUtils
 from project.api.models.users import UserModel
-from project import db
 
 
 class TestUserService(BaseTestCase):
