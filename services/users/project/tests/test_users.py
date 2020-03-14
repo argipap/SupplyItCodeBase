@@ -26,7 +26,7 @@ class TestUserService(BaseTestCase):
         """Ensure a new user can be added to the database."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
-        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user = UserModel.find_by_email(user_auth["email"])
         admin_user.admin = True
         admin_user.save_to_db()
         TestUtils.confirm_user(admin_user.id)
@@ -51,7 +51,7 @@ class TestUserService(BaseTestCase):
         """Ensure error is thrown if the JSON object is empty."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
-        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user = UserModel.find_by_email(user_auth["email"])
         admin_user.admin = True
         admin_user.save_to_db()
         TestUtils.confirm_user(admin_user.id)
@@ -74,7 +74,7 @@ class TestUserService(BaseTestCase):
         """
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
-        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user = UserModel.find_by_email(user_auth["email"])
         admin_user.admin = True
         admin_user.save_to_db()
         TestUtils.confirm_user(admin_user.id)
@@ -95,7 +95,7 @@ class TestUserService(BaseTestCase):
         """Ensure error is thrown if the email already exists."""
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
-        admin_user = UserModel.find_by_email(user_auth['email'])
+        admin_user = UserModel.find_by_email(user_auth["email"])
         admin_user.admin = True
         admin_user.save_to_db()
         TestUtils.confirm_user(admin_user.id)

@@ -15,9 +15,9 @@ class MailGunException(Exception):
 
 class Mailgun:
 
-    MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
-    MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
-    FROM_TITLE = os.getenv('FROM_TITLE')
+    MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY")
+    MAILGUN_DOMAIN = os.getenv("MAILGUN_DOMAIN")
+    FROM_TITLE = os.getenv("FROM_TITLE")
     FROM_EMAIL = f"do-not-reply@{MAILGUN_DOMAIN}"
 
     @classmethod
