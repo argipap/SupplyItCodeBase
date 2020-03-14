@@ -40,6 +40,13 @@ def test():
     sys.exit(result)
 
 
+@cli.command("delete_all")
+def delete_all():
+    users = [user for user in UserModel.query.all()]
+    for user in users:
+        user.delete_from_db()
+
+
 @cli.command("seed_db")
 def seed_db():
     """Seeds the database."""

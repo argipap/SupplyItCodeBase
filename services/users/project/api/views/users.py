@@ -125,6 +125,23 @@ class UserByEmail(Resource):
                 return response_object, 200
             return response_object, 404
         except ValueError:
+            response_object[
+                "message"
+            ] = "Identifier (user_email) should be a valid email"
+            return response_object, 404
+
+    @classmethod
+    def delete(cls, user_email):
+        response_object = {"status": "fail", "message": "User does not exist"}
+        try:
+            user = UserModel.query.filter_by(email=user_email).first()
+            if user:
+                user.delete_from_db()
+                response_object["status"] = "success"
+                response_object.pop("message")
+                return response_object, 200
+            return response_object, 404
+        except ValueError:
             response_object["message"] = "Identifier (id) should be a valid email"
             return response_object, 404
 
