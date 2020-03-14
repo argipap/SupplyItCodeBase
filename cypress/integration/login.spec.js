@@ -28,7 +28,8 @@ describe('Sign In', () => {
     });
 
     it('should allow a user to sign in', () => {
-
+        //delete user first
+        cy.request({url: `/users/email/${email}`, method: 'DELETE', failOnStatusCode: false});
         const inboxId = email.split('@')[0];
         //first empty inbox from old emails
         cy.emptyInbox(inboxId);
@@ -47,7 +48,8 @@ describe('Sign In', () => {
             .get('input[name="zipCode"]').type(zipCode)
             .get('input[name="storeName"]').type(storeName)
             .get('select[name="storeType"]').select(storeType)
-            .get('button[value="Submit"]').click();
+            .get('button[value="Submit"]').click()
+            .wait(100);
 
         cy.get('.fade.toast').contains('Επιβεβαίωση email');
 
@@ -102,8 +104,8 @@ describe('Sign In', () => {
 
 
         // log a user out
-        cy.get('a.btn-square').click();
-
+        cy.get('a.btn-square').click()
+            .wait(100);
 
         // assert '/logout' is displayed properly
         cy.get('.fade.toast').contains('Εις το επανιδείν!');
@@ -136,7 +138,8 @@ describe('Sign In', () => {
                 .get('a.btn-square').contains('Σύνδεση')
                 .get('.nav-link').contains('Δοκιμάστε')
                 .get('.nav-link').contains('Πως δουλεύει')
-        });
+        })
+            .wait(100);
         cy
             // .get('.notification.is-success').should('not.be.visible')
             .get('.fade.toast').contains('Email or password is invalid');
@@ -160,7 +163,8 @@ describe('Sign In', () => {
                 .get('a.btn-square').contains('Σύνδεση')
                 .get('.nav-link').contains('Δοκιμάστε')
                 .get('.nav-link').contains('Πως δουλεύει')
-        });
+        })
+            .wait(100);
         cy
             // .get('.notification.is-success').should('not.be.visible')
             .get('.fade.toast').contains('Email or password is invalid');
