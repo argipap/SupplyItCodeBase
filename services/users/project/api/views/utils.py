@@ -1,7 +1,7 @@
 # services/users/project/api/views/test_utils.py
 
 from functools import wraps
-from flask import request, jsonify
+from flask import request
 
 from project import db
 from project.api.models.addresses import AddressModel

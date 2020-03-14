@@ -1,5 +1,4 @@
 # project/api/views/confirmations.py
-import os
 import traceback
 from time import time
 from flask import Blueprint, make_response, render_template, current_app
@@ -96,7 +95,7 @@ class ConfirmationByUser(Resource):
             response_object["message"] = str(e)
             user.delete_from_db()
             return response_object, 500
-        except:
+        except Exception:
             traceback.print_exc()
             user.delete_from_db()
             response_object[
