@@ -134,7 +134,7 @@ class App extends Component {
         });
         setTimeout(() => {
             this.removeMessage();
-        }, 5000);
+        }, 4000);
     }
 
     removeMessage() {
