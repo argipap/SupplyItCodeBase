@@ -13,12 +13,10 @@ RUN apk add --no-cache --virtual .gyp \
         python \
         make \
         g++
-
 RUN npm ci
 # To handle 'not get uid/gid'
 RUN npm config set unsafe-perm true
 RUN npm install react-scripts@2.1.8 -g --silent
-
 RUN apk del .gyp
 
 # start app
