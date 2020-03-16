@@ -1,10 +1,11 @@
 {
   "name": "supplyit",
   "devDependencies": {
-    "cypress": "^3.2.0",
+    "cypress": "^4.1.0",
     "randomstring": "^1.1.5"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
     "mailslurp-client": "^6.7.4"
   }
 }
