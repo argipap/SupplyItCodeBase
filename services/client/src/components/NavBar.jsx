@@ -64,7 +64,7 @@ const NavBar = (props) => {
     }
 
     return (
-            <Navbar role="navigation" aria-label="main navigation" expand="lg" navbar="light" bg="light">
+            <Navbar role="navigation" aria-label="main navigation" expand="lg" navbar="light" bg="light" sticky="top">
                 <Navbar.Brand href="/">
                     <Image src={Logo} className="d-inline-block align-top" alt="SupplyIT logo" width="110"/>
                 </Navbar.Brand>

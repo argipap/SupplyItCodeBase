@@ -3,7 +3,7 @@ import './mystyle.css';
 import Form from './forms/Form';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
-import SupplierImg from '../Assets/supplier-img.jpg';
+
 class BecomeSupplier extends Component {
 	constructor(props) {
 		super(props);
@@ -44,7 +44,7 @@ class BecomeSupplier extends Component {
 						<Col sm={10} className="mx-auto my-2 mt-1 supplier-text d-lg-none">
 							<h1>Γίνετε προμηθευτής στο Supply It</h1>
 							<Image
-								src="${SupplierImg})"
+								src={require('../Assets/supplier-img.jpg')}
 								rounded
 								fluid
 								cover
@@ -55,7 +55,9 @@ class BecomeSupplier extends Component {
 								<li>Αποκτήστε νέους πελάτες, χωρίς κόπο</li>
 								<li>Το προϊόν σας, οι πωλήσεις μας & το marketing</li>
 							</ul>
-							<Button variant="danger btn-square">Εγγραφή</Button>
+							<AnchorLink href="#join-us">
+								<Button variant="danger btn-square">Εγγραφή</Button>
+							</AnchorLink>
 						</Col>
 					</Row>
 				</Container>

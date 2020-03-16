@@ -55,8 +55,11 @@ hr {
 }
 
 .toast {
-    opacity: 1 !important;
-    position: relative;
+	opacity: 1 !important;
+	position: absolute;
+	top: 8em;
+	right: 5em;
+	width: 300px;
 }
 
 .toast-header {

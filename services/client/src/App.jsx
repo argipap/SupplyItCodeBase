@@ -256,7 +256,10 @@ class App extends Component {
                             render={() => <UserStatus isAuthenticated={this.isAuthenticated}/>}
                         />
                     </Switch>
-                    {this.props.location.pathname !== '/suppliersList' ? <Footer/> : ''}
+                    {this.props.location.pathname !== '/suppliersList' ? <Footer
+						isAuthenticated={this.isAuthenticated}
+						logoutUser={this.logoutUser}
+					/> : ''}
 
                     <ScrollUpButton/>
                 </div>
