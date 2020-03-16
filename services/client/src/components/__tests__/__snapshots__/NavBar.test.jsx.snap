@@ -3,7 +3,7 @@
 exports[`NavBar renders a snapshot properly 1`] = `
 <nav
   aria-label="main navigation"
-  className="navbar navbar-expand-lg navbar-light bg-light"
+  className="navbar navbar-expand-lg navbar-light bg-light sticky-top"
   navbar="light"
   role="navigation"
 >

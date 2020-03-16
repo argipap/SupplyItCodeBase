@@ -111,9 +111,5 @@ const Footer = (props) => {
 	)
 };
 
-Footer.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.func.isRequired
-};
 
 export default Footer;
