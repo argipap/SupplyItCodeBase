@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Footer.css';
 import { Container, Col, Row } from 'react-bootstrap';
 import { HashLink as Link } from 'react-router-hash-link';

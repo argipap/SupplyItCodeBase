@@ -258,7 +258,6 @@ class App extends Component {
                     </Switch>
                     {this.props.location.pathname !== '/suppliersList' ? <Footer
 						isAuthenticated={this.isAuthenticated}
-						logoutUser={this.logoutUser}
 					/> : ''}
 
                     <ScrollUpButton/>

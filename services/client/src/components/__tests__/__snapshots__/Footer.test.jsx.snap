@@ -30,36 +30,33 @@ exports[`Footer renders a snapshot properly 1`] = `
         <li>
           <a
             href="/"
+            onClick={[Function]}
           >
             Αρχική
           </a>
         </li>
         <li>
           <a
-            href="/HowItWorks"
+            href="/status"
+            onClick={[Function]}
+          >
+            Status
+          </a>
+        </li>
+        <li>
+          <a
+            href="/#howitworks"
+            onClick={[Function]}
           >
             Πως δουλεύει
           </a>
         </li>
         <li>
           <a
-            href="/GetStarted"
+            href="/logout"
+            onClick={[Function]}
           >
-            Δοκιμάστε
-          </a>
-        </li>
-        <li>
-          <a
-            href="BecomeSupplier"
-          >
-            Γίνετε προμηθευτής
-          </a>
-        </li>
-        <li>
-          <a
-            href="/login"
-          >
-            Σύνδεση
+            Αποσύνδεση
           </a>
         </li>
       </ul>
