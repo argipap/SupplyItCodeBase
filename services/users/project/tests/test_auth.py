@@ -6,12 +6,9 @@ import unittest
 
 from flask import current_app
 
-from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
 from project.tests.test_data import TestData
 from project.tests.test_utils import TestUtils
-
-from project import db
 
 
 class TestAuthBlueprint(BaseTestCase):
@@ -30,7 +27,6 @@ class TestAuthBlueprint(BaseTestCase):
                 data = json.loads(response.data.decode())
                 self.assertTrue(data["status"] == "success")
                 self.assertTrue(data["message"] == "Successfully registered.")
-                self.assertTrue(data["auth_token"])
                 self.assertTrue(response.content_type == "application/json")
                 self.assertEqual(response.status_code, 201)
 
@@ -147,10 +143,11 @@ class TestAuthBlueprint(BaseTestCase):
             with self.client:
                 if user_type == "retail":
                     user_data = TestData.user_retail_data
-                    TestUtils.add_user(**TestData.retailer_data_model)
+                    new_user = TestUtils.add_user(**TestData.retailer_data_model)
                 else:
                     user_data = TestData.user_wholesale_data
-                    TestUtils.add_user(**TestData.supplier_data_model)
+                    new_user = TestUtils.add_user(**TestData.supplier_data_model)
+                TestUtils.confirm_user(new_user.id)
                 response = self.client.post(
                     "/auth/login",
                     data=json.dumps(user_data),
@@ -160,6 +157,7 @@ class TestAuthBlueprint(BaseTestCase):
                 self.assertTrue(data["status"] == "success")
                 self.assertTrue(data["message"] == "Successfully logged in.")
                 self.assertTrue(data["auth_token"])
+                self.assertTrue(data["refresh_token"])
                 self.assertTrue(response.content_type == "application/json")
                 self.assertEqual(response.status_code, 200)
 
@@ -178,7 +176,8 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_valid_logout(self):
         user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
+        user = TestUtils.add_user(**user_data)
+        TestUtils.confirm_user(user.id)
         with self.client:
             # user login
             resp_login = self.client.post(
@@ -197,9 +196,10 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertEqual(response.status_code, 200)
 
     def test_invalid_logout_expired_token(self):
-        current_app.config["TOKEN_EXPIRATION_SECONDS"] = -1
+        current_app.config["ACCESS_TOKEN_EXPIRATION"] = -1
         user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
+        new_user = TestUtils.add_user(**user_data)
+        TestUtils.confirm_user(new_user.id)
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",
@@ -229,7 +229,8 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_user_status(self):
         user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
+        user = TestUtils.add_user(**user_data)
+        TestUtils.confirm_user(user.id)
         with self.client:
             resp_login = self.client.post(
                 "/auth/login",
@@ -245,7 +246,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data["data"] is not None)
             self.assertTrue(data["data"]["username"] == user_data["username"])
             self.assertTrue(data["data"]["email"] == user_data["email"])
-            self.assertTrue(data["data"]["active"] is True)
+            self.assertTrue(data["data"]["confirmed"] is True)
             self.assertFalse(data["data"]["admin"])
             self.assertEqual(response.status_code, 200)
 
@@ -257,54 +258,6 @@ class TestAuthBlueprint(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertTrue(data["status"] == "fail")
             self.assertTrue(data["message"] == "Invalid token. Please log in again.")
-            self.assertEqual(response.status_code, 401)
-
-    def test_invalid_logout_inactive(self):
-        user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
-        # update user
-        user = UserModel.query.filter_by(email=user_data["email"]).first()
-        user.active = False
-        db.session.commit()
-        with self.client:
-            resp_login = self.client.post(
-                "/auth/login",
-                data=json.dumps(
-                    {"email": user_data["email"], "password": user_data["password"]}
-                ),
-                content_type="application/json",
-            )
-            token = json.loads(resp_login.data.decode())["auth_token"]
-            response = self.client.get(
-                "/auth/logout", headers={"Authorization": f"Bearer {token}"}
-            )
-            data = json.loads(response.data.decode())
-            self.assertTrue(data["status"] == "fail")
-            self.assertTrue(data["message"] == "Provide a valid auth token.")
-            self.assertEqual(response.status_code, 401)
-
-    def test_invalid_status_inactive(self):
-        user_data = TestData.user_data_model_1
-        TestUtils.add_user(**user_data)
-        # update user
-        user = UserModel.query.filter_by(email=user_data["email"]).first()
-        user.active = False
-        db.session.commit()
-        with self.client:
-            resp_login = self.client.post(
-                "/auth/login",
-                data=json.dumps(
-                    {"email": user_data["email"], "password": user_data["password"]}
-                ),
-                content_type="application/json",
-            )
-            token = json.loads(resp_login.data.decode())["auth_token"]
-            response = self.client.get(
-                "/auth/status", headers={"Authorization": f"Bearer {token}"}
-            )
-            data = json.loads(response.data.decode())
-            self.assertTrue(data["status"] == "fail")
-            self.assertTrue(data["message"] == "Provide a valid auth token.")
             self.assertEqual(response.status_code, 401)
 
 

@@ -1,51 +1,52 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
 import UsersList from '../UsersList';
 import renderer from 'react-test-renderer';
 
 const users = [
     {
-        'active': true,
+        'confirmed': true,
         'admin': false,
-        'email': 'hermanmu@gmail.com',
+        'email': 'argipap@gmail.com',
         'id': 1,
-        'username': 'michael'
+        'username': 'argi'
     },
     {
-        'active': true,
+        'confirmed': true,
         'admin': false,
-        'email': 'michael@mherman.org',
+        'email': 'jimbill@gmail.com',
         'id': 2,
-        'username': 'michaelherman'
+        'username': 'jimbill'
     }
 ];
 
 test('UsersList renders properly', () => {
-    const wrapper = shallow(<UsersList users={users}/>);
-    expect(wrapper.find('h1').get(0).props.children).toBe('All Users');
+    const wrapper = mount(<UsersList users={users}/>);
     // table
     const table = wrapper.find('table');
     expect(table.length).toBe(1);
     // table head
     expect(wrapper.find('thead').length).toBe(1);
-    const th = wrapper.find('th');
+    const th = wrapper.find('th.MuiTableCell-root.MuiTableCell-head');
     expect(th.length).toBe(5);
     expect(th.get(0).props.children).toBe('ID');
     expect(th.get(1).props.children).toBe('Email');
     expect(th.get(2).props.children).toBe('Username');
-    expect(th.get(3).props.children).toBe('Active');
+    expect(th.get(3).props.children).toBe('Confirmed');
     expect(th.get(4).props.children).toBe('Admin');
     // table body
-    expect(wrapper.find('tbody').length).toBe(1);
-    expect(wrapper.find('tbody > tr').length).toBe(2);
-    const td = wrapper.find('tbody > tr > td');
-    expect(td.length).toBe(10);
-    expect(td.get(0).props.children).toBe(1);
-    expect(td.get(1).props.children).toBe('hermanmu@gmail.com');
-    expect(td.get(2).props.children).toBe('michael');
-    expect(td.get(3).props.children).toBe('true');
-    expect(td.get(4).props.children).toBe('false');
+    expect(wrapper.find('tbody.MuiTableBody-root').length).toBe(1);
+    expect(wrapper.find('tr.MuiTableRow-root').length).toBe(3);
+    const td = wrapper.find('td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-alignRight');
+    expect(td.length).toBe(8);
+    const th_body = wrapper.find('th.MuiTableCell-root.MuiTableCell-body')
+    expect(th_body.get(0).props.children).toBe(1);
+    expect(td.get(0).props.children).toBe('argipap@gmail.com');
+    expect(td.get(1).props.children).toBe('argi');
+    expect(td.get(2).props.children).toBe('true');
+    expect(td.get(3).props.children).toBe('false');
+
 });
 
 test('UsersList renders a snapshot properly', () => {

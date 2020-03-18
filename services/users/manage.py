@@ -1,12 +1,11 @@
 # services/users/manage.py
-
-
 import sys
 import unittest
 import coverage
 
 from flask.cli import FlaskGroup
 from project import create_app, db
+from project.api.models.confirmations import ConfirmationModel
 from project.api.models.users import UserModel, UserType
 from project.api.models.retailers import RetailerModel
 from project.api.models.suppliers import SupplierModel
@@ -40,6 +39,13 @@ def test():
     sys.exit(result)
 
 
+@cli.command("delete_all")
+def delete_all():
+    users = [user for user in UserModel.query.all()]
+    for user in users:
+        user.delete_from_db()
+
+
 @cli.command("seed_db")
 def seed_db():
     """Seeds the database."""
@@ -68,6 +74,15 @@ def seed_db():
     )
     db.session.add(user_4_r)
     db.session.commit()
+
+    confirmation_1 = ConfirmationModel(user_1_s.id, confirmed=True)
+    confirmation_1.save_to_db()
+    confirmation_2 = ConfirmationModel(user_2_s.id, confirmed=True)
+    confirmation_2.save_to_db()
+    confirmation_3 = ConfirmationModel(user_3_r.id, confirmed=True)
+    confirmation_3.save_to_db()
+    confirmation_4 = ConfirmationModel(user_4_r.id, confirmed=True)
+    confirmation_4.save_to_db()
 
     # add suppliers
     supplier_1 = SupplierModel(user_id=user_1_s.id)

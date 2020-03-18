@@ -2,6 +2,7 @@ import json
 
 from project.api.models.addresses import AddressModel
 from project.api.models.companies import CompanyModel, CompanyType
+from project.api.models.confirmations import ConfirmationModel
 from project.api.models.retailers import RetailerModel
 from project.api.models.suppliers import SupplierModel
 from project.api.models.stores import StoreModel, StoreType
@@ -12,10 +13,8 @@ from project import db
 class TestUtils:
     @classmethod
     def user_login(cls, user_data, client):
-        cls.add_user(**user_data)
-        user = UserModel.query.filter_by(email=user_data["email"]).first()
-        user.admin = True
-        db.session.commit()
+        user = cls.add_user(**user_data)
+        cls.confirm_user(user.id)
         resp_login = client.post(
             "/auth/login",
             data=json.dumps(
@@ -92,3 +91,10 @@ class TestUtils:
         db.session.add(company)
         db.session.commit()
         return company
+
+    @classmethod
+    def confirm_user(cls, user_id):
+        confirmation = ConfirmationModel(user_id)
+        confirmation.save_to_db()
+        confirmation.confirmed = True
+        confirmation.save_to_db()

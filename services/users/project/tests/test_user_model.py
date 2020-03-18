@@ -9,6 +9,7 @@ from project.api.models.users import UserModel
 from project.tests.base import BaseTestCase
 from project.tests.test_data import TestData
 from project.tests.test_utils import TestUtils
+from project.api.models.confirmations import ConfirmationModel
 
 from sqlalchemy.exc import IntegrityError
 
@@ -18,10 +19,12 @@ class TestUserModel(BaseTestCase):
         user = UserModel(**TestData.user_data_model_1)
         db.session.add(user)
         db.session.commit()
+        confirmation = ConfirmationModel(user.id)
+        confirmation.save_to_db()
         self.assertTrue(user.id)
         self.assertEqual(user.username, TestData.user_data_model_1["username"])
         self.assertEqual(user.email, TestData.user_data_model_1["email"])
-        self.assertTrue(user.active)
+        self.assertFalse(user.most_recent_confirmation.confirmed)
         self.assertTrue(user.password)
         self.assertFalse(user.admin)
 
@@ -45,6 +48,7 @@ class TestUserModel(BaseTestCase):
 
     def test_deserialization(self):
         user = TestUtils.add_user(**TestData.user_data_model_1)
+        TestUtils.confirm_user(user.id)
         self.assertTrue(isinstance(user.json(), dict))
 
     def test_passwords_are_random(self):
@@ -59,6 +63,9 @@ class TestUserModel(BaseTestCase):
         """
         user_auth = TestData.user_data_model_1
         token = TestUtils.user_login(user_auth, self.client)
+        user = UserModel.find_by_email(TestData.user_data_model_1["email"])
+        user.admin = True
+        user.save_to_db()
         for user_type in ("retail", "wholesale"):
             with self.client:
                 response = self.client.post(
@@ -72,16 +79,27 @@ class TestUserModel(BaseTestCase):
                 self.assertIn("Invalid Payload", data["message"])
                 self.assertIn("fail", data["status"])
 
-    def test_encode_auth_token(self):
+    def test_encode_access_token(self):
         user = TestUtils.add_user(**TestData.user_data_model_1)
-        auth_token = user.encode_auth_token(user.id)
+        auth_token = user.encode_token(user.id, "access")
         self.assertTrue(isinstance(auth_token, bytes))
 
-    def test_decode_auth_token(self):
+    def test_decode_access_token(self):
         user = TestUtils.add_user(**TestData.user_data_model_1)
-        auth_token = user.encode_auth_token(user.id)
+        auth_token = user.encode_token(user.id, "access")
         self.assertTrue(isinstance(auth_token, bytes))
-        self.assertEqual(UserModel.decode_auth_token(auth_token), user.id)
+        self.assertEqual(UserModel.decode_token(auth_token), user.id)
+
+    def test_encode_refresh_token(self):
+        user = TestUtils.add_user(**TestData.user_data_model_1)
+        auth_token = user.encode_token(user.id, "refresh")
+        self.assertTrue(isinstance(auth_token, bytes))
+
+    def test_decode_refresh_token(self):
+        user = TestUtils.add_user(**TestData.user_data_model_1)
+        auth_token = user.encode_token(user.id, "refresh")
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertEqual(UserModel.decode_token(auth_token), user.id)
 
 
 if __name__ == "__main__":

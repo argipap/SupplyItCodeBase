@@ -1,7 +1,7 @@
 # services/users/project/api/views/test_utils.py
 
 from functools import wraps
-from flask import request, jsonify
+from flask import request
 
 from project import db
 from project.api.models.addresses import AddressModel
@@ -18,34 +18,20 @@ def authenticate(f):
         response_object = {"status": "fail", "message": "Provide a valid auth token."}
         auth_header = request.headers.get("Authorization")
         if not auth_header:
-            return jsonify(response_object), 403
-        auth_token = auth_header.split(" ")[1]
-        resp = UserModel.decode_auth_token(auth_token)
-        if isinstance(resp, str):
-            response_object["message"] = resp
-            return jsonify(response_object), 401
-        user = UserModel.query.filter_by(id=resp).first()
-        if not user or not user.active:
-            return jsonify(response_object), 401
-        return f(resp, *args, **kwargs)
-
-    return decorated_function
-
-
-def authenticate_restful(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        response_object = {"status": "fail", "message": "Provide a valid auth token."}
-        auth_header = request.headers.get("Authorization")
-        if not auth_header:
             return response_object, 403
         auth_token = auth_header.split(" ")[1]
-        resp = UserModel.decode_auth_token(auth_token)
+        resp = UserModel.decode_token(auth_token)
         if isinstance(resp, str):
             response_object["message"] = resp
             return response_object, 401
-        user = UserModel.query.filter_by(id=resp).first()
-        if not user or not user.active:
+        user = UserModel.find_by_id(_id=resp)
+        if not user:
+            return response_object, 401
+        confirmation = user.most_recent_confirmation
+        if not confirmation or not confirmation.confirmed:
+            response_object[
+                "message"
+            ] = "You have not confirmed registration. Please check your email."
             return response_object, 401
         return f(resp, *args, **kwargs)
 
@@ -55,15 +41,6 @@ def authenticate_restful(f):
 def is_admin(user_id):
     user = UserModel.query.filter_by(id=user_id).first()
     return user.admin
-
-
-def validate_store_company_input(
-    user_type, store_name, store_type, company_name, company_type
-):
-    if user_type == UserType.wholesale.name and (not company_name or not company_type):
-        raise ValueError
-    if user_type == UserType.retail.name and (not store_name or not store_type):
-        raise ValueError
 
 
 def add_user_to_db(
@@ -103,7 +80,7 @@ def add_retail_user_to_db(
         username=username,
         password=password,
         email=email,
-        user_type=UserType.wholesale.name,
+        user_type=UserType.retail.name,
         street_name=street_name,
         street_number=street_number,
         city=city,

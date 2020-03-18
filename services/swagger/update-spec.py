@@ -1,15 +1,15 @@
 import os
 import sys
-import json
+import yaml
 
 
 def update_json_file(url):
     full_path = os.path.abspath("services/swagger/swagger.yml")
     with open(full_path, "r") as file:
-        data = json.load(file)
+        data = yaml.load(file)
     data["servers"][0]["url"] = url
     with open(full_path, "w") as file:
-        json.dump(data, file)
+        yaml.dump(data, file)
     return True
 
 

@@ -1,52 +1,83 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {useLocation} from 'react-router-dom';
+import {LinkContainer} from 'react-router-bootstrap';
+import './NavBar.css';
+import {Navbar, Nav, Button, Image} from 'react-bootstrap';
+import Logo from '../logo.png';
+import {genericHashLink} from 'react-router-hash-link';
 
-const NavBar = (props) => (
-    // eslint-disable-next-line
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
-        <section className="container">
-            <div className="navbar-brand">
-                <strong className="navbar-item">{props.title}</strong>
-                <span
-                    className="nav-toggle navbar-burger"
-                    onClick={() => {
-                        let toggle = document.querySelector(".nav-toggle");
-                        let menu = document.querySelector(".navbar-menu");
-                        toggle.classList.toggle("is-active");
-                        menu.classList.toggle("is-active");
-                    }}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-            </div>
-            <div className="navbar-menu">
-                <div className="navbar-start">
-                    <Link to="/" className="navbar-item">HOME</Link>
-                    {!props.isAuthenticated &&
-                    <Link to="/getStarted" className="navbar-item">GET STARTED</Link>
-                    }
-                    {props.isAuthenticated &&
-                    <Link to="/status" className="navbar-item">USER STATUS</Link>
-                    }
-                    <Link to="/howItWorks" className="navbar-item">HOW IT WORKS</Link>
-                    {!props.isAuthenticated &&
-                    <Link to="/becomeSupplier" className="navbar-item">BECOME A SUPPLIER</Link>
-                    }
-                </div>
-                <div className="navbar-end">
-                    {!props.isAuthenticated &&
-                    <div className="navbar-item">
-                        <Link to="/login" className="button is-link">Sign In</Link>
-                    </div>
-                    }
-                    {props.isAuthenticated &&
-                    <Link to="/logout" className="navbar-item">Log Out</Link>
-                    }
-                </div>
-            </div>
-        </section>
-    </nav>
-);
+const NavBar = (props) => {
+    const HashLink = (props) => genericHashLink(props, LinkContainer);
+    const location = useLocation();
+
+    let menu = (
+        <Nav className="ml-auto">
+            <LinkContainer to="/">
+                <Nav.Link>Αρχική</Nav.Link>
+            </LinkContainer>
+
+            {location.pathname !== '/becomeSupplier' ? (
+                <HashLink smooth to="/#getstarted">
+                    <Nav.Link>Δοκιμάστε</Nav.Link>
+                </HashLink>
+            ) : (
+                <HashLink to="/#getstarted">
+                    <Nav.Link>Δοκιμάστε</Nav.Link>
+                </HashLink>
+            )}
+            {location.pathname !== '/becomeSupplier' ? (
+                <HashLink smooth to="/#howitworks">
+                    <Nav.Link>Πως δουλεύει</Nav.Link>
+                </HashLink>
+            ) : (
+                <HashLink to="/#howitworks">
+                    <Nav.Link>Πως δουλεύει</Nav.Link>
+                </HashLink>
+            )}
+            <LinkContainer to="/becomeSupplier">
+                <Nav.Link>Γίνετε προμηθευτής</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/login">
+                <Button className="btn-square" variant="outline-success" data-testid="nav-login">
+                    Σύνδεση
+                </Button>
+            </LinkContainer>
+        </Nav>
+    );
+    if (props.isAuthenticated()) {
+        menu = (
+            <Nav className="ml-auto">
+                <LinkContainer to="/status">
+                    <Nav.Link>Status</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/howItWorks">
+                    <Nav.Link>Πως δουλεύει</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/logout">
+                    <Button className="btn-square" variant="outline-danger" href="/logout">
+                        Αποσύνδεση
+                    </Button>
+                </LinkContainer>
+            </Nav>
+        );
+    }
+
+    return (
+            <Navbar role="navigation" aria-label="main navigation" expand="lg" navbar="light" bg="light" sticky="top">
+                <Navbar.Brand href="/">
+                    <Image src={Logo} className="d-inline-block align-top" alt="SupplyIT logo" width="110"/>
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="navbar-bar"/>
+                <Navbar.Collapse id="navbar-bar">{menu}</Navbar.Collapse>
+            </Navbar>
+    );
+};
+
+NavBar.propTypes = {
+    title: PropTypes.string.isRequired,
+    logoutUser: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.func.isRequired
+};
 
 export default NavBar;
