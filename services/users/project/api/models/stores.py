@@ -18,7 +18,9 @@ class StoreModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     retailer_id = db.Column(db.Integer, db.ForeignKey("retailers.id"), nullable=False)
     store_name = db.Column(db.String(128), nullable=False)
-    store_address = db.relationship("AddressModel", backref="store", uselist=False)
+    store_address = db.relationship(
+        "AddressModel", backref="store", uselist=False, cascade="all",
+    )
     address_id = db.Column(
         db.Integer, db.ForeignKey("addresses.id"), unique=True, nullable=False
     )

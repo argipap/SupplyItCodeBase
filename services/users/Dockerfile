@@ -18,6 +18,7 @@ COPY ./Pipfile.lock /usr/src/app
 RUN pip install pipenv \
 && pipenv lock -r > /usr/src/app/requirements.txt
 RUN pip install -r /usr/src/app/requirements.txt
+RUN pip install "celery[redis]"
 
 # add entrypoint.sh
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh

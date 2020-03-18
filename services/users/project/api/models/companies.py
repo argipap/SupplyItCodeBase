@@ -17,7 +17,9 @@ class CompanyModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     supplier_id = db.Column(db.Integer, db.ForeignKey("suppliers.id"), nullable=False)
     company_name = db.Column(db.String(128), nullable=False)
-    company_address = db.relationship("AddressModel", backref="company", uselist=False)
+    company_address = db.relationship(
+        "AddressModel", backref="company", uselist=False, cascade="all",
+    )
     address_id = db.Column(
         db.Integer, db.ForeignKey("addresses.id"), unique=True, nullable=False
     )
