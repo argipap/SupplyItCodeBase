@@ -1,46 +1,88 @@
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
-const email = `${username}@test.com`;
+const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
 const password = '12345678';
+const firstName = 'Argi';
+const lastName = 'Pap';
+const streetName = 'Aigaiou';
+const streetNumber = '46';
+const city = 'Rafina';
+const zipCode = '190 09';
+const storeName = 'Argi Shop';
+const storeType = 'other';
 
-
+let emailBody;
 describe('Status', () => {
     it('should not display user info if a user is not logged in', () => {
         cy
             .visit('/status')
             .get('p').contains('You must be logged in to view this.')
-            .get('a').contains('User Status').should('not.be.visible')
-            .get('a').contains('Log Out').should('not.be.visible')
-            .get('a').contains('Register')
-            .get('a').contains('Log In')
-            .get('.notification.is-success').should('not.be.visible');
+            .get('a').contains('Status').should('not.be.visible')
+            .get('a').contains('Αποσύνδεση').should('not.be.visible')
+            .get('a').contains('Δοκιμάστε')
+            .get('a').contains('Γίνετε προμηθευτής')
+            .get('a').contains('Σύνδεση');
     });
 
     it('should display user info if a user is logged in', () => {
+        //delete user first
+        cy.request({url: `/users/email/${email}`, method: 'DELETE', failOnStatusCode: false});
+        const inboxId = email.split('@')[0];
+        //first empty inbox from old emails
+        cy.emptyInbox(inboxId);
+
         // register user
         cy
-            .visit('/register')
+            .visit('/getStarted')
+            .get('input[name="firstName"]').type(firstName)
+            .get('input[name="lastName"]').type(lastName)
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('input[type="submit"]').click()
-            .get('.navbar-burger').click();
+            .get('input[name="streetName"]').type(streetName)
+            .get('input[name="streetNumber"]').type(streetNumber)
+            .get('input[name="city"]').type(city)
+            .get('input[name="zipCode"]').type(zipCode)
+            .get('input[name="storeName"]').type(storeName)
+            .get('select[name="storeType"]').select(storeType)
+            .get('button[value="Submit"]').click()
+            .wait(100);
 
-        cy.wait(800);
+        cy.get('.fade.toast').contains('Επιβεβαίωση email');
+
+        //then get last email
+        cy.waitForLatestEmail(inboxId).then((registrationEmail) => {
+            var el = document.createElement('html');
+            emailBody = registrationEmail.body;
+            el.innerHTML = emailBody;
+            let res = el.getElementsByTagName('a')[0].href;
+            cy.request(res);
+        });
+
+        cy.visit('/login')
+            .get('input[name="email"]').type(email)
+            .get('input[name="password"]').type(password)
+            .get('button[value="Submit"]').click();
 
         // assert '/status' is displayed properly
         cy.visit('/status');
-        cy.get('.navbar-burger').click();
-        cy.contains('User Status').click();
-        cy.get('li > strong').contains('User ID:')
-            .get('li > strong').contains('Email:')
-            .get('li').contains(email)
-            .get('li > strong').contains('Username:')
-            .get('li').contains(username)
-            .get('a').contains('User Status')
-            .get('a').contains('Log Out')
-            .get('a').contains('Register').should('not.be.visible')
-            .get('a').contains('Log In').should('not.be.visible');
+        cy.get('.navbar-nav').click();
+        cy.contains('Status').click();
+        cy.get('.list-group-item > strong').contains('User ID:')
+            .get('.list-group-item > strong').contains('Email:')
+            .get('.list-group-item').contains(email)
+            .get('.list-group-item > strong').contains('Username:')
+            .get('.list-group-item').contains(username)
+            .get('.list-group-item > strong').contains('Confirmed:')
+            .get('.list-group-item').contains('true')
+            .get('.list-group-item > strong').contains('Admin:')
+            .get('.list-group-item').contains('false')
+            .get('.list-group-item > strong').contains('User type')
+            .get('.list-group-item').contains('retail')
+            .get('a.nav-link').contains('Status')
+            .get('a.btn-square').contains('Αποσύνδεση')
+            .get('a.nav-link').contains('Δοκιμάστε').should('not.be.visible')
+            .get('a.btn-square').contains('Σύνδεση').should('not.be.visible');
     });
 });

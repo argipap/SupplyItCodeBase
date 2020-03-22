@@ -1,72 +1,138 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UsersList renders a snapshot properly 1`] = `
-<div>
-  <h1
-    className="title is-1"
-  >
-    All Users
+<div
+  className="mt-3 container"
+>
+  <h1>
+    Χρήστες
   </h1>
   <hr />
-  <br />
-  <table
-    className="table is-hoverable is-fullwidth"
+  <div
+    className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
   >
-    <thead>
-      <tr>
-        <th>
-          ID
-        </th>
-        <th>
-          Email
-        </th>
-        <th>
-          Username
-        </th>
-        <th>
-          Active
-        </th>
-        <th>
-          Admin
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          1
-        </td>
-        <td>
-          hermanmu@gmail.com
-        </td>
-        <td>
-          michael
-        </td>
-        <td>
-          true
-        </td>
-        <td>
-          false
-        </td>
-      </tr>
-      <tr>
-        <td>
-          2
-        </td>
-        <td>
-          michael@mherman.org
-        </td>
-        <td>
-          michaelherman
-        </td>
-        <td>
-          true
-        </td>
-        <td>
-          false
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table
+      aria-label="user table"
+      className="MuiTable-root"
+    >
+      <thead
+        className="MuiTableHead-root"
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          >
+            ID
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight"
+            scope="col"
+          >
+            Email
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight"
+            scope="col"
+          >
+            Username
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight"
+            scope="col"
+          >
+            Confirmed
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight"
+            scope="col"
+          >
+            Admin
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+      >
+        <tr
+          className="MuiTableRow-root"
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body"
+            scope="user"
+          >
+            1
+          </th>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            argipap@gmail.com
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            argi
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            true
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            false
+          </td>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body"
+            scope="user"
+          >
+            2
+          </th>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            jimbill@gmail.com
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            jimbill
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            true
+          </td>
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+          >
+            false
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 `;
