@@ -6,10 +6,10 @@ import yaml
 def update_json_file(url):
     full_path = os.path.abspath("services/swagger/swagger.yml")
     with open(full_path, "r") as file:
-        data = yaml.load(file)
+        data = yaml.load(file, yaml.FullLoader)
     data["servers"][0]["url"] = url
     with open(full_path, "w") as file:
-        yaml.dump(data, file)
+        yaml.dump(data, file, default_flow_style=False, sort_keys=False)
     return True
 
 
