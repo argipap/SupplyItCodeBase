@@ -1,13 +1,11 @@
 """empty message
 
 Revision ID: 5664e569fdf6
-Revises: 
+Revises:
 Create Date: 2019-11-23 15:18:34.817769
 
 """
 from alembic import op
-import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision = "5664e569fdf6"

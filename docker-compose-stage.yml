@@ -14,6 +14,7 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_stage
       - DATABASE_TEST_URL=postgres://postgres:postgres@supplyit-users-db:5432/users_test
       - SECRET_KEY=my_precious
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     depends_on:
       - supplyit-users-db
 
@@ -47,7 +48,7 @@ services:
     expose:
       - 8080
     environment:
-      - URL=swagger.json
+      - URL=swagger.yml
     depends_on:
       - supplyit-users
 

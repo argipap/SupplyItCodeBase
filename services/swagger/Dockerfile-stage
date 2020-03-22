@@ -12,7 +12,7 @@ RUN apt-get update \
 RUN rm /etc/nginx/conf.d/default.conf
 COPY /nginx.conf /etc/nginx/conf.d
 
-COPY swagger.json /usr/share/nginx/html/swagger.json
+COPY swagger.yml /usr/share/nginx/html/swagger.yml
 COPY start.sh /start.sh
 
 RUN ["chmod", "+x", "/start.sh"]
