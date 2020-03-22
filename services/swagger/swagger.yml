@@ -1,175 +1,228 @@
+openapi: 3.0.2
+info:
+  version: 0.0.1
+  title: Supplyit Users Service
+  description: Swagger spec for documenting the users service
+servers:
+- url: http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com
+paths:
+  /users/ping:
+    get:
+      summary: Just a sanity check
+      responses:
+        '200':
+          description: Will return 'pong!'
+  /users:
+    get:
+      summary: Returns all users
+      responses:
+        '200':
+          description: user object
+  /users/{user_type}:
+    get:
+      summary: Returns all retail or wholesale users
+      parameters:
+      - name: user_type
+        in: path
+        description: Type of user to fetch
+        required: true
+        schema:
+          $ref: '#/components/schemas/user_type'
+      responses:
+        '200':
+          description: user object
+    post:
+      summary: Adds a new retail or wholesale user
+      parameters:
+      - name: user_type
+        in: path
+        description: Type of user to create
+        required: true
+        schema:
+          $ref: '#/components/schemas/user_type'
+      requestBody:
+        description: User to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/user-register-wholesale'
+                - $ref: '#/components/schemas/user-register-retail'
+      security:
+      - bearerAuth: []
+      responses:
+        '201':
+          description: User {user_email} added
+        '400':
+          description: '''Invalid password'' OR ''Sorry. That email already exists.'''
+        '401':
+          description: You do not have permission to do that.
+  /users/user/{id}:
+    get:
+      summary: Returns a user based on a single user ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of user to fetch
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: user object
+        '404':
+          description: '''User does not exist or password is invalid'' OR ''Identifier
+            should be an integer'''
+  /auth/{user_type}/register:
+    post:
+      summary: Register a new wholesale or retail user
+      parameters:
+      - name: user_type
+        in: path
+        description: Type of user to create
+        required: true
+        schema:
+          $ref: '#/components/schemas/user_type'
+      requestBody:
+        description: User to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/user-register-wholesale'
+                - $ref: '#/components/schemas/user-register-retail'
+      responses:
+        '200':
+          description: user object
+  /auth/login:
+    post:
+      summary: Logs a user in
+      requestBody:
+        description: User to log in
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user-login'
+      responses:
+        '200':
+          description: Successfully logged in
+  /auth/logout:
+    get:
+      summary: Logs a user out
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully logged out
+  /auth/status:
+    get:
+      summary: Returns the logged in user's status
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: user object
+  /users/addresses:
+    get:
+      summary: Returns all addresses
+      responses:
+        '200':
+          description: address object
+  /users/retailers:
+    get:
+      summary: Returns all retailer users
+      responses:
+        '200':
+          description: retailer object
+  /users/suppliers:
+    get:
+      summary: Returns all supplier users
+      responses:
+        '200':
+          description: supplier object
+  /users/companies:
+    get:
+      summary: Returns all companies
+      responses:
+        '200':
+          description: Company object
+  /users/stores:
+    get:
+      summary: Returns all stores
+      responses:
+        '200':
+          description: Store object
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     user-login:
       properties:
-        email: {type: string}
-        password: {type: string}
-    user-register-retail:
-      properties:
-        city: {type: string}
-        email: {type: string}
-        password: {type: string}
-        store_name: {type: string}
-        store_type:
-          enum: [other, cafeBar, restaurant, quick_service_restaurant]
+        email:
           type: string
-        street_name: {type: string}
-        street_number: {type: string}
-        username: {type: string}
-        zip_code: {type: string}
+        password:
+          type: string
     user-register-wholesale:
       properties:
-        city: {type: string}
-        company_name: {type: string}
-        company_type:
-          enum: [other, meat_and_poultry, coffee_and_drinks]
+        username:
           type: string
-        email: {type: string}
-        password: {type: string}
-        street_name: {type: string}
-        street_number: {type: string}
-        username: {type: string}
-        zip_code: {type: string}
+        email:
+          type: string
+        password:
+          type: string
+        street_name:
+          type: string
+        street_number:
+          type: string
+        city:
+          type: string
+        zip_code:
+          type: string
+        company_name:
+          type: string
+        company_type:
+          type: string
+          enum:
+          - other
+          - meat_and_poultry
+          - coffee_and_drinks
+    user-register-retail:
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        street_name:
+          type: string
+        street_number:
+          type: string
+        city:
+          type: string
+        zip_code:
+          type: string
+        store_name:
+          type: string
+        store_type:
+          type: string
+          enum:
+          - other
+          - cafeBar
+          - restaurant
+          - quick_service_restaurant
     user_type:
-      enum: [retail, wholesale]
       type: string
-  securitySchemes:
-    bearerAuth: {scheme: bearer, type: http}
-info: {description: Swagger spec for documenting the users service, title: Supplyit
-    Users Service, version: 0.0.1}
-openapi: 3.0.2
-paths:
-  /auth/login:
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema: {$ref: '#/components/schemas/user-login'}
-        description: User to log in
-        required: true
-      responses:
-        '200': {description: Successfully logged in}
-      summary: Logs a user in
-  /auth/logout:
-    get:
-      responses:
-        '200': {description: Successfully logged out}
-      security:
-      - bearerAuth: []
-      summary: Logs a user out
-  /auth/status:
-    get:
-      responses:
-        '200': {description: user object}
-      security:
-      - bearerAuth: []
-      summary: Returns the logged in user's status
-  /auth/{user_type}/register:
-    post:
-      parameters:
-      - description: Type of user to create
-        in: path
-        name: user_type
-        required: true
-        schema: {$ref: '#/components/schemas/user_type'}
-      requestBody:
-        content:
-          application/json:
-            schema:
-              items:
-                oneOf:
-                - {$ref: '#/components/schemas/user-register-wholesale'}
-                - {$ref: '#/components/schemas/user-register-retail'}
-              type: array
-        description: User to add
-        required: true
-      responses:
-        '200': {description: user object}
-      summary: Register a new wholesale or retail user
-  /users:
-    get:
-      responses:
-        '200': {description: user object}
-      summary: Returns all users
-  /users/addresses:
-    get:
-      responses:
-        '200': {description: address object}
-      summary: Returns all addresses
-  /users/companies:
-    get:
-      responses:
-        '200': {description: Company object}
-      summary: Returns all companies
-  /users/ping:
-    get:
-      responses:
-        '200': {description: Will return 'pong!'}
-      summary: Just a sanity check
-  /users/retailers:
-    get:
-      responses:
-        '200': {description: retailer object}
-      summary: Returns all retailer users
-  /users/stores:
-    get:
-      responses:
-        '200': {description: Store object}
-      summary: Returns all stores
-  /users/suppliers:
-    get:
-      responses:
-        '200': {description: supplier object}
-      summary: Returns all supplier users
-  /users/user/{id}:
-    get:
-      parameters:
-      - description: ID of user to fetch
-        in: path
-        name: id
-        required: true
-        schema: {format: int64, type: integer}
-      responses:
-        '200': {description: user object}
-        '404': {description: '''User does not exist or password is invalid'' OR ''Identifier
-            should be an integer'''}
-      summary: Returns a user based on a single user ID
-  /users/{user_type}:
-    get:
-      parameters:
-      - description: Type of user to fetch
-        in: path
-        name: user_type
-        required: true
-        schema: {$ref: '#/components/schemas/user_type'}
-      responses:
-        '200': {description: user object}
-      summary: Returns all retail or wholesale users
-    post:
-      parameters:
-      - description: Type of user to create
-        in: path
-        name: user_type
-        required: true
-        schema: {$ref: '#/components/schemas/user_type'}
-      requestBody:
-        content:
-          application/json:
-            schema:
-              items:
-                oneOf:
-                - {$ref: '#/components/schemas/user-register-wholesale'}
-                - {$ref: '#/components/schemas/user-register-retail'}
-              type: array
-        description: User to add
-        required: true
-      responses:
-        '201': {description: 'User {user_email} added'}
-        '400': {description: '''Invalid password'' OR ''Sorry. That email already
-            exists.'''}
-        '401': {description: You do not have permission to do that.}
-      security:
-      - bearerAuth: []
-      summary: Adds a new retail or wholesale user
-servers:
-- {url: 'http://localhost'}
+      enum:
+      - retail
+      - wholesale
