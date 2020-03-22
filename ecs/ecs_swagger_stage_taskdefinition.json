@@ -1,0 +1,31 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "swagger",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-swagger:staging",
+      "essential": true,
+      "memoryReservation": 300,
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 8080
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-swagger-stage",
+          "awslogs-region": "us-east-1"
+        }
+      },
+      "environment": [
+        {
+          "name": "URL",
+          "value": "swagger.json"
+        }
+      ]
+    }
+  ],
+  "family": "supplyit-swagger-stage-td"
+}
