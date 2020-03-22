@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://supplyit-staging-alb-471661531.us-east-1.elb.amazonaws.com"
+      "url": "http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com/",
     }
   ],
   "paths": {
