@@ -114,7 +114,7 @@ describe('Sign In', () => {
             cy
                 .get('.nav-link').contains('Status').should('not.be.visible')
                 .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
-                .get('a.btn-square').contains('Σύνδεση')
+                .get('a.btn-square.btn.btn-outline-success').contains('Σύνδεση')
                 .get('.nav-link').contains('Δοκιμάστε')
                 .get('.nav-link').contains('Πως δουλεύει');
         });
