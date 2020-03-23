@@ -22,6 +22,7 @@ describe('Sign In', () => {
             .get('h1').contains('Σύνδεση')
             .get('form')
             .get('button[disabled]');
+        
         // .get('.validation-list')
         // .get('.validation-list > .error').first().contains(
         // 'Email is required.');
