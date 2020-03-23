@@ -60,6 +60,7 @@ hr {
 	top: 8em;
 	right: 5em;
 	width: 300px;
+    z-index: 999;
 }
 
 .toast-header {
