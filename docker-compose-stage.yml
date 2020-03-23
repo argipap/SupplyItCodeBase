@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   supplyit-users:
+    image: users
     build:
       context: ./services/users
       dockerfile: Dockerfile-stage
