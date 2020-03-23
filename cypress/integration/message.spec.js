@@ -83,7 +83,7 @@ describe('Message', () => {
 
         // assert flash message is removed when a new message is flashed
         cy
-            .get('.fade.toast').contains('Καλώς Ήλθατε!');
+            .get('.toast-header').contains('Καλώς Ήλθατε!');
 
         // log a user out
         cy.get('.navbar-collapse').click();
@@ -99,7 +99,7 @@ describe('Message', () => {
 
         // assert flash message is removed after three seconds
         cy
-            .get('.fade.toast').contains('Καλώς Ήλθατε!')
+            .get('.toast-header').contains('Καλώς Ήλθατε!')
             .wait(5000)
             .get('.fade.toast').should('not.be.visible');
     });

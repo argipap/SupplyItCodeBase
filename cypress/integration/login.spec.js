@@ -37,6 +37,7 @@ describe('Sign In', () => {
 
         // register user
         cy
+            .wait(500)
             .visit('/getStarted')
             .get('input[name="firstName"]').type(firstName)
             .get('input[name="lastName"]').type(lastName)
