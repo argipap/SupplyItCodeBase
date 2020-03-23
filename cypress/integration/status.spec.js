@@ -63,7 +63,8 @@ describe('Status', () => {
         cy.visit('/login')
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('button[value="Submit"]').click();
+            .get('button[value="Submit"]').click()
+            .wait(500);
 
         // assert '/status' is displayed properly
         cy.visit('/status');
