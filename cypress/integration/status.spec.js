@@ -1,7 +1,8 @@
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
-const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+// const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+const email = '79a7f01e-cd8e-4071-8b40-5fd016d311de@mailslurp.com';
 const password = '12345678';
 const firstName = 'Argi';
 const lastName = 'Pap';
