@@ -58,7 +58,7 @@ hr {
 	opacity: 1 !important;
 	position: absolute;
 	top: 8em;
-	right: 5em;
+	left: 2em;
 	width: 300px;
     z-index: 999;
 }
