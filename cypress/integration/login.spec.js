@@ -22,7 +22,7 @@ describe('Sign In', () => {
             .get('h1').contains('Σύνδεση')
             .get('form')
             .get('button[disabled]');
-        
+
         // .get('.validation-list')
         // .get('.validation-list > .error').first().contains(
         // 'Email is required.');
@@ -75,7 +75,8 @@ describe('Sign In', () => {
 
         // log a user out
         cy.get('.navbar-collapse').click();
-        cy.contains('Αποσύνδεση').click();
+        cy.get('a.btn-square').contains('Αποσύνδεση').click()
+            .wait(100);
 
         // log a user in
         cy
