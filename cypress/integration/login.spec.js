@@ -74,12 +74,11 @@ describe('Sign In', () => {
             .get('button[value="Submit"]').click();
 
         // log a user out
-        cy.get('.navbar-collapse').click();
-        cy.get('a.btn-square').contains('Αποσύνδεση').click()
-            .wait(100);
+        cy.get('.ml-auto.navbar-nav').click();
+        cy.contains('Αποσύνδεση').click();
 
         // log a user in
-        cy
+        cy.visit('/login')
             .get('a.btn-square').contains('Σύνδεση').click()
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
