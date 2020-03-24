@@ -79,7 +79,7 @@ describe('Sign In', () => {
 
         // log a user in
         cy
-            .get('a').contains('Σύνδεση').click()
+            .get('a.btn-square').contains('Σύνδεση').click()
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
             .get('button[value="Submit"]').click()
