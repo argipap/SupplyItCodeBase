@@ -78,7 +78,8 @@ describe('Sign In', () => {
         cy.contains('Αποσύνδεση').click();
 
         // log a user in
-        cy.visit('/login')
+        cy.get('.ml-auto.navbar-nav').click();
+        cy
             .get('a.btn-square').contains('Σύνδεση').click()
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
