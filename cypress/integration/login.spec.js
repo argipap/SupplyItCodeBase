@@ -94,7 +94,7 @@ describe('Sign In', () => {
             .find('td').contains(username);
         cy.get('.fade.toast').contains('Καλώς Ήλθατε!');
         cy.get('.navbar-collapse').click();
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status')
                 .get('a.btn-square').contains('Αποσύνδεση')
@@ -110,11 +110,11 @@ describe('Sign In', () => {
 
         // assert '/logout' is displayed properly
         cy.get('.fade.toast').contains('Εις το επανιδείν!');
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status').should('not.be.visible')
                 .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
-                .get('a.btn-square.btn.btn-outline-success').contains('Σύνδεση')
+                .get('a.btn-square').contains('Σύνδεση')
                 .get('.nav-link').contains('Δοκιμάστε')
                 .get('.nav-link').contains('Πως δουλεύει');
         });
@@ -132,7 +132,7 @@ describe('Sign In', () => {
         cy.contains('Χρήστες').should('not.be.visible');
         cy.contains('Σύνδεση');
         cy.get('.navbar-collapse').click();
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status').should('not.be.visible')
                 .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
@@ -155,7 +155,6 @@ describe('Sign In', () => {
 
         // assert user login failed
         cy.contains('Χρήστες').should('not.be.visible');
-        cy.contains('Σύνδεση');
         cy.get('.navbar-collapse').click();
         cy.get('.ml-auto.navbar-nav').within(() => {
             cy
