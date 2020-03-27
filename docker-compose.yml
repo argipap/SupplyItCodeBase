@@ -99,4 +99,6 @@ services:
       - redis
 
   redis:
-    image: redis:5.0.7-alpine
+    build:
+      context: ./services/redis
+      dockerfile: Dockerfile
