@@ -64,6 +64,13 @@ then
     inspect $? swagger_docker_tag
     docker push $REPO/$SWAGGER:$TAG
     inspect $? swagger_docker_push
+    # redis
+    docker build $REDIS_REPO -t $REDIS:$COMMIT -f Dockerfile
+    inspect $? redis_docker_build
+    docker tag $REDIS:$COMMIT $REPO/$REDIS:$TAG
+    inspect $? redis_docker_tag
+    docker push $REPO/$REDIS:$TAG
+    inspect $? redis_docker_push
 
     # return proper code
     if [[ -n "${fails}" ]]; then
