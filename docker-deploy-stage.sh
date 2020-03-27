@@ -62,7 +62,17 @@ then
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
-      # update users swagger with the new task definitions
+      # update swagger service with the new task definitions
+      update_service
+
+      # redis
+      service="supplyit-redis-stage-service"
+      template="ecs_redis_stage_taskdefinition.json"
+      task_template=$(cat "ecs/$template")
+      task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
+      echo "$task_def"
+      register_definition
+      # update redis service with the new task definitions
       update_service
 
     }

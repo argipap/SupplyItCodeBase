@@ -28,10 +28,19 @@
         {
           "name": "SECRET_KEY",
           "value": "my_precious"
+        },
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
         }
       ],
       "links": [
-        "supplyit-users-db"
+        "supplyit-users-db",
+        "redis"
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -70,6 +79,76 @@
           "awslogs-region": "us-east-1"
         }
       }
+    },
+    {
+      "name": "redis",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
+      "essential": true,
+      "memoryReservation": 300,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-redis-stage",
+          "awslogs-region": "us-east-1"
+        }
+      }
+    },
+    {
+      "name": "celery",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
+      "essential": true,
+      "memoryReservation": 300,
+      "environment": [
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
+        }
+      ],
+      "links": [
+        "supplyit-users",
+        "redis"
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-celery-stage",
+          "awslogs-region": "us-east-1"
+        }
+      },
+      "command": [
+        "celery -A project.utils.tasks worker --loglevel=info"
+      ]
+    },
+    {
+      "name": "celery-monitor",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
+      "essential": true,
+      "memoryReservation": 300,
+      "portMappings": [
+        {
+          "hostPort": 5555,
+          "protocol": "tcp",
+          "containerPort": 5555
+        }
+      ],
+      "links": [
+        "supplyit-users",
+        "redis"
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-celery-monitor-stage",
+          "awslogs-region": "us-east-1"
+        }
+      },
+      "command": [
+        "flower -A project.utils.tasks --port=5555 --broker=redis://redis:6379/0"
+      ]
     }
   ],
   "family": "supplyit-users-stage-td"
