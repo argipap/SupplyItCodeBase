@@ -78,6 +78,7 @@ describe('Sign In', () => {
 
         // log a user in
         cy.get('.navbar-collapse').click();
+        cy.get('.fade.toast').contains('Καλώς Ήλθατε!');
         cy
             .get('a.btn-square').contains('Σύνδεση').click()
             .get('input[name="email"]').type(email)
@@ -92,7 +93,7 @@ describe('Sign In', () => {
             .get('table')
             .find('tbody > tr').last()
             .find('td').contains(username);
-        cy.get('.fade.toast').contains('Καλώς Ήλθατε!');
+
         cy.get('.navbar-collapse').click();
         cy.get('.ml-auto.navbar-nav').within(() => {
             cy
