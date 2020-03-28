@@ -16,10 +16,6 @@ env:
   SWAGGER: supplyit-swagger
   SWAGGER_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
   SECRET_KEY: my_precious
-  CELERY: supplyit-celery
-  CELERY_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/celery
-  CELERY_MONITOR: supplyit-celery
-  CELERY_MONITOR_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/celery-monitor
   REDIS: supplyit-redis
   REDIS_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/redis
 
