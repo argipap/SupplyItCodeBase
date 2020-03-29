@@ -28,19 +28,10 @@
         {
           "name": "SECRET_KEY",
           "value": "my_precious"
-        },
-        {
-          "name": "CELERY_BROKER",
-          "value": "redis://redis:6379/0"
-        },
-        {
-          "name": "CELERY_BACKEND",
-          "value": "redis://redis:6379/0"
         }
       ],
       "links": [
-        "supplyit-users-db",
-        "redis"
+        "supplyit-users-db"
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -76,19 +67,6 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "supplyit-users_db-stage",
-          "awslogs-region": "us-east-1"
-        }
-      }
-    },
-    {
-      "name": "redis",
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
-      "essential": true,
-      "memoryReservation": 300,
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "supplyit-redis-stage",
           "awslogs-region": "us-east-1"
         }
       }
