@@ -1,10 +1,15 @@
 {
   "containerDefinitions": [
     {
-      "name": "supplyit-users",
       "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
-      "essential": true,
-      "memoryReservation": 200,
+      "name": "supplyit-users",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-users-stage",
+          "awslogs-region": "us-east-1"
+        }
+      },
       "portMappings": [
         {
           "hostPort": 0,
@@ -16,6 +21,14 @@
         {
           "name": "APP_SETTINGS",
           "value": "project.config.StagingConfig"
+        },
+        {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
         },
         {
           "name": "DATABASE_TEST_URL",
@@ -30,23 +43,23 @@
           "value": "my_precious"
         }
       ],
+      "memoryReservation": 200,
+      "essential": true,
       "links": [
         "supplyit-users-db",
         "redis"
-      ],
+      ]
+    },
+    {
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users-db:staging",
+      "name": "supplyit-users-db",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "supplyit-users-stage",
+          "awslogs-group": "supplyit-users_db-stage",
           "awslogs-region": "us-east-1"
         }
-      }
-    },
-    {
-      "name": "supplyit-users-db",
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users-db:staging",
-      "essential": true,
-      "memoryReservation": 200,
+      },
       "portMappings": [
         {
           "hostPort": 0,
@@ -64,19 +77,18 @@
           "value": "postgres"
         }
       ],
+      "memoryReservation": 200
+    },
+    {
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
+      "name": "redis",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "supplyit-users_db-stage",
+          "awslogs-group": "supplyit-redis-stage",
           "awslogs-region": "us-east-1"
         }
-      }
-    },
-    {
-      "name": "redis",
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
-      "essential": true,
-      "memoryReservation": 100,
+      },
       "portMappings": [
         {
           "hostPort": 0,
@@ -84,26 +96,32 @@
           "containerPort": 6379
         }
       ],
+      "memoryReservation": 100
+    },
+    {
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
+      "name": "celery",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "supplyit-redis-stage",
+          "awslogs-group": "supplyit-celery-stage",
           "awslogs-region": "us-east-1"
         }
-      }
-    },
-    {
-      "name": "celery",
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
-      "essential": true,
-      "memoryReservation": 100,
+      },
+      "command": [
+        "celery",
+        "-A",
+        "project.utils.tasks",
+        "worker",
+        "--loglevel=info"
+      ],
       "environment": [
         {
-          "name": "CELERY_BROKER",
+          "name": "CELERY_BACKEND",
           "value": "redis://redis:6379/0"
         },
         {
-          "name": "CELERY_BACKEND",
+          "name": "CELERY_BROKER",
           "value": "redis://redis:6379/0"
         },
         {
@@ -119,13 +137,13 @@
           "value": "SUPPLYIT"
         }
       ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "supplyit-celery-stage",
-          "awslogs-region": "us-east-1"
-        }
-      }
+      "workingDirectory": "/usr/src/app",
+      "memoryReservation": 130,
+      "essential": true,
+      "links": [
+        "supplyit-users",
+        "redis"
+      ]
     }
   ],
   "family": "supplyit-users-stage-td"
