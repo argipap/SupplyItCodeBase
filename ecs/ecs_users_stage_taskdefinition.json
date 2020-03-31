@@ -1,8 +1,8 @@
 {
   "containerDefinitions": [
     {
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
       "name": "supplyit-users",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -51,8 +51,8 @@
       ]
     },
     {
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users-db:staging",
       "name": "supplyit-users-db",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users-db:staging",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -77,11 +77,12 @@
           "value": "postgres"
         }
       ],
-      "memoryReservation": 200
+      "memoryReservation": 200,
+      "essential": true
     },
     {
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
       "name": "redis",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -96,11 +97,12 @@
           "containerPort": 6379
         }
       ],
-      "memoryReservation": 100
+      "memoryReservation": 100,
+      "essential": true
     },
     {
-      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
       "name": "celery",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -108,6 +110,7 @@
           "awslogs-region": "us-east-1"
         }
       },
+      "portMappings": [],
       "command": [
         "celery",
         "-A",
