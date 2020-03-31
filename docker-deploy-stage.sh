@@ -39,7 +39,7 @@ then
       service="supplyit-users-stage-service"
       template="ecs_users_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
-      task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
+      task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID $MAILGUN_API_KEY $MAILGUN_DOMAIN)
       echo "$task_def"
       register_definition
       # update users service with the new task definitions
