@@ -4,7 +4,7 @@
       "name": "supplyit-users",
       "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
       "essential": true,
-      "memoryReservation": 300,
+      "memoryReservation": 200,
       "portMappings": [
         {
           "hostPort": 0,
@@ -31,7 +31,8 @@
         }
       ],
       "links": [
-        "supplyit-users-db"
+        "supplyit-users-db",
+        "redis"
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -45,7 +46,7 @@
       "name": "supplyit-users-db",
       "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users-db:staging",
       "essential": true,
-      "memoryReservation": 300,
+      "memoryReservation": 200,
       "portMappings": [
         {
           "hostPort": 0,
@@ -67,6 +68,61 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "supplyit-users_db-stage",
+          "awslogs-region": "us-east-1"
+        }
+      }
+    },
+    {
+      "name": "redis",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:staging",
+      "essential": true,
+      "memoryReservation": 100,
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 6379
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-redis-stage",
+          "awslogs-region": "us-east-1"
+        }
+      }
+    },
+    {
+      "name": "celery",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:staging",
+      "essential": true,
+      "memoryReservation": 100,
+      "environment": [
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "MAILGUN_API_KEY",
+          "value": "%s"
+        },
+        {
+          "name": "MAILGUN_DOMAIN",
+          "value": "%s"
+        },
+        {
+          "name": "FROM_TITLE",
+          "value": "SUPPLYIT"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-celery-stage",
           "awslogs-region": "us-east-1"
         }
       }
