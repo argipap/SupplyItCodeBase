@@ -158,7 +158,13 @@
           "awslogs-region": "us-east-1"
         }
       },
-      "portMappings": [],
+      "portMappings": [
+        {
+          "hostPort": 5555,
+          "protocol": "tcp",
+          "containerPort": 5555
+        }
+      ],
       "command": [
         "flower",
         "-A",
