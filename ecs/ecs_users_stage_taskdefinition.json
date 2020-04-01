@@ -43,7 +43,7 @@
           "value": "my_precious"
         }
       ],
-      "memoryReservation": 200,
+      "memoryReservation": 150,
       "essential": true,
       "links": [
         "supplyit-users-db",
@@ -77,7 +77,7 @@
           "value": "postgres"
         }
       ],
-      "memoryReservation": 200,
+      "memoryReservation": 150,
       "essential": true
     },
     {
