@@ -15,7 +15,7 @@ then
     export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com"
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
-    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-1320313720.us-east-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-643743255.us-east-1.elb.amazonaws.com"
     export DATABASE_URL="$AWS_RDS_URI"
     export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
