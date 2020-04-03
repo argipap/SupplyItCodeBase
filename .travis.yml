@@ -16,6 +16,8 @@ env:
   SWAGGER: supplyit-swagger
   SWAGGER_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
   SECRET_KEY: my_precious
+  REDIS: supplyit-redis
+  REDIS_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/redis
 
 addons:
   apt:
