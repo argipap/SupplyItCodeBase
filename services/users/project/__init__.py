@@ -2,8 +2,29 @@
 
 
 import os
+
 from flask import Flask
 from project.utils.lib import cors, db, migrate, toolbar, bcrypt
+
+
+def register_blueprints(app):
+    from project.api.views.users import users_blueprint
+    from project.api.views.auth import auth_blueprint
+    from project.api.views.suppliers import suppliers_blueprint
+    from project.api.views.retailers import retailers_blueprint
+    from project.api.views.addresses import addresses_blueprint
+    from project.api.views.stores import stores_blueprint
+    from project.api.views.companies import companies_blueprint
+    from project.api.views.confirmations import confirmations_blueprint
+
+    app.register_blueprint(users_blueprint)
+    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(suppliers_blueprint)
+    app.register_blueprint(retailers_blueprint)
+    app.register_blueprint(addresses_blueprint)
+    app.register_blueprint(stores_blueprint)
+    app.register_blueprint(companies_blueprint)
+    app.register_blueprint(confirmations_blueprint)
 
 
 def create_app(script_info=None):
@@ -22,12 +43,7 @@ def create_app(script_info=None):
     bcrypt.init_app(app)
 
     # register blueprints
-    from project.api.views.users import users_blueprint
-
-    app.register_blueprint(users_blueprint)
-    from project.api.views.auth import auth_blueprint
-
-    app.register_blueprint(auth_blueprint)
+    register_blueprints(app)
 
     # shell context for flask cli
     @app.shell_context_processor

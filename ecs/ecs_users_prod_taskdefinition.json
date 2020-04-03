@@ -3,8 +3,13 @@
     {
       "name": "supplyit-users",
       "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:production",
-      "essential": true,
-      "memoryReservation": 300,
+            "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-users-prod",
+          "awslogs-region": "us-east-1"
+        }
+      },
       "portMappings": [
         {
           "hostPort": 0,
@@ -30,13 +35,108 @@
           "value": "%s"
         }
       ],
+      "memoryReservation": 200,
+      "essential": true
+    },
+    {
+      "name": "redis",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-redis:production",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "supplyit-users-prod",
+          "awslogs-group": "supplyit-redis-prod",
           "awslogs-region": "us-east-1"
         }
-      }
+      },
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 6379
+        }
+      ],
+      "memoryReservation": 100,
+      "essential": true
+    },
+    {
+      "name": "celery",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:production",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-celery-prod",
+          "awslogs-region": "us-east-1"
+        }
+      },
+      "portMappings": [],
+      "command": [
+        "celery",
+        "-A",
+        "project.utils.tasks",
+        "worker",
+        "--loglevel=info"
+      ],
+      "environment": [
+        {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "MAILGUN_API_KEY",
+          "value": "%s"
+        },
+        {
+          "name": "MAILGUN_DOMAIN",
+          "value": "%s"
+        },
+        {
+          "name": "FROM_TITLE",
+          "value": "SUPPLYIT"
+        }
+      ],
+      "workingDirectory": "/usr/src/app",
+      "memoryReservation": 100,
+      "essential": true,
+      "links": [
+        "supplyit-users",
+        "redis"
+      ]
+    },
+    {
+      "name": "celery-monitor",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/supplyit-users:production",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "supplyit-celery-monitor-prod",
+          "awslogs-region": "us-east-1"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 5555,
+          "protocol": "tcp",
+          "containerPort": 5555
+        }
+      ],
+      "command": [
+        "flower",
+        "-A",
+        "project.utils.tasks",
+        "--port=5555",
+        "--broker=redis://redis:6379/0"
+      ],
+      "workingDirectory": "/usr/src/app",
+      "memoryReservation": 100,
+      "essential": true,
+      "links": [
+        "supplyit-users",
+        "redis"
+      ]
     }
   ],
   "family": "supplyit-users-prod-td"
