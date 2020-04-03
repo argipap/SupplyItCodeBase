@@ -12,7 +12,7 @@ then
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
     export DOCKER_ENV=stage
-    export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-471661531.us-east-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com"
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
     export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-1320313720.us-east-1.elb.amazonaws.com"
@@ -66,6 +66,13 @@ then
     inspect $? swagger_docker_tag
     docker push $REPO/$SWAGGER:$TAG
     inspect $? swagger_docker_push
+    # redis
+    docker build $REDIS_REPO -t $REDIS:$COMMIT -f Dockerfile
+    inspect $? redis_docker_build
+    docker tag $REDIS:$COMMIT $REPO/$REDIS:$TAG
+    inspect $? redis_docker_tag
+    docker push $REPO/$REDIS:$TAG
+    inspect $? redis_docker_push
 
     # return proper code
     if [[ -n "${fails}" ]]; then

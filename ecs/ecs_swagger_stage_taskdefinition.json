@@ -22,7 +22,7 @@
       "environment": [
         {
           "name": "URL",
-          "value": "swagger.json"
+          "value": "swagger.yml"
         }
       ]
     }

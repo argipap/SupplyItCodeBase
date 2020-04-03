@@ -1,155 +1,269 @@
 import React, {Component} from 'react';
-import axios from "axios";
-import {Route, Switch} from 'react-router-dom';
+import axios from 'axios';
+import {withRouter, Route, Switch} from 'react-router-dom';
+import {Container, Row, Col} from 'react-bootstrap';
+import ScrollUpButton from 'react-scroll-up-button';
 
-import UsersList from "./components/UsersList";
-import About from "./components/About";
-import NavBar from "./components/NavBar";
-import Form from "./components/forms/Form";
-import Logout from "./components/Logout";
-import UserStatus from "./components/UserStatus";
-import Message from "./components/Message";
-import GetStarted from "./components/GetStarted";
-import Footer from "./components/Footer";
+import UsersList from './components/UsersList';
+import NavBar from './components/NavBar';
+import Form from './components/forms/Form';
+import Logout from './components/Logout';
+import UserStatus from './components/UserStatus';
+import Message from './components/Message';
+import GetStarted from './components/GetStarted';
+import Footer from './components/Footer';
 import './components/Footer.css';
-
+import Home from './components/Home';
+import HowItWorks from './components/HowItWorks';
+import BecomeSupplier from './components/BecomeSupplier';
+import SuppliersList from './components/SuppliersList';
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
             users: [],
-            isAuthenticated: false,
+            accessToken: null,
+            email_confirmation: null,
             messageName: null,
             messageType: null,
-            title: 'SupplyIt'
+            messageTitle: null,
+            title: 'Supply It'
         };
         this.logoutUser = this.logoutUser.bind(this);
         this.loginUser = this.loginUser.bind(this);
         this.createMessage = this.createMessage.bind(this);
         this.removeMessage = this.removeMessage.bind(this);
+        this.confirmUser = this.confirmUser.bind(this);
+        this.validRefresh = this.validRefresh.bind(this);
+        this.isAuthenticated = this.isAuthenticated.bind(this);
     }
 
     componentWillMount() {
-        if (window.localStorage.getItem('authToken')) {
-            this.setState({isAuthenticated: true});
+        if (window.localStorage.getItem('refreshToken')) {
+            // this.setState({isAuthenticated: true});
+            this.setState({email_confirmation: 'complete'});
         }
-    };
+    }
 
     componentDidMount() {
         this.getUsers();
-    };
+    }
 
     getUsers() {
-        axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+        axios
+            .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
             .then((res) => {
                 this.setState({users: res.data.data});
             })
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    isAuthenticated = () => {
+        if (this.state.accessToken || this.validRefresh()) {
+            return true;
+        }
+        return false;
     };
 
-    logoutUser() {
-        window.localStorage.clear();
-        this.setState({isAuthenticated: false});
+    validRefresh = () => {
+        const token = window.localStorage.getItem('refreshToken');
+        if (token) {
+            const options = {
+                url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/refresh`,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            };
+            axios(options)
+                .then((res) => {
+                    this.setState({accessToken: res.data.access_token});
+                    this.getUsers();
+                    window.localStorage.setItem('refreshToken', res.data.refresh_token);
+                    return true;
+                })
+                .catch((err) => {
+                    return false;
+                });
+        }
+        return false;
     };
 
-    loginUser(token) {
-        window.localStorage.setItem('authToken', token);
-        this.setState({isAuthenticated: true});
-        this.getUsers();
-        this.createMessage('Welcome!', 'success');
+    logoutUser = () => {
+        window.localStorage.removeItem('refreshToken');
+        this.setState({accessToken: null});
+        this.createMessage('Έχετε αποσυνδεθεί', 'Εις το επανιδείν!', 'danger');
     };
 
-    createMessage(name = 'Sanity Check', type = 'success') {
+    loginUser(refresh_token, access_token) {
+        if (refresh_token) {
+            window.localStorage.setItem('refreshToken', refresh_token);
+            this.setState({accessToken: access_token});
+            this.setState({email_confirmation: 'complete'});
+            this.getUsers();
+            this.createMessage('Καλώς Ήλθατε!', 'Η ομάδα του Supply IT σας ευχεται μια ευχάριστη διαμονή!', 'success');
+        } else {
+            this.setState({email_confirmation: 'pending'});
+            this.createMessage(
+                'Επιβεβαίωση email',
+                'Παρακαλώ δείτε το inbox σας για να επιβεβαιώσετε το email σας.',
+                'warning'
+            );
+        }
+    }
+
+    confirmUser() {
+        this.setState({email_confirmation: 'pending'});
+        this.createMessage(
+            'Επιβεβαίωση email',
+            'Παρακαλώ δείτε το inbox σας για να επιβεβαιώσετε το email σας.',
+            'warning'
+        );
+
+    }
+
+    createMessage(title = 'Title Check', name = 'Sanity Check', variant = 'success') {
         this.setState({
+            messageTitle: title,
             messageName: name,
-            messageType: type
+            messageType: variant
         });
         setTimeout(() => {
             this.removeMessage();
-        }, 3000);
-    };
+        }, 4000);
+    }
 
     removeMessage() {
         this.setState({
+            messageTitle: null,
             messageName: null,
             messageType: null
         });
-    };
+    }
 
     render() {
         return (
             <div>
                 <NavBar
                     title={this.state.title}
-                    isAuthenticated={this.state.isAuthenticated}
+                    isAuthenticated={this.isAuthenticated}
+                    email={this.state.email}
+                    logoutUser={this.logoutUser}
                 />
-                <section className="section">
-                    <div className="container">
-                        {this.state.messageName && this.state.messageType &&
+                    {this.state.messageTitle &&
+                    this.state.messageName &&
+                    this.state.messageType && (
                         <Message
+                            messageTitle={this.state.messageTitle}
                             messageName={this.state.messageName}
                             messageType={this.state.messageType}
                             removeMessage={this.removeMessage}
                         />
-                        }
-                        <div className="columns">
-                            <div className="column is-one-third">
-                                <br/>
-                                <Switch>
-                                    <Route exact path='/' render={() => (
-                                        <UsersList
-                                            users={this.state.users}
-                                        />
-                                    )}/>
-                                    <Route exact path='/about' component={About}/>
-                                    <Route exact path='/getStarted' render={() => (
-                                        <GetStarted
-                                            formType={'GetStarted'}
-                                            loginUser={this.loginUser}
-                                            createMessage={this.createMessage}
-                                            removeMessage={this.removeMessage}
-                                            isAuthenticated={this.state.isAuthenticated}
-                                        />
-                                    )}/>
-                                    <Route exact path='/register' render={() => (
-                                        <Form
-                                            formType={'Register'}
-                                            isAuthenticated={this.state.isAuthenticated}
-                                            loginUser={this.loginUser}
-                                            createMessage={this.createMessage}
-                                        />
-                                    )}/>
-                                    <Route exact path='/login' render={() => (
-                                        <Form
-                                            formType={'Login'}
-                                            isAuthenticated={this.state.isAuthenticated}
-                                            loginUser={this.loginUser}
-                                            createMessage={this.createMessage}
-                                        />
-                                    )}/>
-                                    <Route exact path='/logout' render={() => (
-                                        <Logout
-                                            logoutUser={this.logoutUser}
-                                            isAuthenticated={this.state.isAuthenticated}
-                                        />
-                                    )}/>
-                                    <Route exact path='/status' render={() => (
-                                        <UserStatus
-                                            isAuthenticated={this.state.isAuthenticated}
-                                        />
-                                    )}/>
-                                </Switch>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <Footer/>
-            </div>
-        )
+                    )}
+
+                    <Switch>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Home
+                                    formType={'GetStarted'}
+                                    loginUser={this.loginUser}
+                                    confirmUser={this.confirmUser}
+                                    createMessage={this.createMessage}
+                                    removeMessage={this.removeMessage}
+                                    isAuthenticated={this.isAuthenticated}
+                                    email_confirmation={this.state.email_confirmation}
+                                />
+                            )}
+                        />
+                        <Route exact path="/users" render={() => <UsersList users={this.state.users}/>}/>
+
+                        <Route
+                            exact
+                            path="/suppliersList"
+                            render={() => <SuppliersList suppliers={this.state.suppliers}/>}
+                        />
+
+                        <Route
+                            exact
+                            path="/howItWorks"
+                            render={() => <HowItWorks isAuthenticated={this.isAuthenticated}/>}
+                        />
+                        <Route
+                            exact
+                            path="/getStarted"
+                            render={() => (
+                                <GetStarted
+                                    formType={'GetStarted'}
+                                    loginUser={this.loginUser}
+                                    confirmUser={this.confirmUser}
+                                    createMessage={this.createMessage}
+                                    isAuthenticated={this.isAuthenticated}
+                                    email_confirmation={this.state.email_confirmation}
+                                />
+                            )}
+                        />
+                        <Route
+                            exact
+                            path="/becomeSupplier"
+                            render={() => (
+                                <BecomeSupplier
+                                    formType={'BecomeSupplier'}
+                                    isAuthenticated={this.isAuthenticated}
+                                    loginUser={this.loginUser}
+                                    confirmUser={this.confirmUser}
+                                    createMessage={this.createMessage}
+                                    email_confirmation={this.state.email_confirmation}
+                                />
+                            )}
+                        />
+                        <Route
+                            exact
+                            path="/login"
+                            render={() => (
+                                <Container className="login-container">
+                                    <Row>
+                                        <Col/>
+                                        <Col sm={6}>
+                                            <Form
+                                                formType={'Login'}
+                                                isAuthenticated={this.isAuthenticated}
+                                                loginUser={this.loginUser}
+                                                createMessage={this.createMessage}
+                                            />
+                                        </Col>
+                                        <Col/>
+                                    </Row>
+                                </Container>
+                            )}
+                        />
+
+                        <Route
+                            exact
+                            path="/logout"
+                            render={() => (
+                                <Logout logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated}/>
+                            )}
+                        />
+                        <Route
+                            exact
+                            path="/status"
+                            render={() => <UserStatus isAuthenticated={this.isAuthenticated}/>}
+                        />
+                    </Switch>
+                    {this.props.location.pathname !== '/suppliersList' ? <Footer
+						isAuthenticated={this.isAuthenticated}
+					/> : ''}
+
+                    <ScrollUpButton/>
+                </div>
+        );
     }
 }
 
-export default App;
+export default withRouter(App);
