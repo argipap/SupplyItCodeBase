@@ -9,7 +9,6 @@ verify_ssl = true
 flask = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
-psycopg2 = "==2.8.4"
 flask-testing = "*"
 coverage = "==4.5.4"
 flake8 = "==3.7.9"
@@ -24,6 +23,7 @@ requests = "*"
 celery = "*"
 flower = "*"
 tornado  = ">=4.2.0,<6.0.0"
+psycopg2-binary = "==2.8.4"
 
 [requires]
 python_version = "3.7"
