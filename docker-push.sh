@@ -60,6 +60,7 @@ then
     docker push $REPO/$CLIENT:$TAG
     inspect $? client_docker_push
     # swagger
+    echo "building swagger repo: {$SWAGGER_REPO} ..."
     docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f Dockerfile-$DOCKER_ENV
     inspect $? swagger_docker_build
     docker tag $SWAGGER:$COMMIT $REPO/$SWAGGER:$TAG
@@ -67,6 +68,7 @@ then
     docker push $REPO/$SWAGGER:$TAG
     inspect $? swagger_docker_push
     # redis
+    echo "building redis repo: {$REDIS_REPO} ..."
     docker build $REDIS_REPO -t $REDIS:$COMMIT -f Dockerfile
     inspect $? redis_docker_build
     docker tag $REDIS:$COMMIT $REPO/$REDIS:$TAG
