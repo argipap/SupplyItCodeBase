@@ -13,7 +13,7 @@ def create_app(script_info=None):
     app = Flask(__name__)
 
     # set config
-    app_settings = os.getenv('APP_SETTINGS')
+    app_settings = os.getenv("APP_SETTINGS")
     app.config.from_object(app_settings)
 
     # set up extensions
@@ -24,11 +24,12 @@ def create_app(script_info=None):
 
     # register blueprints
     from project.api.views.base import base_blueprint
+
     app.register_blueprint(base_blueprint)
 
     # shell context for flask cli
     @app.shell_context_processor
     def ctx():
-        return {'app': app}
+        return {"app": app}
 
     return app

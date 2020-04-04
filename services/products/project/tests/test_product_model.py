@@ -11,7 +11,8 @@ class TestProductModel(BaseTestCase):
         new_product = TestUtils.add_product(**TestUtils.product_data)
         self.assertTrue(new_product.id)
         self.assertEqual(new_product.name, "test_product")
-        self.assertEqual(new_product.quantity, 3)
+        self.assertEqual(new_product.quantity, 1)
+        self.assertEqual(new_product.category_id, TestUtils.product_data["category_id"])
 
 
 if __name__ == "__main__":

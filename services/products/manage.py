@@ -7,16 +7,13 @@ import unittest
 import coverage
 from flask.cli import FlaskGroup
 
-from project import create_app
+from project import create_app, db
+from project.api.models.product_categories import ProductCategoryModel
+from project.api.models.products import ProductModel
 
 
 COV = coverage.coverage(
-    branch=True,
-    include='project/*',
-    omit=[
-        'project/tests/*',
-        'project/config.py',
-    ]
+    branch=True, include="project/*", omit=["project/tests/*", "project/config.py",]
 )
 COV.start()
 
@@ -27,7 +24,7 @@ cli = FlaskGroup(create_app=create_app)
 @cli.command()
 def test():
     """Runs the tests without code coverage"""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    tests = unittest.TestLoader().discover("project/tests", pattern="test*.py")
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -37,12 +34,12 @@ def test():
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('project/tests')
+    tests = unittest.TestLoader().discover("project/tests")
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
         COV.save()
-        print('Coverage Summary:')
+        print("Coverage Summary:")
         COV.report()
         COV.html_report()
         COV.erase()
@@ -50,5 +47,38 @@ def cov():
     sys.exit(result)
 
 
-if __name__ == '__main__':
+@cli.command("recreate_db")
+def recreate_db():
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
+
+
+@cli.command("seed_categories")
+def seed_categories():
+    """Seeds the product_categories table in database."""
+    product_categories = [
+        "meat_and_poultry",
+        "dairy_and_eggs",
+        "alcohol_and_beverages",
+        "food_and_vegetables",
+        "seafood",
+    ]
+    for category_name in product_categories:
+        ProductCategoryModel(name=category_name).save_to_db()
+
+
+@cli.command("seed_products")
+def seed_products():
+    """Seeds the products table in database."""
+    ProductModel(
+        name="JOSE CUERVO RESERVA 1800 ANEJO 700ml",
+        code="24.053",
+        category_id=ProductCategoryModel.get_category_id_by_name(
+            category_name="alcohol_and_beverages"
+        ),
+    ).save_to_db()
+
+
+if __name__ == "__main__":
     cli()
