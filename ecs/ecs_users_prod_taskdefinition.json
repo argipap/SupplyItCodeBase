@@ -44,7 +44,10 @@
         }
       ],
       "memoryReservation": 200,
-      "essential": true
+      "essential": true,
+      "links": [
+        "redis"
+      ]
     },
     {
       "name": "redis",
