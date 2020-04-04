@@ -2,28 +2,75 @@
 
 exports[`When given a danger message Message renders a snapshot properly 1`] = `
 <div
-  className="notification is-danger"
+  aria-atomic="true"
+  aria-live="assertive"
+  className="fade toast"
+  role="alert"
+  variant="danger"
 >
-  <button
-    className="delete"
-    onClick={[Function]}
-  />
-  <span>
+  <div
+    className="toast-header"
+  >
+    <button
+      className="close ml-2 mb-1"
+      data-dismiss="toast"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+      <span
+        className="sr-only"
+      >
+        Close
+      </span>
+    </button>
+  </div>
+  <div
+    className="toast-body"
+  >
     Hello, World!
-  </span>
+  </div>
 </div>
 `;
 
 exports[`When given a success message Message renders a snapshot properly 1`] = `
 <div
-  className="notification is-success"
+  aria-atomic="true"
+  aria-live="assertive"
+  className="fade toast"
+  role="alert"
+  variant="success"
 >
-  <button
-    className="delete"
-    onClick={[Function]}
-  />
-  <span>
+  <div
+    className="toast-header"
+  >
+    Title
+    <button
+      className="close ml-2 mb-1"
+      data-dismiss="toast"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+      <span
+        className="sr-only"
+      >
+        Close
+      </span>
+    </button>
+  </div>
+  <div
+    className="toast-body"
+  >
     Hello, World!
-  </span>
+  </div>
 </div>
 `;

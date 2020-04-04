@@ -39,7 +39,7 @@ then
       service="supplyit-users-prod-service"
       template="ecs_users_prod_taskdefinition.json"
       task_template=$(cat "ecs/$template")
-      task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_RDS_URI $PRODUCTION_SECRET_KEY)
+      task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_RDS_URI $PRODUCTION_SECRET_KEY $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID $MAILGUN_API_KEY $MAILGUN_DOMAIN $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
       # update users service with the new task definitions
