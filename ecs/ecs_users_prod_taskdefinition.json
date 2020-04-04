@@ -23,6 +23,14 @@
           "value": "project.config.ProductionConfig"
         },
         {
+          "name": "CELERY_BACKEND",
+          "value": "redis://redis:6379/0"
+        },
+        {
+          "name": "CELERY_BROKER",
+          "value": "redis://redis:6379/0"
+        },
+        {
           "name": "DATABASE_TEST_URL",
           "value": "postgres://postgres:postgres@supplyit-users-db:5432/users_test"
         },
@@ -36,7 +44,10 @@
         }
       ],
       "memoryReservation": 200,
-      "essential": true
+      "essential": true,
+      "links": [
+        "redis"
+      ]
     },
     {
       "name": "redis",
