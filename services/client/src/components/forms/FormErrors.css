@@ -3,7 +3,8 @@
 }
 
 .validation-list > li {
-    display: block;
+    /* display: block; */
+    display: none;
 }
 
 li:before {
@@ -30,4 +31,13 @@ li:before {
 .success:before {
     content: "\2713";
     color: #23D160;
+}
+
+input.error {
+  border-color: red;
+}
+
+.input-feedback {
+  color: red;
+  margin-top: .25rem;
 }
