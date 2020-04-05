@@ -4,19 +4,20 @@ import unittest
 import coverage
 
 from flask.cli import FlaskGroup
-from project import create_app, db
-from project.api.models.confirmations import ConfirmationModel
-from project.api.models.users import UserModel, UserType
-from project.api.models.retailers import RetailerModel
-from project.api.models.suppliers import SupplierModel
-from project.api.models.stores import StoreModel, StoreType
-from project.api.models.companies import CompanyModel, CompanyType
-from project.api.models.addresses import AddressModel
 
 COV = coverage.coverage(
     branch=True, include="project/*", omit=["project/tests/*", "project/config.py"]
 )
 COV.start()
+
+from project import create_app, db  # noqa:E402
+from project.api.models.confirmations import ConfirmationModel  # noqa:E402
+from project.api.models.users import UserModel, UserType  # noqa:E402
+from project.api.models.retailers import RetailerModel  # noqa:E402
+from project.api.models.suppliers import SupplierModel  # noqa:E402
+from project.api.models.stores import StoreModel, StoreType  # noqa:E402
+from project.api.models.companies import CompanyModel, CompanyType  # noqa:E402
+from project.api.models.addresses import AddressModel  # noqa:E402
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
