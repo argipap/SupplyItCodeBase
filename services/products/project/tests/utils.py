@@ -74,10 +74,9 @@ class TestUtils:
     @classmethod
     def delete_user(cls, email):
         headers = {"content_type": "application/json"}
-        response = requests.delete(
+        requests.delete(
             f"{cls.USERS_DOMAIN}/users/email/{email}", headers=headers,
         )
-        return json.loads(response.text)
 
     @classmethod
     def register_retail_user(
