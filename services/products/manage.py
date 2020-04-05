@@ -7,15 +7,15 @@ import unittest
 import coverage
 from flask.cli import FlaskGroup
 
-from project import create_app, db
-from project.api.models.product_categories import ProductCategoryModel
-from project.api.models.products import ProductModel
-
-
 COV = coverage.coverage(
-    branch=True, include="project/*", omit=["project/tests/*", "project/config.py",]
+    branch=True, include="project/*", omit=["project/tests/*", "project/config.py"]
 )
 COV.start()
+
+from project import create_app, db  # noqa:E402
+from project.api.models.product_categories import ProductCategoryModel  # noqa:E402
+from project.api.models.products import ProductModel  # noqa:E402
+
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)

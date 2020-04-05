@@ -21,6 +21,7 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG_TB_ENABLED = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    MAILSLURP_API_KEY = os.environ.get("MAILSLURP_API_KEY")
 
 
 class TestingConfig(BaseConfig):
@@ -28,6 +29,7 @@ class TestingConfig(BaseConfig):
 
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
+    MAILSLURP_API_KEY = os.environ.get("MAILSLURP_API_KEY")
 
 
 class StagingConfig(BaseConfig):

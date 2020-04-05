@@ -118,6 +118,7 @@ services:
       - SECRET_KEY=my_precious
       - DATABASE_URL=postgres://postgres:postgres@products-db:5432/products_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@products-db:5432/products_test
+      - MAILSLURP_API_KEY=${MAILSLURP_API_KEY}
     depends_on:
       - supplyit-users
       - products-db

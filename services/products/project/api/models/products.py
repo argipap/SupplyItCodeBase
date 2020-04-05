@@ -40,6 +40,10 @@ class ProductModel(db.Model):
     def find_by_id(cls, _id: str) -> "ProductModel":
         return cls.query.filter_by(id=_id).first()
 
-    def save_to_db(self) -> None:
+    @classmethod
+    def get_product_id_by_name(cls, product_name) -> "ProductModel":
+        return cls.query.filter_by(name=product_name).first().id
+
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
