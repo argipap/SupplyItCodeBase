@@ -19,6 +19,7 @@ Flask-RESTful = "*"
 Flask-SQLAlchemy = "*"
 Flask-Testing = "*"
 black = "==19.10b0"
+mailslurp-client = "*"
 
 [requires]
 python_version = "3.7"
