@@ -4,7 +4,7 @@ info:
   title: Supplyit Users Service
   description: Swagger spec for documenting the users service
 servers:
-- url: http://supplyit-production-alb-643743255.us-east-1.elb.amazonaws.com
+- url: http://localhost
 paths:
   /users/ping:
     get:
