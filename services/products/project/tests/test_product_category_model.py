@@ -29,3 +29,7 @@ class TestProductCategoryModel(BaseTestCase):
             new_product.id,
             ProductCategoryModel.get_category_id_by_name(new_product.name),
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
