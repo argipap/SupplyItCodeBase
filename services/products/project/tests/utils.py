@@ -111,11 +111,12 @@ class TestUtils:
             ),
             headers=headers,
         )
-        data = json.loads(response.text)
-        if response.status_code == 200 and data["status"] == "success":
-            return data
-        else:
-            return False
+        print(f"debug register_retail_user response: {response.text}")
+        # data = json.loads(response.text)
+        # if response.status_code == 200 and data["status"] == "success":
+        #     return data
+        # else:
+        #     return False
 
     @classmethod
     def confirm_user(cls):
@@ -152,7 +153,7 @@ class TestUtils:
         with mailslurp_client.ApiClient(configuration) as api_client:
             api_instance = mailslurp_client.WaitForControllerApi(api_client)
             inbox_id = TestUtils.INBOX_ID
-            timeout = 5000
+            timeout = 10000
             try:
                 api_response = api_instance.wait_for_latest_email(
                     inbox_id=inbox_id, timeout=timeout, unread_only=False
