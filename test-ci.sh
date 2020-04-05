@@ -21,6 +21,9 @@ dev() {
   inspect $? supplyit-users
   docker-compose exec supplyit-users flake8 project
   inspect $? supplyit-users-lint
+  # in order to test products properly we need users to be up and running
+  docker-compose exec supplyit-users python manage.py recreate_db
+  inspect $? supplyit-users-recreate_db
   docker-compose exec products python manage.py test
   inspect $? products
   docker-compose exec products flake8 project

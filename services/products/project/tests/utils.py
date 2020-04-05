@@ -111,12 +111,11 @@ class TestUtils:
             ),
             headers=headers,
         )
-        print(f"debug register_retail_user response: {response.text}")
-        # data = json.loads(response.text)
-        # if response.status_code == 200 and data["status"] == "success":
-        #     return data
-        # else:
-        #     return False
+        data = json.loads(response.text)
+        if response.status_code == 200 and data["status"] == "success":
+            return data
+        else:
+            return False
 
     @classmethod
     def confirm_user(cls):
