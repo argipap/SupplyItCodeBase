@@ -1,3 +1,6 @@
+# project/tests/utils.py
+
+
 import json
 import requests
 
@@ -5,14 +8,11 @@ from flask import current_app
 
 from project.api.models.product_categories import ProductCategoryModel
 from project.api.models.products import ProductModel
-import mailslurp_client
-from mailslurp_client.rest import ApiException
+from project.tests.mailslurp_lib import MailSlurpClient
 
 
 class TestUtils:
     USERS_DOMAIN = current_app.config["USERS_SERVICE_URL"]
-    MAILSLURP_API_KEY = current_app.config["MAILSLURP_API_KEY"]
-    INBOX_ID = "01802e18-bc17-42fb-ac23-fe09814aaaf3"
 
     product_data = {
         "name": "test_product",
@@ -22,7 +22,7 @@ class TestUtils:
 
     user_data_retail = {
         "username": "testuser",
-        "email": f"{INBOX_ID}@mailslurp.com",
+        "email": f"{MailSlurpClient.INBOX_ID}@mailslurp.com",
         "password": "123abc!",
         "store_name": "testStore",
         "store_type": "other",
@@ -121,11 +121,11 @@ class TestUtils:
     def confirm_user(cls):
         """need to make an {USERS_DOMAIN}/auth/confirmation/<uuid> request"""
         # using Mailslurp client to  mock. First empty inbox from mails
-        mailslurp_config = cls.mailslurp_configuration()
-        cls.mailslurp_empty_inbox(mailslurp_config)
+        mailslurp_config = MailSlurpClient.mailslurp_configuration()
+        MailSlurpClient.mailslurp_empty_inbox(mailslurp_config)
         # but first we need to send/receive a fake email using MAILSLURP
         confirmation_id = (
-            cls.mailslurp_wait_for_latest_email(mailslurp_config)
+            MailSlurpClient.mailslurp_wait_for_latest_email(mailslurp_config)
             .body.split("=")[1]
             .split(">")[0]
             .split("/")[-1]
@@ -133,48 +133,10 @@ class TestUtils:
         headers = {"content_type": "application/json"}
         print(f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}")
         response = requests.get(
-            f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}", headers=headers,
+            f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}",
+            headers=headers,
         )
         print(response.status_code)
         if response.status_code == 200:
             return True
         return False
-
-    @classmethod
-    def mailslurp_configuration(cls):
-        configuration = mailslurp_client.Configuration()
-        # Configure API key authorization: API_KEY
-        configuration.api_key["x-api-key"] = TestUtils.MAILSLURP_API_KEY
-        return configuration
-
-    @classmethod
-    def mailslurp_wait_for_latest_email(cls, configuration):
-        with mailslurp_client.ApiClient(configuration) as api_client:
-            api_instance = mailslurp_client.WaitForControllerApi(api_client)
-            inbox_id = TestUtils.INBOX_ID
-            timeout = 10000
-            try:
-                api_response = api_instance.wait_for_latest_email(
-                    inbox_id=inbox_id, timeout=timeout, unread_only=False
-                )
-                return api_response
-            except ApiException as e:
-                print(
-                    "Exception calling WaitForControllerApi->wait_for_latest_email: %s"
-                    % e
-                )
-        return False
-
-    @classmethod
-    def mailslurp_empty_inbox(cls, configuration):
-        with mailslurp_client.ApiClient(configuration) as api_client:
-            # Create an instance of the API class
-            api_instance = mailslurp_client.CommonActionsControllerApi(api_client)
-
-            try:
-                # Delete all emails in an inbox
-                api_instance.empty_inbox(cls.INBOX_ID)
-            except ApiException as e:
-                print(
-                    "Exception calling CommonActionsControllerApi->empty_inbox: %s" % e
-                )
