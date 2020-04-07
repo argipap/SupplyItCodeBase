@@ -61,6 +61,10 @@ class TestProductModel(BaseTestCase):
                 "category_id": new_product.category_id,
                 "quantity": new_product.quantity,
                 "image": new_product.image,
+                "date_added": str(new_product.date_added),
+                "date_updated": str(new_product.date_updated)
+                if new_product.date_updated
+                else None,
             },
         )
 
