@@ -7,6 +7,15 @@ from flask import Flask
 from project.utils.lib import cors, toolbar, db, migrate
 
 
+def register_blueprints(app):
+    # register blueprints
+    from project.api.views.base import base_blueprint
+    from project.api.views.products import products_blueprint
+
+    app.register_blueprint(base_blueprint)
+    app.register_blueprint(products_blueprint)
+
+
 def create_app(script_info=None):
 
     # instantiate the app
@@ -23,9 +32,7 @@ def create_app(script_info=None):
     migrate.init_app(app, db)
 
     # register blueprints
-    from project.api.views.base import base_blueprint
-
-    app.register_blueprint(base_blueprint)
+    register_blueprints(app)
 
     # shell context for flask cli
     @app.shell_context_processor

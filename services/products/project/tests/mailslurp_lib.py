@@ -1,6 +1,5 @@
 # project/tests/maislurp_lib.py
 
-
 import mailslurp_client
 from mailslurp_client.rest import ApiException
 from flask import current_app

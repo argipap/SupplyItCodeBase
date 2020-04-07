@@ -16,6 +16,7 @@ class ProductModel(db.Model):
         db.Integer, db.ForeignKey("product_categories.id"), nullable=False
     )
     category = db.relationship("ProductCategoryModel", backref="product")
+    image = db.Column(db.String(255), unique=False, nullable=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     date_updated = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
@@ -34,6 +35,10 @@ class ProductModel(db.Model):
             "category_id": self.category_id,
             "quantity": self.quantity,
             "image": self.image,
+            "date_added": str(self.date_added),
+            "date_updated": self.date_updated
+            if not self.date_updated
+            else str(self.date_updated),
         }
 
     @classmethod
