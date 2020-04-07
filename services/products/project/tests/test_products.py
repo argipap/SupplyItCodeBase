@@ -2,7 +2,6 @@
 
 import json
 import unittest
-from datetime import datetime
 
 from project.tests.test_base import BaseTestCase
 from project.tests.utils import TestUtils
