@@ -7,15 +7,11 @@ from flask import current_app
 
 
 class MailSlurpClient:
-    MAILSLURP_API_KEY = current_app.config["MAILSLURP_API_KEY"]
     INBOX_ID = "01802e18-bc17-42fb-ac23-fe09814aaaf3"
-
-    @classmethod
-    def mailslurp_configuration(cls):
-        configuration = mailslurp_client.Configuration()
-        # Configure API key authorization: API_KEY
-        configuration.api_key["x-api-key"] = cls.MAILSLURP_API_KEY
-        return configuration
+    CONFIGURATION = mailslurp_client.Configuration()
+    CONFIGURATION.api_key[
+        "x-api-key"
+    ] = current_app.config["MAILSLURP_API_KEY"]
 
     @classmethod
     def mailslurp_wait_for_latest_email(cls, configuration):

@@ -121,7 +121,7 @@ class TestUtils:
     def confirm_user(cls):
         """need to make an {USERS_DOMAIN}/auth/confirmation/<uuid> request"""
         # using Mailslurp client to  mock. First empty inbox from mails
-        mailslurp_config = MailSlurpClient.mailslurp_configuration()
+        mailslurp_config = MailSlurpClient.CONFIGURATION
         MailSlurpClient.mailslurp_empty_inbox(mailslurp_config)
         # but first we need to send/receive a fake email using MAILSLURP
         confirmation_id = (
