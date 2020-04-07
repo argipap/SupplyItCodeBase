@@ -17,26 +17,16 @@ class TestProducts(BaseTestCase):
             self.assertEqual(len(data), 2)
 
     def test_get_all_products(self):
-        TestUtils.add_product(**TestUtils.product_data)
+        product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get("/products")
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data), 2)
-            self.assertIn(TestUtils.product_data["name"], data["data"][0]["name"])
-            self.assertIn(TestUtils.product_data["code"], data["data"][0]["code"])
-            self.assertIn(
-                str(TestUtils.product_data["category_id"]),
-                str(data["data"][0]["category_id"])
-            )
-            self.assertEqual(
-                datetime.utcnow().date(),
-                datetime.strptime(
-                    data["data"][0]["date_added"],
-                    '%Y-%m-%d %H:%M:%S.%f'
-                ).date()
-            )
-            self.assertEqual(None, data["data"][0]["date_updated"])
+            self.assertEqual(product.name, data["data"][0]["name"])
+            self.assertEqual(product.code, data["data"][0]["code"])
+            self.assertEqual(product.category_id, data["data"][0]["category_id"])
+            self.assertEqual(product.quantity, data["data"][0]["quantity"])
 
 
 if __name__ == "__main__":

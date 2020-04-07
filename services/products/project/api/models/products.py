@@ -35,10 +35,6 @@ class ProductModel(db.Model):
             "category_id": self.category_id,
             "quantity": self.quantity,
             "image": self.image,
-            "date_added": str(self.date_added),
-            "date_updated": self.date_updated
-            if not self.date_updated
-            else str(self.date_updated),
         }
 
     @classmethod
