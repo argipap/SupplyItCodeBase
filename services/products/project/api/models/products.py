@@ -38,12 +38,16 @@ class ProductModel(db.Model):
         }
 
     @classmethod
-    def find_by_id(cls, _id: str) -> "ProductModel":
+    def find_by_id(cls, _id: int) -> "ProductModel":
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
-    def get_product_id_by_name(cls, product_name) -> "ProductModel":
-        return cls.query.filter_by(name=product_name).first().id
+    def find_by_name(cls, product_name: str) -> "ProductModel":
+        return cls.query.filter_by(name=product_name).first()
+    
+    @classmethod
+    def find_by_code(cls, product_code: str) -> "ProductModel":
+        return cls.query.filter_by(code=product_code).first()
 
     def save_to_db(self):
         db.session.add(self)

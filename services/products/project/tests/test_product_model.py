@@ -70,9 +70,7 @@ class TestProductModel(BaseTestCase):
 
     def test_find_id_by_name(self):
         new_product = TestUtils.add_product(**TestUtils.product_data)
-        self.assertEqual(
-            new_product.id, ProductModel.get_product_id_by_name(new_product.name)
-        )
+        self.assertTrue(ProductModel.find_by_name(new_product.name))
 
 
 if __name__ == "__main__":
