@@ -44,8 +44,8 @@ class ProductById(Resource):
         except ValueError:
             response_object["message"] = "Product identifier (id) should be int"
             return response_object, 404
-    
-    
+
+
 class ProductByName(Resource):
 
     # method_decorators = {"post": [authenticate]}
