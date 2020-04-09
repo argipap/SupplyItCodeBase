@@ -32,7 +32,7 @@ class ProductModel(db.Model):
             "id": self.id,
             "code": self.code,
             "name": self.name,
-            "category_id": self.category_id,
+            "category": self.category.name,
             "quantity": self.quantity,
             "image": self.image,
         }
@@ -48,6 +48,13 @@ class ProductModel(db.Model):
     @classmethod
     def find_by_code(cls, product_code: str) -> "ProductModel":
         return cls.query.filter_by(code=product_code).first()
+
+    @classmethod
+    def already_exists(cls, name: str, code: str) -> bool:
+        return (
+            cls.query.filter_by(name=name).first()
+            or cls.query.filter_by(code=code).first()
+        ) and True or False
 
     def save_to_db(self):
         db.session.add(self)

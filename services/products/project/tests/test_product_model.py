@@ -5,6 +5,7 @@ import unittest
 from sqlalchemy.exc import IntegrityError
 
 from project import db
+from project.api.models.product_categories import ProductCategoryModel
 from project.api.models.products import ProductModel
 from project.tests.test_base import BaseTestCase
 from project.tests.utils import TestUtils
@@ -17,7 +18,7 @@ class TestProductModel(BaseTestCase):
         self.assertEqual(new_product.name, "test_product")
         self.assertEqual(new_product.quantity, 1)
         self.assertEqual(new_product.code, TestUtils.product_data["code"])
-        self.assertEqual(new_product.category_id, TestUtils.product_data["category_id"])
+        self.assertEqual(new_product.category.name, TestUtils.product_data["category"])
         self.assertTrue(new_product.date_added, True)
         self.assertFalse(new_product.date_updated, None)
 
@@ -31,13 +32,19 @@ class TestProductModel(BaseTestCase):
         self.assertEqual(new_product.quantity, 3)
         self.assertEqual(new_product.code, data["code"])
         self.assertEqual(new_product.image, data["image"])
-        self.assertEqual(new_product.category_id, data["category_id"])
+        self.assertEqual(new_product.category.name, data["category"])
 
     def test_add_product_duplicate_code(self):
         TestUtils.add_product(**TestUtils.product_data)
         new_data = dict(**TestUtils.product_data)
         new_data["name"] = "new_product"
-        duplicate_product = ProductModel(**TestUtils.product_data)
+        duplicate_product = ProductModel(
+            name=TestUtils.product_data["name"],
+            code=TestUtils.product_data["code"],
+            category_id=ProductCategoryModel.find_by_category(
+                TestUtils.product_data["category"]
+            ).id,
+        )
         db.session.add(duplicate_product)
         self.assertRaises(IntegrityError, db.session.commit)
 
@@ -45,7 +52,13 @@ class TestProductModel(BaseTestCase):
         TestUtils.add_product(**TestUtils.product_data)
         new_data = dict(**TestUtils.product_data)
         new_data["code"] = 999
-        duplicate_product = ProductModel(**TestUtils.product_data)
+        duplicate_product = ProductModel(
+            name=TestUtils.product_data["name"],
+            code=TestUtils.product_data["code"],
+            category_id=ProductCategoryModel.find_by_category(
+                TestUtils.product_data["category"]
+            ).id,
+        )
         db.session.add(duplicate_product)
         self.assertRaises(IntegrityError, db.session.commit)
 
@@ -58,7 +71,7 @@ class TestProductModel(BaseTestCase):
                 "id": new_product.id,
                 "code": new_product.code,
                 "name": new_product.name,
-                "category_id": new_product.category_id,
+                "category": new_product.category.name,
                 "quantity": new_product.quantity,
                 "image": new_product.image,
             },

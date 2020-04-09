@@ -74,9 +74,9 @@ def seed_products():
     ProductModel(
         name="JOSE CUERVO RESERVA 1800 ANEJO 700ml",
         code="24.053",
-        category_id=ProductCategoryModel.get_category_id_by_name(
+        category_id=ProductCategoryModel.find_by_category(
             category_name="alcohol_and_beverages"
-        ),
+        ).id,
     ).save_to_db()
 
 

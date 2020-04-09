@@ -29,5 +29,5 @@ class ProductCategoryModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_category_id_by_name(cls, category_name) -> "ProductCategoryModel":
-        return cls.query.filter_by(name=category_name).first().id
+    def find_by_category(cls, category_name) -> "ProductCategoryModel":
+        return cls.query.filter_by(name=category_name).first()
