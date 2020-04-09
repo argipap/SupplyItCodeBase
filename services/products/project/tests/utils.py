@@ -16,7 +16,7 @@ class TestUtils:
 
     product_data = {
         "name": "test_product",
-        "category_id": 2,
+        "category": "meat_and_poultry",
         "code": "52",
     }
 
@@ -34,11 +34,11 @@ class TestUtils:
     }
 
     @classmethod
-    def add_product(cls, name, code, category_id, quantity=None, image=None):
+    def add_product(cls, name, code, category, quantity=None, image=None):
         product = ProductModel(
             name=name,
             code=code,
-            category_id=category_id,
+            category_id=ProductCategoryModel.find_by_category(category).id,
             quantity=quantity,
             image=image,
         )

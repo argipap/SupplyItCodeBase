@@ -27,7 +27,7 @@ class TestProductCategoryModel(BaseTestCase):
         new_product = TestUtils.add_product_category("test_category")
         self.assertEqual(
             new_product.id,
-            ProductCategoryModel.get_category_id_by_name(new_product.name),
+            ProductCategoryModel.find_by_category(new_product.name).id,
         )
 
 
