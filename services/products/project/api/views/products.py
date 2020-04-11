@@ -3,6 +3,7 @@
 
 from flask import Blueprint, request
 from flask_restful import Resource, Api
+from sqlalchemy import exc
 
 from project import db
 from project.api.models.product_categories import ProductCategoryModel
@@ -89,6 +90,64 @@ class ProductById(Resource):
             response_object["message"] = "Product identifier (id) should be int"
             return response_object, 404
 
+    @classmethod
+    def delete(cls, product_id):
+        response_object = {}
+        product = ProductModel.find_by_id(_id=int(product_id))
+        if product:
+            product.remove_from_db()
+            response_object["status"] = "success"
+            response_object["message"] = "Product deleted successfully"
+            return response_object, 200
+        return response_object, 204
+
+    @classmethod
+    def put(cls, product_id):
+        response_object = {
+            "status": "fail",
+            "message": "Invalid Payload.",
+        }
+        json_data = request.get_json()
+        if not json_data or not isinstance(json_data, dict):
+            return response_object, 400
+        product = ProductModel.find_by_id(_id=product_id)
+        if not product:
+            response_object["message"] = f"Product with id: {product_id} does not exist"
+            return response_object, 400
+        product_keys = product.json().keys()
+        for parameter in json_data.keys():
+            if parameter not in product_keys:
+                response_object["message"] = (
+                    f"Invalid Payload."
+                    f"Field '{parameter}' is not a valid request parameter"
+                )
+                return response_object, 400
+        try:
+            update_data = dict()
+            for parameter, new_value in json_data.items():
+                if parameter in json_data and parameter != "category":
+                    update_data[parameter] = json_data[parameter]
+            if "category" in json_data:
+                new_category = ProductCategoryModel.find_by_category(
+                    json_data["category"]
+                )
+                if not new_category:
+                    response_object[
+                        "message"
+                    ] = "Sorry. This product category does not exist"
+                    return response_object, 400
+                new_category_id = new_category.id
+                update_data["category_id"] = new_category_id
+            product.update_to_db(update_data)
+            response_object["status"] = "success"
+            response_object["message"] = f"Product updated successfully"
+            return response_object, 200
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            message = str(err).split("DETAIL:")[1].split("\n")[0].strip()
+            response_object["message"] = f"Product with {message}"
+            return response_object, 400
+
 
 class ProductByName(Resource):
 
@@ -108,6 +167,66 @@ class ProductByName(Resource):
             return response_object, 200
         return response_object, 404
 
+    @classmethod
+    def delete(cls, product_name):
+        response_object = {}
+        product = ProductModel.find_by_name(product_name=product_name)
+        if product:
+            product.remove_from_db()
+            response_object["status"] = "success"
+            response_object["message"] = "Product deleted successfully"
+            return response_object, 200
+        return response_object, 204
+
+    @classmethod
+    def put(cls, product_name):
+        response_object = {
+            "status": "fail",
+            "message": "Invalid Payload.",
+        }
+        json_data = request.get_json()
+        if not json_data or not isinstance(json_data, dict):
+            return response_object, 400
+        product = ProductModel.find_by_name(product_name=product_name)
+        if not product:
+            response_object[
+                "message"
+            ] = f"Product with name: {product_name} does not exist"
+            return response_object, 400
+        product_keys = product.json().keys()
+        for parameter in json_data.keys():
+            if parameter not in product_keys:
+                response_object["message"] = (
+                    f"Invalid Payload."
+                    f"Field '{parameter}' is not a valid request parameter"
+                )
+                return response_object, 400
+        try:
+            update_data = dict()
+            for parameter, new_value in json_data.items():
+                if parameter in json_data and parameter != "category":
+                    update_data[parameter] = json_data[parameter]
+            if "category" in json_data:
+                new_category = ProductCategoryModel.find_by_category(
+                    json_data["category"]
+                )
+                if not new_category:
+                    response_object[
+                        "message"
+                    ] = "Sorry. This product category does not exist"
+                    return response_object, 400
+                new_category_id = new_category.id
+                update_data["category_id"] = new_category_id
+            product.update_to_db(update_data)
+            response_object["status"] = "success"
+            response_object["message"] = f"Product updated successfully"
+            return response_object, 200
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            message = str(err).split("DETAIL:")[1].split("\n")[0].strip()
+            response_object["message"] = f"Product with {message}"
+            return response_object, 400
+
 
 class ProductByCode(Resource):
 
@@ -126,6 +245,66 @@ class ProductByCode(Resource):
             response_object.pop("message")
             return response_object, 200
         return response_object, 404
+
+    @classmethod
+    def delete(cls, product_code):
+        response_object = {}
+        product = ProductModel.find_by_code(product_code=product_code)
+        if product:
+            product.remove_from_db()
+            response_object["status"] = "success"
+            response_object["message"] = "Product deleted successfully"
+            return response_object, 200
+        return response_object, 204
+
+    @classmethod
+    def put(cls, product_code):
+        response_object = {
+            "status": "fail",
+            "message": "Invalid Payload.",
+        }
+        json_data = request.get_json()
+        if not json_data or not isinstance(json_data, dict):
+            return response_object, 400
+        product = ProductModel.find_by_code(product_code=product_code)
+        if not product:
+            response_object[
+                "message"
+            ] = f"Product with code: {product_code} does not exist"
+            return response_object, 400
+        product_keys = product.json().keys()
+        for parameter in json_data.keys():
+            if parameter not in product_keys:
+                response_object["message"] = (
+                    f"Invalid Payload."
+                    f"Field '{parameter}' is not a valid request parameter"
+                )
+                return response_object, 400
+        try:
+            update_data = dict()
+            for parameter, new_value in json_data.items():
+                if parameter in json_data and parameter != "category":
+                    update_data[parameter] = json_data[parameter]
+            if "category" in json_data:
+                new_category = ProductCategoryModel.find_by_category(
+                    json_data["category"]
+                )
+                if not new_category:
+                    response_object[
+                        "message"
+                    ] = "Sorry. This product category does not exist"
+                    return response_object, 400
+                new_category_id = new_category.id
+                update_data["category_id"] = new_category_id
+            product.update_to_db(update_data)
+            response_object["status"] = "success"
+            response_object["message"] = f"Product updated successfully"
+            return response_object, 200
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            message = str(err).split("DETAIL:")[1].split("\n")[0].strip()
+            response_object["message"] = f"Product with {message}"
+            return response_object, 400
 
 
 api.add_resource(Products, "/products")

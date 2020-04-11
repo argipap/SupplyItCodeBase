@@ -201,11 +201,323 @@ class TestProducts(BaseTestCase):
                 data["message"], "Sorry. Product with same name or code already exists"
             )
 
-    def test_delete_product(self):
-        pass
+    def test_delete_product_by_id(self):
+        # first adding a product in order to delete it
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.delete(f"/products/id/{product.id}")
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product deleted successfully"
+            )
 
-    def test_update_product(self):
-        pass
+    def test_delete_product_by_id_not_exists(self):
+        with self.client:
+            response = self.client.delete("/products/id/199")
+            self.assertFalse(response.data)
+            self.assertEqual(response.status_code, 204)
+
+    def test_delete_product_by_name(self):
+        # first adding a product in order to delete it
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.delete(f"/products/name/{product.name}")
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product deleted successfully"
+            )
+
+    def test_delete_product_by_name_not_exists(self):
+        with self.client:
+            response = self.client.delete("/products/name/testproduct")
+            self.assertFalse(response.data)
+            self.assertEqual(response.status_code, 204)
+
+    def test_delete_product_by_code(self):
+        # first adding a product in order to delete it
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.delete(f"/products/code/{product.code}")
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product deleted successfully"
+            )
+
+    def test_delete_product_by_code_not_exists(self):
+        with self.client:
+            response = self.client.delete("/products/code/199.33")
+            self.assertFalse(response.data)
+            self.assertEqual(response.status_code, 204)
+
+    def test_update_product_by_id(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product.id}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product updated successfully"
+            )
+
+    def test_update_product_by_id_no_data(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product.id}",
+                data=json.dumps({}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Invalid Payload."
+            )
+
+    def test_update_product_by_id_not_exists(self):
+        TestUtils.add_product(**TestUtils.product_data)
+        product_id = '199'
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product_id}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], f"Product with id: {product_id} does not exist"
+            )
+
+    def test_update_product_by_id_invalid_json_keys(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product.id}",
+                data=json.dumps(TestUtils.product_data_update_invalid_keys),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn("is not a valid request parameter", data["message"])
+
+    def test_update_product_by_id_invalid_category(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product.id}",
+                data=json.dumps(TestUtils.product_data_invalid_category),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Sorry. This product category does not exist"
+            )
+
+    def test_update_product_by_id_duplicate_code(self):
+        product_1 = TestUtils.add_product(**TestUtils.product_data)
+        product_2 = TestUtils.add_product(**TestUtils.product_data_update)
+        with self.client:
+            response = self.client.put(
+                f"/products/id/{product_2.id}",
+                data=json.dumps({"code": product_1.code}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertRegex(data["message"], "^Product with Key.*already exists.")
+
+    def test_update_product_by_name(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product.name}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product updated successfully"
+            )
+
+    def test_update_product_by_name_no_data(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product.id}",
+                data=json.dumps({}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Invalid Payload."
+            )
+
+    def test_update_product_by_name_invalid_json_keys(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product.name}",
+                data=json.dumps(TestUtils.product_data_update_invalid_keys),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn("is not a valid request parameter", data["message"])
+
+    def test_update_product_by_name_not_exists(self):
+        TestUtils.add_product(**TestUtils.product_data)
+        product_name = 'anotherProduct'
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product_name}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], f"Product with name: {product_name} does not exist"
+            )
+
+    def test_update_product_by_name_invalid_category(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product.name}",
+                data=json.dumps(TestUtils.product_data_invalid_category),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Sorry. This product category does not exist"
+            )
+
+    def test_update_product_by_name_duplicate_code(self):
+        product_1 = TestUtils.add_product(**TestUtils.product_data)
+        product_2 = TestUtils.add_product(**TestUtils.product_data_update)
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product_2.name}",
+                data=json.dumps({"code": product_1.code}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertRegex(data["message"], "^Product with Key.*already exists.")
+
+    def test_update_product_by_code(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product.code}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(
+                data["message"], "Product updated successfully"
+            )
+
+    def test_update_product_by_code_no_data(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product.id}",
+                data=json.dumps({}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Invalid Payload."
+            )
+
+    def test_update_product_by_code_invalid_json_keys(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product.code}",
+                data=json.dumps(TestUtils.product_data_update_invalid_keys),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn("is not a valid request parameter", data["message"])
+
+    def test_update_product_by_code_not_exists(self):
+        TestUtils.add_product(**TestUtils.product_data)
+        product_code = 'anotherCode'
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product_code}",
+                data=json.dumps(TestUtils.product_data_update),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], f"Product with code: {product_code} does not exist"
+            )
+
+    def test_update_product_by_code_invalid_category(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product.code}",
+                data=json.dumps(TestUtils.product_data_invalid_category),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], "Sorry. This product category does not exist"
+            )
+
+    def test_update_product_by_code_duplicate_name(self):
+        product_1 = TestUtils.add_product(**TestUtils.product_data)
+        product_2 = TestUtils.add_product(**TestUtils.product_data_update)
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product_2.code}",
+                data=json.dumps({"name": product_1.name}),
+                content_type="application/json",
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertRegex(data["message"], "^Product with Key.*already exists.")
 
 
 if __name__ == "__main__":
