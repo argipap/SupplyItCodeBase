@@ -10,7 +10,9 @@ from project.tests.utils import TestUtils
 class TestProducts(BaseTestCase):
     def test_get_zero_products(self):
         with self.client:
-            response = self.client.get("/products")
+            response = self.client.get(
+                "/products", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
@@ -19,7 +21,9 @@ class TestProducts(BaseTestCase):
     def test_get_all_products(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.get("/products")
+            response = self.client.get(
+                "/products", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
@@ -32,7 +36,10 @@ class TestProducts(BaseTestCase):
     def test_get_product_by_id(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.get(f"/products/id/{product.id}")
+            response = self.client.get(
+                f"/products/id/{product.id}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
@@ -41,7 +48,10 @@ class TestProducts(BaseTestCase):
     def test_get_product_by_id_with_string(self):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.get("/products/id/asfda")
+            response = self.client.get(
+                "/products/id/asfda",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
@@ -51,7 +61,10 @@ class TestProducts(BaseTestCase):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             dummy_id = 199
-            response = self.client.get(f"/products/id/{dummy_id}")
+            response = self.client.get(
+                f"/products/id/{dummy_id}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
@@ -62,7 +75,10 @@ class TestProducts(BaseTestCase):
     def test_get_product_by_name(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.get(f"/products/name/{product.name}")
+            response = self.client.get(
+                f"/products/name/{product.name}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
@@ -72,7 +88,10 @@ class TestProducts(BaseTestCase):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             dummy_name = "asdfas"
-            response = self.client.get(f"/products/name/{dummy_name}")
+            response = self.client.get(
+                f"/products/name/{dummy_name}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
@@ -83,7 +102,10 @@ class TestProducts(BaseTestCase):
     def test_get_product_by_code(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.get(f"/products/code/{product.code}")
+            response = self.client.get(
+                f"/products/code/{product.code}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
@@ -93,7 +115,10 @@ class TestProducts(BaseTestCase):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             dummy_code = "asdfas"
-            response = self.client.get(f"/products/code/{dummy_code}")
+            response = self.client.get(
+                f"/products/code/{dummy_code}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
@@ -107,6 +132,7 @@ class TestProducts(BaseTestCase):
                 "/products",
                 data=json.dumps(TestUtils.product_data),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 201)
@@ -118,7 +144,10 @@ class TestProducts(BaseTestCase):
     def test_add_product_no_keys(self):
         with self.client:
             response = self.client.post(
-                "/products", data=json.dumps({}), content_type="application/json",
+                "/products",
+                data=json.dumps({}),
+                content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -131,6 +160,7 @@ class TestProducts(BaseTestCase):
                 "/products",
                 data=json.dumps({"code": 52, "category": "meat_and_poultry"}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -147,6 +177,7 @@ class TestProducts(BaseTestCase):
                     {"name": "test_product", "category": "meat_and_poultry"}
                 ),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -161,6 +192,7 @@ class TestProducts(BaseTestCase):
                 "/products",
                 data=json.dumps({"name": "test_product", "code": "52"}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -178,6 +210,7 @@ class TestProducts(BaseTestCase):
                     {"name": "test_product", "code": "52", "category": "test"}
                 ),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -193,6 +226,7 @@ class TestProducts(BaseTestCase):
                 "/products",
                 data=json.dumps(TestUtils.product_data),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -205,17 +239,21 @@ class TestProducts(BaseTestCase):
         # first adding a product in order to delete it
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.delete(f"/products/id/{product.id}")
+            response = self.client.delete(
+                f"/products/id/{product.id}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product deleted successfully"
-            )
+            self.assertEqual(data["message"], "Product deleted successfully")
 
     def test_delete_product_by_id_not_exists(self):
         with self.client:
-            response = self.client.delete("/products/id/199")
+            response = self.client.delete(
+                "/products/id/199",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             self.assertFalse(response.data)
             self.assertEqual(response.status_code, 204)
 
@@ -223,17 +261,21 @@ class TestProducts(BaseTestCase):
         # first adding a product in order to delete it
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.delete(f"/products/name/{product.name}")
+            response = self.client.delete(
+                f"/products/name/{product.name}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product deleted successfully"
-            )
+            self.assertEqual(data["message"], "Product deleted successfully")
 
     def test_delete_product_by_name_not_exists(self):
         with self.client:
-            response = self.client.delete("/products/name/testproduct")
+            response = self.client.delete(
+                "/products/name/testproduct",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             self.assertFalse(response.data)
             self.assertEqual(response.status_code, 204)
 
@@ -241,17 +283,21 @@ class TestProducts(BaseTestCase):
         # first adding a product in order to delete it
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
-            response = self.client.delete(f"/products/code/{product.code}")
+            response = self.client.delete(
+                f"/products/code/{product.code}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product deleted successfully"
-            )
+            self.assertEqual(data["message"], "Product deleted successfully")
 
     def test_delete_product_by_code_not_exists(self):
         with self.client:
-            response = self.client.delete("/products/code/199.33")
+            response = self.client.delete(
+                "/products/code/199.33",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
             self.assertFalse(response.data)
             self.assertEqual(response.status_code, 204)
 
@@ -262,13 +308,12 @@ class TestProducts(BaseTestCase):
                 f"/products/id/{product.id}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product updated successfully"
-            )
+            self.assertEqual(data["message"], "Product updated successfully")
 
     def test_update_product_by_id_no_data(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -277,22 +322,22 @@ class TestProducts(BaseTestCase):
                 f"/products/id/{product.id}",
                 data=json.dumps({}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
             self.assertEqual(data["status"], "fail")
-            self.assertEqual(
-                data["message"], "Invalid Payload."
-            )
+            self.assertEqual(data["message"], "Invalid Payload.")
 
     def test_update_product_by_id_not_exists(self):
         TestUtils.add_product(**TestUtils.product_data)
-        product_id = '199'
+        product_id = "199"
         with self.client:
             response = self.client.put(
                 f"/products/id/{product_id}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -308,6 +353,7 @@ class TestProducts(BaseTestCase):
                 f"/products/id/{product.id}",
                 data=json.dumps(TestUtils.product_data_update_invalid_keys),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -321,6 +367,7 @@ class TestProducts(BaseTestCase):
                 f"/products/id/{product.id}",
                 data=json.dumps(TestUtils.product_data_invalid_category),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -337,6 +384,7 @@ class TestProducts(BaseTestCase):
                 f"/products/id/{product_2.id}",
                 data=json.dumps({"code": product_1.code}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -350,13 +398,12 @@ class TestProducts(BaseTestCase):
                 f"/products/name/{product.name}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product updated successfully"
-            )
+            self.assertEqual(data["message"], "Product updated successfully")
 
     def test_update_product_by_name_no_data(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -365,13 +412,12 @@ class TestProducts(BaseTestCase):
                 f"/products/name/{product.id}",
                 data=json.dumps({}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
             self.assertEqual(data["status"], "fail")
-            self.assertEqual(
-                data["message"], "Invalid Payload."
-            )
+            self.assertEqual(data["message"], "Invalid Payload.")
 
     def test_update_product_by_name_invalid_json_keys(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -380,6 +426,7 @@ class TestProducts(BaseTestCase):
                 f"/products/name/{product.name}",
                 data=json.dumps(TestUtils.product_data_update_invalid_keys),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -388,12 +435,13 @@ class TestProducts(BaseTestCase):
 
     def test_update_product_by_name_not_exists(self):
         TestUtils.add_product(**TestUtils.product_data)
-        product_name = 'anotherProduct'
+        product_name = "anotherProduct"
         with self.client:
             response = self.client.put(
                 f"/products/name/{product_name}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -409,6 +457,7 @@ class TestProducts(BaseTestCase):
                 f"/products/name/{product.name}",
                 data=json.dumps(TestUtils.product_data_invalid_category),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -425,6 +474,7 @@ class TestProducts(BaseTestCase):
                 f"/products/name/{product_2.name}",
                 data=json.dumps({"code": product_1.code}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -438,13 +488,12 @@ class TestProducts(BaseTestCase):
                 f"/products/code/{product.code}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(
-                data["message"], "Product updated successfully"
-            )
+            self.assertEqual(data["message"], "Product updated successfully")
 
     def test_update_product_by_code_no_data(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -453,13 +502,12 @@ class TestProducts(BaseTestCase):
                 f"/products/code/{product.id}",
                 data=json.dumps({}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
             self.assertEqual(data["status"], "fail")
-            self.assertEqual(
-                data["message"], "Invalid Payload."
-            )
+            self.assertEqual(data["message"], "Invalid Payload.")
 
     def test_update_product_by_code_invalid_json_keys(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -468,6 +516,7 @@ class TestProducts(BaseTestCase):
                 f"/products/code/{product.code}",
                 data=json.dumps(TestUtils.product_data_update_invalid_keys),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -476,12 +525,13 @@ class TestProducts(BaseTestCase):
 
     def test_update_product_by_code_not_exists(self):
         TestUtils.add_product(**TestUtils.product_data)
-        product_code = 'anotherCode'
+        product_code = "anotherCode"
         with self.client:
             response = self.client.put(
                 f"/products/code/{product_code}",
                 data=json.dumps(TestUtils.product_data_update),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -497,6 +547,7 @@ class TestProducts(BaseTestCase):
                 f"/products/code/{product.code}",
                 data=json.dumps(TestUtils.product_data_invalid_category),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -513,6 +564,7 @@ class TestProducts(BaseTestCase):
                 f"/products/code/{product_2.code}",
                 data=json.dumps({"name": product_1.name}),
                 content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)

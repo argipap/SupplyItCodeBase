@@ -8,6 +8,7 @@ from sqlalchemy import exc
 from project import db
 from project.api.models.product_categories import ProductCategoryModel
 from project.api.models.products import ProductModel
+from project.api.views.utils import authenticate
 
 products_blueprint = Blueprint("products", __name__, template_folder="../templates")
 api = Api(products_blueprint)
@@ -15,10 +16,10 @@ api = Api(products_blueprint)
 
 class Products(Resource):
 
-    # method_decorators = {"post": [authenticate]}
+    method_decorators = {"get": [authenticate], "post": [authenticate]}
 
     @classmethod
-    def get(cls):
+    def get(cls, resp):
         response_object = {}
         products = [product.json() for product in ProductModel.query.all()]
         response_object["data"] = products
@@ -26,7 +27,7 @@ class Products(Resource):
         return response_object, 200
 
     @classmethod
-    def post(cls):
+    def post(cls, resp):
         response_object = {
             "status": "fail",
             "message": "Invalid Payload.",
@@ -70,10 +71,15 @@ class Products(Resource):
 
 class ProductById(Resource):
 
-    # method_decorators = {"post": [authenticate]}
+    method_decorators = {
+        "get": [authenticate],
+        "post": [authenticate],
+        "delete": [authenticate],
+        "put": [authenticate],
+    }
 
     @classmethod
-    def get(cls, product_id):
+    def get(cls, resp, product_id):
         response_object = {
             "status": "fail",
             "message": f"product with id: {product_id} does not exist",
@@ -91,7 +97,7 @@ class ProductById(Resource):
             return response_object, 404
 
     @classmethod
-    def delete(cls, product_id):
+    def delete(cls, resp, product_id):
         response_object = {}
         product = ProductModel.find_by_id(_id=int(product_id))
         if product:
@@ -102,7 +108,7 @@ class ProductById(Resource):
         return response_object, 204
 
     @classmethod
-    def put(cls, product_id):
+    def put(cls, resp, product_id):
         response_object = {
             "status": "fail",
             "message": "Invalid Payload.",
@@ -151,10 +157,14 @@ class ProductById(Resource):
 
 class ProductByName(Resource):
 
-    # method_decorators = {"post": [authenticate]}
+    method_decorators = {
+        "get": [authenticate],
+        "delete": [authenticate],
+        "put": [authenticate],
+    }
 
     @classmethod
-    def get(cls, product_name):
+    def get(cls, resp, product_name):
         response_object = {
             "status": "fail",
             "message": f"product with name: {product_name} does not exist",
@@ -168,7 +178,7 @@ class ProductByName(Resource):
         return response_object, 404
 
     @classmethod
-    def delete(cls, product_name):
+    def delete(cls, resp, product_name):
         response_object = {}
         product = ProductModel.find_by_name(product_name=product_name)
         if product:
@@ -179,7 +189,7 @@ class ProductByName(Resource):
         return response_object, 204
 
     @classmethod
-    def put(cls, product_name):
+    def put(cls, resp, product_name):
         response_object = {
             "status": "fail",
             "message": "Invalid Payload.",
@@ -230,10 +240,14 @@ class ProductByName(Resource):
 
 class ProductByCode(Resource):
 
-    # method_decorators = {"post": [authenticate]}
+    method_decorators = {
+        "get": [authenticate],
+        "delete": [authenticate],
+        "put": [authenticate],
+    }
 
     @classmethod
-    def get(cls, product_code):
+    def get(cls, resp, product_code):
         response_object = {
             "status": "fail",
             "message": f"product with code: {product_code} does not exist",
@@ -247,7 +261,7 @@ class ProductByCode(Resource):
         return response_object, 404
 
     @classmethod
-    def delete(cls, product_code):
+    def delete(cls, resp, product_code):
         response_object = {}
         product = ProductModel.find_by_code(product_code=product_code)
         if product:
@@ -258,7 +272,7 @@ class ProductByCode(Resource):
         return response_object, 204
 
     @classmethod
-    def put(cls, product_code):
+    def put(cls, resp, product_code):
         response_object = {
             "status": "fail",
             "message": "Invalid Payload.",
