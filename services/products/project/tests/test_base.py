@@ -3,16 +3,13 @@
 
 import json
 from project.tests.base import BaseTestCase
-from project.tests.utils import TestUtils
 
 
 class TestBaseBlueprint(BaseTestCase):
     def test_ping(self):
         """Ensure the /ping route behaves correctly."""
-        # first login user with request to users service
-        auth_token = TestUtils.user_login(TestUtils.user_data_retail)
         response = self.client.get(
-            "/base/ping", headers=dict(Authorization=f"Bearer {auth_token}")
+            "/base/ping", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
         )
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
