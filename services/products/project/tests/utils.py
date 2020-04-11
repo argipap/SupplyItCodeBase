@@ -20,6 +20,30 @@ class TestUtils:
         "code": "52",
     }
 
+    product_data_update = {
+        "name": "test_product2",
+        "category": "alcohol_and_beverages",
+        "code": "53",
+        "image": "update.png",
+        "quantity": 100
+    }
+
+    product_data_update_invalid_keys = {
+        "naasfme": "test_product2",
+        "catasdfegory": "alcohol_and_beverages",
+        "coadfsde": "53",
+        "imasdfage": "update.png",
+        "quadsfantity": 100
+    }
+
+    product_data_invalid_category = {
+        "name": "test_product2",
+        "category": "asdfasdfasfa",
+        "code": "53",
+        "image": "update.png",
+        "quantity": 100
+    }
+
     user_data_retail = {
         "username": "testuser",
         "email": f"{MailSlurpClient.INBOX_ID}@mailslurp.com",

@@ -52,10 +52,28 @@ class ProductModel(db.Model):
     @classmethod
     def already_exists(cls, name: str, code: str) -> bool:
         return (
-            cls.query.filter_by(name=name).first()
-            or cls.query.filter_by(code=code).first()
-        ) and True or False
+            (
+                cls.query.filter_by(name=name).first()
+                or cls.query.filter_by(code=code).first()
+            )
+            and True
+            or False
+        )
 
-    def save_to_db(self):
+    def save_to_db(self) -> None:
         db.session.add(self)
+        db.session.commit()
+
+    def remove_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
+    def update_to_db(self, data: Dict) -> None:
+        self.code = data["code"] if "code" in data else self.code
+        self.name = data["name"] if "name" in data else self.name
+        self.category_id = (
+            data["category_id"] if "category_id" in data else self.category_id
+        )
+        self.quantity = data["quantity"] if "quantity" in data else self.quantity
+        self.image = data["image"] if "image" in data else self.image
         db.session.commit()
