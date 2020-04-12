@@ -13,10 +13,7 @@ class TestProductCategoryModel(BaseTestCase):
         self.assertTrue(isinstance(product_category.json(), dict))
         self.assertEqual(
             product_category.json(),
-            {
-                "id": product_category.id,
-                "name": product_category.name,
-            },
+            {"id": product_category.id, "name": product_category.name},
         )
 
     def test_find_by_id(self):
@@ -26,8 +23,7 @@ class TestProductCategoryModel(BaseTestCase):
     def test_find_id_by_name(self):
         new_product = TestUtils.add_product_category("test_category")
         self.assertEqual(
-            new_product.id,
-            ProductCategoryModel.find_by_category(new_product.name).id,
+            new_product.id, ProductCategoryModel.find_by_category(new_product.name).id,
         )
 
 
