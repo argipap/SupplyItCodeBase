@@ -18,12 +18,16 @@ class TestUtils:
         "name": "test_product",
         "category": "meat_and_poultry",
         "code": "52",
+        "added_by": "user_1@gmail.com",
+        "company": "company_1"
     }
 
     product_data_update = {
         "name": "test_product2",
         "category": "alcohol_and_beverages",
         "code": "53",
+        "added_by": "user_1@gmail.com",
+        "company": "company_1",
         "image": "update.png",
         "quantity": 100
     }
@@ -33,12 +37,16 @@ class TestUtils:
         "catasdfegory": "alcohol_and_beverages",
         "coadfsde": "53",
         "imasdfage": "update.png",
+        "addessd_by": "user_1@gmail.com",
+        "company": "company_1",
         "quadsfantity": 100
     }
 
     product_data_invalid_category = {
         "name": "test_product2",
         "category": "asdfasdfasfa",
+        "added_by": "user_1@gmail.com",
+        "company": "company_1",
         "code": "53",
         "image": "update.png",
         "quantity": 100
@@ -58,13 +66,15 @@ class TestUtils:
     }
 
     @classmethod
-    def add_product(cls, name, code, category, quantity=None, image=None):
+    def add_product(cls, name, code, category, added_by, company, quantity=None, image=None):
         product = ProductModel(
             name=name,
             code=code,
             category_id=ProductCategoryModel.find_by_category(category).id,
             quantity=quantity,
             image=image,
+            added_by=added_by,
+            company=company,
         )
         product.save_to_db()
         return product
@@ -98,9 +108,10 @@ class TestUtils:
     @classmethod
     def delete_user(cls, email):
         headers = {"content_type": "application/json"}
-        requests.delete(
+        response = requests.delete(
             f"{cls.USERS_DOMAIN}/users/email/{email}", headers=headers,
         )
+        print(f"delete user response: {response.status_code},  {response.text}")
 
     @classmethod
     def register_retail_user(
@@ -139,7 +150,7 @@ class TestUtils:
         if response.status_code == 200 and data["status"] == "success":
             return data
         else:
-            return False
+            return response.text
 
     @classmethod
     def confirm_user(cls):

@@ -18,11 +18,37 @@ class TestProducts(BaseTestCase):
             self.assertEqual(data["status"], "success")
             self.assertEqual(len(data["data"]), 0)
 
+    def test_get_zero_products_by_company(self):
+        TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.get(
+                "/products?company=test", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(len(data["data"]), 0)
+
     def test_get_all_products(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get(
                 "/products", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(len(data["data"]), 1)
+            self.assertEqual(product.name, data["data"][0]["name"])
+            self.assertEqual(product.code, data["data"][0]["code"])
+            self.assertEqual(product.category.name, data["data"][0]["category"])
+            self.assertEqual(product.quantity, data["data"][0]["quantity"])
+
+    def test_get_products_by_company(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.get(
+                f"/products?company={product.company}", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
@@ -72,7 +98,7 @@ class TestProducts(BaseTestCase):
                 f"product with id: {dummy_id} does not exist", data["message"]
             )
 
-    def test_get_product_by_name(self):
+    def test_get_all_products_by_name(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get(
@@ -82,9 +108,9 @@ class TestProducts(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(product.name, data["data"]["name"])
+            self.assertEqual(product.name, data["data"][0]["name"])
 
-    def test_get_product_by_name_not_exists(self):
+    def test_get_all_products_by_name_not_exists(self):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             dummy_name = "asdfas"
@@ -99,7 +125,62 @@ class TestProducts(BaseTestCase):
                 f"product with name: {dummy_name} does not exist", data["message"]
             )
 
+    def test_get_product_by_name(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.get(
+                f"/products/name/{product.name}?company={product.company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(product.name, data["data"]["name"])
+
+    def test_get_product_by_name_not_exists(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            dummy_name = "asdfas"
+            response = self.client.get(
+                f"/products/name/{dummy_name}?company={product.company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 404)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn(
+                f"product with name: {dummy_name} does not exist", data["message"]
+            )
+
+    def test_get_product_by_name_not_exists_in_company(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        dummy_company = "asfadfa"
+        with self.client:
+            response = self.client.get(
+                f"/products/name/{product.name}?company={dummy_company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 404)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn(
+                f"product with name: {product.name} does not exist in company {dummy_company}",
+                data["message"]
+            )
+
     def test_get_product_by_code(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.get(
+                f"/products/code/{product.code}?company={product.company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["status"], "success")
+            self.assertEqual(product.code, data["data"]["code"])
+
+    def test_get_all_products_by_code(self):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get(
@@ -109,9 +190,24 @@ class TestProducts(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data["status"], "success")
-            self.assertEqual(product.code, data["data"]["code"])
+            self.assertEqual(product.code, data["data"][0]["code"])
 
     def test_get_product_by_code_not_exists(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            dummy_code = "asdfas"
+            response = self.client.get(
+                f"/products/code/{dummy_code}?company={product.company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 404)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn(
+                f"product with code: {dummy_code} does not exist", data["message"]
+            )
+
+    def test_get_all_products_by_code_not_exists(self):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             dummy_code = "asdfas"
@@ -126,6 +222,22 @@ class TestProducts(BaseTestCase):
                 f"product with code: {dummy_code} does not exist", data["message"]
             )
 
+    def test_get_product_by_code_not_exists_in_company(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        dummy_company = "asfadfa"
+        with self.client:
+            response = self.client.get(
+                f"/products/code/{product.code}?company={dummy_company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 404)
+            self.assertEqual(data["status"], "fail")
+            self.assertIn(
+                f"product with code: {product.code} does not exist in company {dummy_company}",
+                data["message"]
+            )
+
     def test_add_product(self):
         with self.client:
             response = self.client.post(
@@ -138,7 +250,8 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 201)
             self.assertEqual(data["status"], "success")
             self.assertEqual(
-                data["message"], f"{TestUtils.product_data['name']} was added!"
+                data["message"],
+                f"Product {TestUtils.product_data['name']} added successfully"
             )
 
     def test_add_product_no_keys(self):
@@ -190,7 +303,13 @@ class TestProducts(BaseTestCase):
         with self.client:
             response = self.client.post(
                 "/products",
-                data=json.dumps({"name": "test_product", "code": "52"}),
+                data=json.dumps(
+                    {
+                        "name": "test_product",
+                        "code": "52",
+                        "company": "company_1"
+                    }
+                ),
                 content_type="application/json",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
@@ -207,7 +326,12 @@ class TestProducts(BaseTestCase):
             response = self.client.post(
                 "/products",
                 data=json.dumps(
-                    {"name": "test_product", "code": "52", "category": "test"}
+                    {
+                        "name": "test_product",
+                        "code": "52",
+                        "category": "test",
+                        "company": "company_1"
+                    }
                 ),
                 content_type="application/json",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
@@ -262,7 +386,7 @@ class TestProducts(BaseTestCase):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.delete(
-                f"/products/name/{product.name}",
+                f"/products/name/{product.name}?company={product.company}",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
@@ -273,18 +397,30 @@ class TestProducts(BaseTestCase):
     def test_delete_product_by_name_not_exists(self):
         with self.client:
             response = self.client.delete(
-                "/products/name/testproduct",
+                f"/products/name/testproduct?company=test",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             self.assertFalse(response.data)
             self.assertEqual(response.status_code, 204)
+
+    def test_delete_product_name_company_missing(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.delete(
+                f"/products/name/{product.name}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(data["message"], "company field is mandatory")
 
     def test_delete_product_by_code(self):
         # first adding a product in order to delete it
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.delete(
-                f"/products/code/{product.code}",
+                f"/products/code/{product.code}?company={product.company}",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
@@ -295,11 +431,23 @@ class TestProducts(BaseTestCase):
     def test_delete_product_by_code_not_exists(self):
         with self.client:
             response = self.client.delete(
-                "/products/code/199.33",
+                "/products/code/199.33?company=test",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             self.assertFalse(response.data)
             self.assertEqual(response.status_code, 204)
+
+    def test_delete_product_code_company_missing(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        with self.client:
+            response = self.client.delete(
+                f"/products/code/{product.name}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(data["message"], "company field is mandatory")
 
     def test_update_product_by_id(self):
         product = TestUtils.add_product(**TestUtils.product_data)
@@ -466,13 +614,31 @@ class TestProducts(BaseTestCase):
                 data["message"], "Sorry. This product category does not exist"
             )
 
+    def test_update_product_by_name_company_missing(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        new_data = dict(**TestUtils.product_data)
+        new_data.pop("company")
+        with self.client:
+            response = self.client.put(
+                f"/products/name/{product.name}",
+                data=json.dumps(new_data),
+                content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], f"Invalid Payload. Mandatory field 'company' is missing"
+            )
+
     def test_update_product_by_name_duplicate_code(self):
         product_1 = TestUtils.add_product(**TestUtils.product_data)
         product_2 = TestUtils.add_product(**TestUtils.product_data_update)
         with self.client:
             response = self.client.put(
                 f"/products/name/{product_2.name}",
-                data=json.dumps({"code": product_1.code}),
+                data=json.dumps({"code": product_1.code, "company": product_1.company}),
                 content_type="application/json",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
@@ -556,13 +722,31 @@ class TestProducts(BaseTestCase):
                 data["message"], "Sorry. This product category does not exist"
             )
 
+    def test_update_product_by_code_company_missing(self):
+        product = TestUtils.add_product(**TestUtils.product_data)
+        new_data = dict(**TestUtils.product_data)
+        new_data.pop("company")
+        with self.client:
+            response = self.client.put(
+                f"/products/code/{product.code}",
+                data=json.dumps(new_data),
+                content_type="application/json",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(data["status"], "fail")
+            self.assertEqual(
+                data["message"], f"Invalid Payload. Mandatory field 'company' is missing"
+            )
+
     def test_update_product_by_code_duplicate_name(self):
         product_1 = TestUtils.add_product(**TestUtils.product_data)
         product_2 = TestUtils.add_product(**TestUtils.product_data_update)
         with self.client:
             response = self.client.put(
                 f"/products/code/{product_2.code}",
-                data=json.dumps({"name": product_1.name}),
+                data=json.dumps({"name": product_1.name, "company": product_1.company}),
                 content_type="application/json",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
