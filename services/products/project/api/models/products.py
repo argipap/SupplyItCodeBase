@@ -80,7 +80,7 @@ class ProductModel(db.Model):
 
     @classmethod
     def find_by_code_and_company(
-            cls, product_code: str, company: str
+        cls, product_code: str, company: str
     ) -> "ProductModel":
         return cls.query.filter_by(code=product_code, company=company).first()
 

@@ -19,7 +19,7 @@ class TestUtils:
         "category": "meat_and_poultry",
         "code": "52",
         "added_by": "user_1@gmail.com",
-        "company": "company_1"
+        "company": "company_1",
     }
 
     product_data_update = {
@@ -29,7 +29,7 @@ class TestUtils:
         "added_by": "user_1@gmail.com",
         "company": "company_1",
         "image": "update.png",
-        "quantity": 100
+        "quantity": 100,
     }
 
     product_data_update_invalid_keys = {
@@ -39,7 +39,7 @@ class TestUtils:
         "imasdfage": "update.png",
         "addessd_by": "user_1@gmail.com",
         "company": "company_1",
-        "quadsfantity": 100
+        "quadsfantity": 100,
     }
 
     product_data_invalid_category = {
@@ -49,7 +49,7 @@ class TestUtils:
         "company": "company_1",
         "code": "53",
         "image": "update.png",
-        "quantity": 100
+        "quantity": 100,
     }
 
     user_data_retail = {
@@ -66,7 +66,9 @@ class TestUtils:
     }
 
     @classmethod
-    def add_product(cls, name, code, category, added_by, company, quantity=None, image=None):
+    def add_product(
+        cls, name, code, category, added_by, company, quantity=None, image=None
+    ):
         product = ProductModel(
             name=name,
             code=code,
@@ -168,8 +170,7 @@ class TestUtils:
         headers = {"content_type": "application/json"}
         print(f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}")
         response = requests.get(
-            f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}",
-            headers=headers,
+            f"{cls.USERS_DOMAIN}/auth/confirmation/{confirmation_id}", headers=headers,
         )
         print(response.status_code)
         if response.status_code == 200:

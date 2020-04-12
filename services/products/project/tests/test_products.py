@@ -22,7 +22,8 @@ class TestProducts(BaseTestCase):
         TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get(
-                "/products?company=test", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+                "/products?company=test",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
@@ -48,7 +49,8 @@ class TestProducts(BaseTestCase):
         product = TestUtils.add_product(**TestUtils.product_data)
         with self.client:
             response = self.client.get(
-                f"/products?company={product.company}", headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}")
+                f"/products?company={product.company}",
+                headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
@@ -164,8 +166,9 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
             self.assertIn(
-                f"product with name: {product.name} does not exist in company {dummy_company}",
-                data["message"]
+                f"product with name: {product.name}"
+                f"does not exist in company {dummy_company}",
+                data["message"],
             )
 
     def test_get_product_by_code(self):
@@ -234,8 +237,9 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
             self.assertIn(
-                f"product with code: {product.code} does not exist in company {dummy_company}",
-                data["message"]
+                f"product with code: {product.code}"
+                f"does not exist in company {dummy_company}",
+                data["message"],
             )
 
     def test_add_product(self):
@@ -251,7 +255,7 @@ class TestProducts(BaseTestCase):
             self.assertEqual(data["status"], "success")
             self.assertEqual(
                 data["message"],
-                f"Product {TestUtils.product_data['name']} added successfully"
+                f"Product {TestUtils.product_data['name']} added successfully",
             )
 
     def test_add_product_no_keys(self):
@@ -304,11 +308,7 @@ class TestProducts(BaseTestCase):
             response = self.client.post(
                 "/products",
                 data=json.dumps(
-                    {
-                        "name": "test_product",
-                        "code": "52",
-                        "company": "company_1"
-                    }
+                    {"name": "test_product", "code": "52", "company": "company_1"}
                 ),
                 content_type="application/json",
                 headers=dict(Authorization=f"Bearer {self.AUTH_TOKEN}"),
@@ -330,7 +330,7 @@ class TestProducts(BaseTestCase):
                         "name": "test_product",
                         "code": "52",
                         "category": "test",
-                        "company": "company_1"
+                        "company": "company_1",
                     }
                 ),
                 content_type="application/json",
@@ -629,7 +629,8 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertEqual(data["status"], "fail")
             self.assertEqual(
-                data["message"], f"Invalid Payload. Mandatory field 'company' is missing"
+                data["message"],
+                f"Invalid Payload. Mandatory field 'company' is missing",
             )
 
     def test_update_product_by_name_duplicate_code(self):
@@ -737,7 +738,8 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertEqual(data["status"], "fail")
             self.assertEqual(
-                data["message"], f"Invalid Payload. Mandatory field 'company' is missing"
+                data["message"],
+                f"Invalid Payload. Mandatory field 'company' is missing",
             )
 
     def test_update_product_by_code_duplicate_name(self):
