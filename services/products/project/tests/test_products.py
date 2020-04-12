@@ -166,7 +166,7 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
             self.assertIn(
-                f"product with name: {product.name}"
+                f"product with name: {product.name} "
                 f"does not exist in company {dummy_company}",
                 data["message"],
             )
@@ -237,7 +237,7 @@ class TestProducts(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertEqual(data["status"], "fail")
             self.assertIn(
-                f"product with code: {product.code}"
+                f"product with code: {product.code} "
                 f"does not exist in company {dummy_company}",
                 data["message"],
             )
