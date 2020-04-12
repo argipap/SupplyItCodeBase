@@ -6,7 +6,7 @@ from flask import current_app
 
 
 class MailSlurpClient:
-    INBOX_ID = "01802e18-bc17-42fb-ac23-fe09814aaaf3"
+    INBOX_ID = "e6b710b1-3401-40a6-9cd7-f2d5711c3606"
     CONFIGURATION = mailslurp_client.Configuration()
     CONFIGURATION.api_key[
         "x-api-key"

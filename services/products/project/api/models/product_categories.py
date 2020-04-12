@@ -11,7 +11,7 @@ class ProductCategoryModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
 
-    def __init__(self, name):
+    def __init__(self, name: str) -> None:
         self.name = name
 
     def json(self) -> Dict:

@@ -21,6 +21,12 @@ class Products(Resource):
     @classmethod
     def get(cls, resp):
         response_object = {}
+        company = request.args.get("company")
+        if company:
+            products = ProductModel.find_by_company(company=company)
+            response_object["data"] = products
+            response_object["status"] = "success"
+            return response_object, 200
         products = [product.json() for product in ProductModel.query.all()]
         response_object["data"] = products
         response_object["status"] = "success"
@@ -38,7 +44,8 @@ class Products(Resource):
         try:
             code = json_data["code"]
             name = json_data["name"]
-            if ProductModel.already_exists(name=name, code=code):
+            company = json_data["company"]
+            if ProductModel.already_exists(name=name, code=code, company=company):
                 response_object[
                     "message"
                 ] = "Sorry. Product with same name or code already exists"
@@ -56,10 +63,14 @@ class Products(Resource):
                 category_id=category_id,
                 quantity=quantity,
                 image=image,
+                company=company,
+                added_by=resp["data"]["email"],
             )
             new_product.save_to_db()
             response_object["status"] = "success"
-            response_object["message"] = f"{new_product.name} was added!"
+            response_object[
+                "message"
+            ] = f"Product {new_product.name} added successfully"
             return response_object, 201
         except KeyError as err:
             db.session.rollback()
@@ -73,7 +84,6 @@ class ProductById(Resource):
 
     method_decorators = {
         "get": [authenticate],
-        "post": [authenticate],
         "delete": [authenticate],
         "put": [authenticate],
     }
@@ -169,18 +179,37 @@ class ProductByName(Resource):
             "status": "fail",
             "message": f"product with name: {product_name} does not exist",
         }
-        product = ProductModel.find_by_name(product_name=product_name)
-        if product:
+        company = request.args.get("company")
+        if company:
+            product = ProductModel.find_by_name_and_company(
+                product_name=product_name, company=company
+            )
+            if product:
+                response_object["status"] = "success"
+                response_object["data"] = product.json()
+                response_object.pop("message")
+                return response_object, 200
+            response_object[
+                "message"
+            ] = f"product with name: {product_name} does not exist in company {company}"
+            return response_object, 404
+        products = ProductModel.find_by_name(product_name=product_name)
+        if products:
             response_object["status"] = "success"
-            response_object["data"] = product.json()
+            response_object["data"] = products
             response_object.pop("message")
             return response_object, 200
         return response_object, 404
 
     @classmethod
     def delete(cls, resp, product_name):
-        response_object = {}
-        product = ProductModel.find_by_name(product_name=product_name)
+        response_object = {"status": "fail", "message": "company field is mandatory"}
+        company = request.args.get("company")
+        if not company:
+            return response_object, 400
+        product = ProductModel.find_by_name_and_company(
+            product_name=product_name, company=company
+        )
         if product:
             product.remove_from_db()
             response_object["status"] = "success"
@@ -197,7 +226,18 @@ class ProductByName(Resource):
         json_data = request.get_json()
         if not json_data or not isinstance(json_data, dict):
             return response_object, 400
-        product = ProductModel.find_by_name(product_name=product_name)
+        try:
+            company = json_data["company"]
+        except KeyError as err:
+            response_object[
+                "message"
+            ] = f"Invalid Payload. Mandatory field {str(err)} is missing"
+            return response_object, 400
+
+        product = ProductModel.find_by_name_and_company(
+            product_name=product_name, company=company
+        )
+        # product = ProductModel.find_by_name(product_name=product_name)
         if not product:
             response_object[
                 "message"
@@ -252,18 +292,38 @@ class ProductByCode(Resource):
             "status": "fail",
             "message": f"product with code: {product_code} does not exist",
         }
-        product = ProductModel.find_by_code(product_code=product_code)
-        if product:
+        company = request.args.get("company")
+        if company:
+            product = ProductModel.find_by_code_and_company(
+                product_code=product_code, company=company
+            )
+            if product:
+                response_object["status"] = "success"
+                response_object["data"] = product.json()
+                response_object.pop("message")
+                return response_object, 200
+            response_object[
+                "message"
+            ] = f"product with code: {product_code} does not exist in company {company}"
+            return response_object, 404
+        products = ProductModel.find_by_code(product_code=product_code)
+        if products:
             response_object["status"] = "success"
-            response_object["data"] = product.json()
+            response_object["data"] = products
             response_object.pop("message")
             return response_object, 200
         return response_object, 404
 
     @classmethod
     def delete(cls, resp, product_code):
-        response_object = {}
-        product = ProductModel.find_by_code(product_code=product_code)
+        response_object = {"status": "fail", "message": "company field is mandatory"}
+        company = request.args.get("company")
+        if not company:
+            return response_object, 400
+        product = ProductModel.find_by_code_and_company(
+            product_code=product_code, company=company
+        )
+        # product = ProductModel.find_by_code(product_code=product_code)
         if product:
             product.remove_from_db()
             response_object["status"] = "success"
@@ -280,7 +340,17 @@ class ProductByCode(Resource):
         json_data = request.get_json()
         if not json_data or not isinstance(json_data, dict):
             return response_object, 400
-        product = ProductModel.find_by_code(product_code=product_code)
+        try:
+            company = json_data["company"]
+        except KeyError as err:
+            response_object[
+                "message"
+            ] = f"Invalid Payload. Mandatory field {str(err)} is missing"
+            return response_object, 400
+        product = ProductModel.find_by_code_and_company(
+            product_code=product_code, company=company
+        )
+        # product = ProductModel.find_by_code(product_code=product_code)
         if not product:
             response_object[
                 "message"

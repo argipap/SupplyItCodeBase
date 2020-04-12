@@ -77,6 +77,8 @@ def seed_products():
         category_id=ProductCategoryModel.find_by_category(
             category_name="alcohol_and_beverages"
         ).id,
+        added_by="user_1@gmail.com",
+        company="company_1"
     ).save_to_db()
 
 
