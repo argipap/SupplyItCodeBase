@@ -17,6 +17,7 @@ import Home from './components/Home';
 import HowItWorks from './components/HowItWorks';
 import BecomeSupplier from './components/BecomeSupplier';
 import SuppliersList from './components/SuppliersList';
+import LoginForm from "./components/forms/LoginForm";
 
 class App extends Component {
     constructor() {
@@ -37,6 +38,7 @@ class App extends Component {
         this.confirmUser = this.confirmUser.bind(this);
         this.validRefresh = this.validRefresh.bind(this);
         this.isAuthenticated = this.isAuthenticated.bind(this);
+        this.handleLoginFormSubmit = this.handleLoginFormSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -145,6 +147,21 @@ class App extends Component {
         });
     }
 
+    handleLoginFormSubmit = data => {
+        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/login`;
+        axios
+            .post(url, data)
+            .then(res => {
+                this.setState({registration_email: data.email});
+                this.loginUser(res.data.refresh_token, res.data.access_token);
+            })
+            .catch(err => {
+                console.log(err);
+                this.createMessage('Συνέβη κάποιο σφάλμα!', err.response.data.message);
+            });
+    };
+
+
     render() {
         return (
             <div>
@@ -154,114 +171,113 @@ class App extends Component {
                     email={this.state.email}
                     logoutUser={this.logoutUser}
                 />
-                    {this.state.messageTitle &&
-                    this.state.messageName &&
-                    this.state.messageType && (
-                        <Message
-                            messageTitle={this.state.messageTitle}
-                            messageName={this.state.messageName}
-                            messageType={this.state.messageType}
-                            removeMessage={this.removeMessage}
-                        />
-                    )}
+                {this.state.messageTitle &&
+                this.state.messageName &&
+                this.state.messageType && (
+                    <Message
+                        messageTitle={this.state.messageTitle}
+                        messageName={this.state.messageName}
+                        messageType={this.state.messageType}
+                        removeMessage={this.removeMessage}
+                    />
+                )}
 
-                    <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Home
-                                    formType={'GetStarted'}
-                                    loginUser={this.loginUser}
-                                    confirmUser={this.confirmUser}
-                                    createMessage={this.createMessage}
-                                    removeMessage={this.removeMessage}
-                                    isAuthenticated={this.isAuthenticated}
-                                    email_confirmation={this.state.email_confirmation}
-                                />
-                            )}
-                        />
-                        <Route exact path="/users" render={() => <UsersList users={this.state.users}/>}/>
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Home
+                                formType={'GetStarted'}
+                                loginUser={this.loginUser}
+                                confirmUser={this.confirmUser}
+                                createMessage={this.createMessage}
+                                removeMessage={this.removeMessage}
+                                isAuthenticated={this.isAuthenticated}
+                                email_confirmation={this.state.email_confirmation}
+                            />
+                        )}
+                    />
+                    <Route exact path="/users" render={() => <UsersList users={this.state.users}/>}/>
 
-                        <Route
-                            exact
-                            path="/suppliersList"
-                            render={() => <SuppliersList suppliers={this.state.suppliers}/>}
-                        />
+                    <Route
+                        exact
+                        path="/suppliersList"
+                        render={() => <SuppliersList suppliers={this.state.suppliers}/>}
+                    />
 
-                        <Route
-                            exact
-                            path="/howItWorks"
-                            render={() => <HowItWorks isAuthenticated={this.isAuthenticated}/>}
-                        />
-                        <Route
-                            exact
-                            path="/getStarted"
-                            render={() => (
-                                <GetStarted
-                                    formType={'GetStarted'}
-                                    loginUser={this.loginUser}
-                                    confirmUser={this.confirmUser}
-                                    createMessage={this.createMessage}
-                                    isAuthenticated={this.isAuthenticated}
-                                    email_confirmation={this.state.email_confirmation}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path="/becomeSupplier"
-                            render={() => (
-                                <BecomeSupplier
-                                    formType={'BecomeSupplier'}
-                                    isAuthenticated={this.isAuthenticated}
-                                    loginUser={this.loginUser}
-                                    confirmUser={this.confirmUser}
-                                    createMessage={this.createMessage}
-                                    email_confirmation={this.state.email_confirmation}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path="/login"
-                            render={() => (
-                                <Container className="login-container">
-                                    <Row>
-                                        <Col/>
-                                        <Col sm={6}>
-                                            <Form
-                                                formType={'Login'}
-                                                isAuthenticated={this.isAuthenticated}
-                                                loginUser={this.loginUser}
-                                                createMessage={this.createMessage}
-                                            />
-                                        </Col>
-                                        <Col/>
-                                    </Row>
-                                </Container>
-                            )}
-                        />
+                    <Route
+                        exact
+                        path="/howItWorks"
+                        render={() => <HowItWorks isAuthenticated={this.isAuthenticated}/>}
+                    />
+                    <Route
+                        exact
+                        path="/getStarted"
+                        render={() => (
+                            <GetStarted
+                                formType={'GetStarted'}
+                                loginUser={this.loginUser}
+                                confirmUser={this.confirmUser}
+                                createMessage={this.createMessage}
+                                isAuthenticated={this.isAuthenticated}
+                                email_confirmation={this.state.email_confirmation}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/becomeSupplier"
+                        render={() => (
+                            <BecomeSupplier
+                                formType={'BecomeSupplier'}
+                                isAuthenticated={this.isAuthenticated}
+                                loginUser={this.loginUser}
+                                confirmUser={this.confirmUser}
+                                createMessage={this.createMessage}
+                                email_confirmation={this.state.email_confirmation}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/login"
+                        render={() => (
+                            <Container className="login-container">
+                                <Row>
+                                    <Col/>
+                                    <Col sm={6}>
+                                        <LoginForm
+                                            isAuthenticated={this.isAuthenticated}
+                                            handleLoginFormSubmit={this.handleLoginFormSubmit}
+                                            createMessage={this.createMessage}
+                                        />
+                                    </Col>
+                                    <Col/>
+                                </Row>
+                            </Container>
+                        )}
+                    />
 
-                        <Route
-                            exact
-                            path="/logout"
-                            render={() => (
-                                <Logout logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated}/>
-                            )}
-                        />
-                        <Route
-                            exact
-                            path="/status"
-                            render={() => <UserStatus isAuthenticated={this.isAuthenticated}/>}
-                        />
-                    </Switch>
-                    {this.props.location.pathname !== '/suppliersList' ? <Footer
-						isAuthenticated={this.isAuthenticated}
-					/> : ''}
+                    <Route
+                        exact
+                        path="/logout"
+                        render={() => (
+                            <Logout logoutUser={this.logoutUser} isAuthenticated={this.isAuthenticated}/>
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/status"
+                        render={() => <UserStatus isAuthenticated={this.isAuthenticated}/>}
+                    />
+                </Switch>
+                {this.props.location.pathname !== '/suppliersList' ? <Footer
+                    isAuthenticated={this.isAuthenticated}
+                /> : ''}
 
-                    <ScrollUpButton/>
-                </div>
+                <ScrollUpButton/>
+            </div>
         );
     }
 }
