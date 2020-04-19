@@ -2,21 +2,16 @@ import React from 'react';
 
 import './FormErrors.css';
 
-const FormErrors = (props) => {
-    return (
-        <div>
-            <ul className="validation-list">
-                {
-                    props.formRules.map((rule) => {
-                        return <li
-                            className={rule.valid ? "success" : "error"} key={rule.id}>{rule.name}
-                        </li>
-                    })
-                }
-            </ul>
-            <br/>
-        </div>
-    )
+
+const Error = ({touched, message}) => {
+
+    if (message) {
+        return <div className="form-message invalid">{message}</div>;
+    }
+    if (!touched) {
+        return <div className="form-message invalid"/>;
+    }
+    return <div className="form-message valid"/>;
 };
 
-export default FormErrors;
+export default Error;

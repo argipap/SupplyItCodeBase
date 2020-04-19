@@ -5,7 +5,8 @@ import * as Yup from "yup";
 import {Redirect} from "react-router-dom";
 
 import "./FormErrors.css";
-import {Button, Col, Form} from "react-bootstrap";
+import {Button, Col, Form, InputGroup} from "react-bootstrap";
+import Error from "./FormErrors";
 
 
 const LoginForm = props => {
@@ -28,10 +29,10 @@ const LoginForm = props => {
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string()
-                        .email("Enter a valid email.")
-                        .required("Email is required."),
+                        .email("Μη έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου.")
+                        .required("Παρακαλώ πληκτρολογήστε το email σας."),
                     password: Yup.string()
-                        .required("Password is required.")
+                        .required("Παρακαλώ πληκτρολογήστε τον κωδικό πρόσβασής σας.")
                 })}
             >
                 {props => {
@@ -46,48 +47,75 @@ const LoginForm = props => {
                     } = props;
 
                     return (
-                        <form onSubmit={handleSubmit}>
+                        <Form onSubmit={handleSubmit}>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formEmail">
-                                    <Form.Control
-                                        className={
-                                            errors.email && touched.email ? "input error" : "input"
+                                    <InputGroup>
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text>
+                                                <i className="fas fa-envelope"/>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control
+                                            className={
+                                                errors.email && touched.email ? "input error" : "input"
+                                            }
+                                            name="email"
+                                            type="email"
+                                            placeholder="your@email.com"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.email && touched.email && (
+                                            <InputGroup.Append>
+                                                <InputGroup.Text>
+                                                    <i className="fas fa-exclamation-triangle"/>
+                                                </InputGroup.Text>
+                                            </InputGroup.Append>
+                                        )
                                         }
-                                        name="email"
-                                        type="email"
-                                        placeholder="your@email.com"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    {errors.email && touched.email && (
-                                        <div className="input-feedback">{errors.email}</div>
-                                    )}
+                                        {!errors.email && touched.email &&
+                                            (
+                                                <InputGroup.Append>
+                                                    <InputGroup.Text>
+                                                        <i className="fas fa-check"/>
+                                                    </InputGroup.Text>
+                                                </InputGroup.Append>
+                                            )
+                                        }
+                                    </InputGroup>
+                                    <Error touched={touched.email} message={errors.email}/>
                                 </Form.Group>
                                 <Form.Group as={Col} controlId="formPassword">
-                                    <Form.Control
-                                        className={
-                                            errors.password && touched.password
-                                                ? "input error"
-                                                : "input"
-                                        }
-                                        name="password"
-                                        type="password"
-                                        placeholder="Κωδικός"
-                                        value={values.password}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    {errors.password && touched.password && (
-                                        <div className="input-feedback">{errors.password}</div>
-                                    )}
+                                    <InputGroup>
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Text>
+                                                <i className="fas fa-lock"/>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control
+                                            className={
+                                                errors.password && touched.password
+                                                    ? "input error"
+                                                    : "input"
+                                            }
+                                            name="password"
+                                            type="password"
+                                            placeholder="Κωδικός"
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                    </InputGroup>
+                                    <Error touched={touched.password} message={errors.password}/>
                                 </Form.Group>
                             </Form.Row>
                             <Button variant="success" type="submit" className="button btn-square" value="Submit"
                                     disabled={isSubmitting}>
                                 Σύνδεση
                             </Button>
-                        </form>
+                        </Form>
                     );
                 }}
             </Formik>
