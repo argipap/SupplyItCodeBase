@@ -54,6 +54,8 @@ def seed_db():
         username="user_1",
         email="user_1@gmail.com",
         password="supplyit",
+        first_name="user_1",
+        last_name="user_1",
         admin=True,
         user_type=UserType.wholesale,
     )
@@ -63,15 +65,25 @@ def seed_db():
         username="user_2",
         email="user_2@gmail.com",
         password="supplyit",
+        first_name="user_2",
+        last_name="user_2",
         user_type=UserType.wholesale,
     )
     db.session.add(user_2_s)
     user_3_r = UserModel(
-        username="user_3", email="user_3@gmail.com", password="supplyit"
+        username="user_3",
+        email="user_3@gmail.com",
+        password="supplyit",
+        first_name="user_3",
+        last_name="user_3",
     )
     db.session.add(user_3_r)
     user_4_r = UserModel(
-        username="user_4", email="user_4@gmail.com", password="supplyit"
+        username="user_4",
+        email="user_4@gmail.com",
+        password="supplyit",
+        first_name="user_4",
+        last_name="user_4",
     )
     db.session.add(user_4_r)
     db.session.commit()
@@ -144,7 +156,7 @@ def seed_db():
     store_1 = StoreModel(
         retailer_id=retailer_1.id,
         store_name="store_1",
-        store_type=StoreType.cafeBar.name,
+        store_type=StoreType.coffee_and_drinks.name,
         address_id=address_4.id,
     )
     db.session.add(store_1)

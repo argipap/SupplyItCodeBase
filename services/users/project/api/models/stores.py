@@ -6,7 +6,7 @@ import enum
 
 class StoreType(enum.Enum):
     other = 1
-    cafeBar = 2
+    coffee_and_drinks = 2
     restaurant = 3
     quick_service_restaurant = 4
 

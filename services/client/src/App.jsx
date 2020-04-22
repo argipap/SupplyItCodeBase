@@ -6,7 +6,6 @@ import ScrollUpButton from 'react-scroll-up-button';
 
 import UsersList from './components/UsersList';
 import NavBar from './components/NavBar';
-import Form from './components/forms/Form';
 import Logout from './components/Logout';
 import UserStatus from './components/UserStatus';
 import Message from './components/Message';
@@ -162,6 +161,7 @@ class App extends Component {
     };
 
 
+
     render() {
         return (
             <div>
@@ -217,7 +217,6 @@ class App extends Component {
                         render={() => (
                             <GetStarted
                                 formType={'GetStarted'}
-                                loginUser={this.loginUser}
                                 confirmUser={this.confirmUser}
                                 createMessage={this.createMessage}
                                 isAuthenticated={this.isAuthenticated}
@@ -231,10 +230,9 @@ class App extends Component {
                         render={() => (
                             <BecomeSupplier
                                 formType={'BecomeSupplier'}
-                                isAuthenticated={this.isAuthenticated}
-                                loginUser={this.loginUser}
                                 confirmUser={this.confirmUser}
                                 createMessage={this.createMessage}
+                                isAuthenticated={this.isAuthenticated}
                                 email_confirmation={this.state.email_confirmation}
                             />
                         )}
@@ -246,7 +244,7 @@ class App extends Component {
                             <Container className="login-container">
                                 <Row>
                                     <Col/>
-                                    <Col sm={6}>
+                                    <Col sm={4}>
                                         <LoginForm
                                             isAuthenticated={this.isAuthenticated}
                                             handleLoginFormSubmit={this.handleLoginFormSubmit}

@@ -52,12 +52,12 @@ function HowItWorks(props) {
 							βρίσκεστε και όποτε θέλετε.
 						</p>
 						<br />
-						{!props.isAuthenticated && (
+						{!props.isAuthenticated() && (
 							<Link to="/getStarted">
 								<Button variant="info btn-square">Ξεκινήστε δωρεάν</Button>
 							</Link>
 						)}
-						<Link to="/#">
+						<Link to="#">
 							<Button variant="info btn-square">Δοκιμάστε το δωρεάν</Button>
 						</Link>
 					</Col>
