@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import './mystyle.css';
-import Form from './forms/Form';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
+import axios from "axios";
+import RegisterForm from "./forms/RegisterForm";
 
 class BecomeSupplier extends Component {
 	constructor(props) {
 		super(props);
+        this.handleRegisterFormSubmit = this.handleRegisterFormSubmit.bind(this);
 	}
+
+	handleRegisterFormSubmit = data => {
+        let user_type = "wholesale";
+        const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${user_type}/register`;
+        axios
+            .post(url, data)
+            .then(res => {
+                this.props.confirmUser();
+                this.props.createMessage("success", res.data.message);
+            })
+            .catch(err => {
+                this.props.createMessage('Συνέβη κάποιο σφάλμα!', err.response.data.message);
+            });
+    };
 
 	render() {
 		return (
@@ -69,13 +85,13 @@ class BecomeSupplier extends Component {
 							<p>Συμπληρώστε αυτήν τη φόρμα και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν.</p>
 						</Col>
 						<Col xs={12} md={6} className="p-5 text-left btm-right-col-supplier">
-							<Form
+							<RegisterForm
 								formType={this.props.formType}
 								createMessage={this.props.createMessage}
-								loginUser={this.props.loginUser}
 								confirmUser={this.props.confirmUser}
 								isAuthenticated={this.props.isAuthenticated}
 								email_confirmation={this.props.email_confirmation}
+								handleRegisterFormSubmit={this.handleRegisterFormSubmit}
 							/>
 						</Col>
 					</Row>

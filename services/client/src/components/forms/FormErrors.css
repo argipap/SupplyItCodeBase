@@ -2,13 +2,19 @@ input.error {
   border-color: #dc3545;
 }
 
+input.valid {
+  border-color: darkseagreen;
+}
+
 .form-message.invalid {
   color: #dc3545;
   margin-top: .25rem;
+  font-size: smaller;
 }
 
 
 .form-message.valid {
   color: #4caf50;
   margin-top: .25rem;
+  font-size: smaller;
 }

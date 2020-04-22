@@ -6,8 +6,8 @@ class ConfirmationPending extends Component {
         return (
             <div>
                 <br/>
-                <p>We just send you an activation link to your email {this.props.email}.
-                    Please check your email and activate your account.</p>
+                <p>Παρακαλούμε ενεργοποιήστε τον λογαριασμό σας ακολουθώντας
+                    τον σύνδεσμο που σας έχουμε στείλει στο email σας.</p>
             </div>
         )
     };

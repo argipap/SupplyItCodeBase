@@ -23,6 +23,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+    first_name = db.Column(db.String(128), nullable=False)
+    last_name = db.Column(db.String(128), nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
     user_type = db.Column(db.Enum(UserType), default=UserType.retail, nullable=False)
@@ -40,13 +42,22 @@ class UserModel(db.Model):
     )
 
     def __init__(
-        self, username, email, password, admin=False, user_type=UserType.retail,
+        self,
+        username,
+        email,
+        password,
+        first_name,
+        last_name,
+        admin=False,
+        user_type=UserType.retail,
     ):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
+        self.first_name = first_name
+        self.last_name = last_name
         self.user_type = user_type
         self.admin = admin
 

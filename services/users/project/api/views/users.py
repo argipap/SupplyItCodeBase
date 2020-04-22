@@ -23,7 +23,17 @@ def index():
         username = request.form["username"]
         email = request.form["email"]
         password = request.form["password"]
-        db.session.add(UserModel(username=username, email=email, password=password))
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        db.session.add(
+            UserModel(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+            )
+        )
         db.session.commit()
     users = UserModel.query.all()
     return render_template("index.html", users=users)
