@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Formik} from "formik";
-import * as Yup from "yup";
 import {Redirect} from "react-router-dom";
-
+import loginFormValidationRules from "./LoginFormValidations"
 import "./FormErrors.css";
 import {Button, Col, Form, InputGroup} from "react-bootstrap";
 import Error from "./FormErrors";
@@ -15,7 +14,7 @@ const LoginForm = props => {
     }
     return (
         <div className="Login">
-            <h1>Σύνδεση</h1>
+            <h1 className="title is-1" title="Login">Σύνδεση</h1>
             <hr/>
             <Formik
                 initialValues={{
@@ -27,13 +26,7 @@ const LoginForm = props => {
                     resetForm();
                     setSubmitting(false);
                 }}
-                validationSchema={Yup.object().shape({
-                    email: Yup.string()
-                        .email("Μη έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου.")
-                        .required("Παρακαλώ πληκτρολογήστε το email σας."),
-                    password: Yup.string()
-                        .required("Παρακαλώ πληκτρολογήστε τον κωδικό πρόσβασής σας.")
-                })}
+                validationSchema={loginFormValidationRules}
             >
                 {props => {
                     const {
@@ -49,7 +42,7 @@ const LoginForm = props => {
                     return (
                         <Form onSubmit={handleSubmit}>
                             <Form.Row>
-                                <Form.Group as={Col} controlId="formEmail">
+                                <Form.Group as={Col} controlId="formEmail" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -76,18 +69,18 @@ const LoginForm = props => {
                                         )
                                         }
                                         {!errors.email && touched.email &&
-                                            (
-                                                <InputGroup.Append>
-                                                    <InputGroup.Text>
-                                                        <i className="fas fa-check"/>
-                                                    </InputGroup.Text>
-                                                </InputGroup.Append>
-                                            )
+                                        (
+                                            <InputGroup.Append>
+                                                <InputGroup.Text>
+                                                    <i className="fas fa-check"/>
+                                                </InputGroup.Text>
+                                            </InputGroup.Append>
+                                        )
                                         }
                                     </InputGroup>
                                     <Error touched={touched.email} message={errors.email}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formPassword">
+                                <Form.Group as={Col} controlId="formPassword" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
