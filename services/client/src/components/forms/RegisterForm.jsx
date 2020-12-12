@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Formik} from "formik";
-import * as Yup from "yup";
 import {Redirect} from "react-router-dom";
 
 import "./FormErrors.css";
 import {Button, Col, Form, InputGroup} from "react-bootstrap";
+import registerFormValidationRules from "./RegisterFormValidations"
 import Error from "./FormErrors";
 import ConfirmationPending from "../ConfirmationPending";
 
@@ -40,65 +40,7 @@ const RegisterForm = props => {
                     company_type: "",
                     formType: props.formType
                 }}
-                validationSchema={
-                    Yup.object().shape({
-                        username: Yup.string()
-                            .required("Το πεδίο Όνομα χρήστη είναι υποχρεωτικό.")
-                            .min(4, "Το Όνομα χρήστη πρέπει να αποτελείται τουλάχιστον απο 4 χαρακτήρες."),
-                        email: Yup.string()
-                            .email("Μη έγκυρο email.")
-                            .required("Το email είναι υποχρεωτικό.")
-                            .min(6, "Το email πρέπει να αποτελείται τουλάχιστον απο 6 χαρακτήρες."),
-                        password: Yup.string()
-                            .required("Το πεδίο Κωδικός είναι υποχρεωτικό.")
-                            .min(8, "Ο Κωδικός πρέπει να αποτελείται τουλάχιστον απο 6 χαρακτήρες."),
-                        first_name: Yup.string()
-                            .required("Το πεδίο Όνομα είναι υποχρεωτικό."),
-                        last_name: Yup.string()
-                            .required("Το πεδίο Επίθετο είναι υποχρεωτικό."),
-                        street_name: Yup.string()
-                            .required("Το πεδίο Οδός είναι υποχρεωτικό."),
-                        street_number: Yup.string()
-                            .required("Το πεδίο Αριθμός είναι υποχρεωτικό."),
-                        city: Yup.string()
-                            .required("Το πεδίο Πόλη είναι υποχρεωτικό."),
-                        zip_code: Yup.string()
-                            .required("Το πεδίο T.K είναι υποχρεωτικό.")
-                            .min(3, "Ο Τ.Κ πρέπει να αποτελείται τουλάχιστον από 3 ψηφία."),
-                        formType: Yup.string(),
-                        store_name: Yup.string()
-                            .when(
-                                "formType",
-                                {
-                                    is: "GetStarted",
-                                    then: s => s.required("Το πεδίο Όνομα καταστήματος είναι υποχρεωτικό.")
-                                }
-                            ),
-                        store_type: Yup.string()
-                            .when(
-                                "formType",
-                                {
-                                    is: "GetStarted",
-                                    then: s => s.required("Το πεδίο Είδος καταστήματος είναι υποχρεωτικό.")
-                                }
-                            ),
-                        company_name: Yup.string()
-                            .when(
-                                "formType",
-                                {
-                                    is: "BecomeSupplier",
-                                    then: s => s.required("Το πεδίο Όνομα εταιρίας είναι υποχρεωτικό.")
-                                }
-                            ),
-                        company_type: Yup.string()
-                            .when(
-                                "formType",
-                                {
-                                    is: "BecomeSupplier",
-                                    then: s => s.required("Το πεδίο Είδος εταιρίας είναι υποχρεωτικό.")
-                                }
-                            )
-                    })}
+                validationSchema={registerFormValidationRules}
                 onSubmit={(values, {setSubmitting, resetForm}) => {
                     delete values.formType;
                     if (props.formType === "GetStarted") {
@@ -129,7 +71,7 @@ const RegisterForm = props => {
                     return (
                         <Form onSubmit={handleSubmit}>
                             <Form.Row>
-                                <Form.Group as={Col} controlId="formfirst_name">
+                                <Form.Group as={Col} controlId="formfirst_name" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -150,7 +92,7 @@ const RegisterForm = props => {
                                     </InputGroup>
                                     <Error touched={touched.first_name} message={errors.first_name}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formlast_name">
+                                <Form.Group as={Col} controlId="formlast_name" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -173,7 +115,7 @@ const RegisterForm = props => {
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
-                                <Form.Group as={Col} controlId="formUsername">
+                                <Form.Group as={Col} controlId="formUsername" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -194,7 +136,7 @@ const RegisterForm = props => {
                                     </InputGroup>
                                     <Error touched={touched.username} message={errors.username}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formEmail">
+                                <Form.Group as={Col} controlId="formEmail" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -215,7 +157,7 @@ const RegisterForm = props => {
                                     </InputGroup>
                                     <Error touched={touched.email} message={errors.email}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formPassword">
+                                <Form.Group as={Col} controlId="formPassword" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -238,7 +180,7 @@ const RegisterForm = props => {
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
-                                <Form.Group as={Col} controlId="formAddress">
+                                <Form.Group as={Col} controlId="formAddress" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -259,7 +201,7 @@ const RegisterForm = props => {
                                     </InputGroup>
                                     <Error touched={touched.street_name} message={errors.street_name}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formAddressNumber">
+                                <Form.Group as={Col} controlId="formAddressNumber" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -282,7 +224,7 @@ const RegisterForm = props => {
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
-                                <Form.Group as={Col} controlId="formCity">
+                                <Form.Group as={Col} controlId="formCity" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -303,7 +245,7 @@ const RegisterForm = props => {
                                     </InputGroup>
                                     <Error touched={touched.city} message={errors.city}/>
                                 </Form.Group>
-                                <Form.Group as={Col} controlId="formZip">
+                                <Form.Group as={Col} controlId="formZip" role="formGroup">
                                     <InputGroup>
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
@@ -327,7 +269,7 @@ const RegisterForm = props => {
                             </Form.Row>
                             {values.formType === "GetStarted" && (
                                 <Form.Row>
-                                    <Form.Group as={Col} controlId="formStore">
+                                    <Form.Group as={Col} controlId="formStore" role="formGroup">
                                         <InputGroup>
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text>
@@ -348,7 +290,7 @@ const RegisterForm = props => {
                                         </InputGroup>
                                         <Error touched={touched.store_name} message={errors.store_name}/>
                                     </Form.Group>
-                                    <Form.Group as={Col} controlId="formstore_type">
+                                    <Form.Group as={Col} controlId="formstore_type" role="formGroup">
                                         <Form.Control
                                             className={
                                                 errors.store_type && touched.store_type ? "input error" : "input"
@@ -372,7 +314,7 @@ const RegisterForm = props => {
                             )}
                             {values.formType === 'BecomeSupplier' && (
                                 <Form.Row>
-                                    <Form.Group as={Col} controlId="formCompany">
+                                    <Form.Group as={Col} controlId="formCompany" role="formGroup">
                                         <Form.Control
                                             className={
                                                 errors.company_name && touched.company_name ? "input error" : "input"
@@ -386,7 +328,7 @@ const RegisterForm = props => {
                                         />
                                         <Error touched={touched.company_name} message={errors.company_name}/>
                                     </Form.Group>
-                                    <Form.Group as={Col} controlId="Formcompany_type">
+                                    <Form.Group as={Col} controlId="Formcompany_type" role="formGroup">
                                         <Form.Control
                                             className={
                                                 errors.company_type && touched.company_type ? "input error" : "input"
