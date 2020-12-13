@@ -21,7 +21,11 @@ class GetStarted extends Component {
             .post(url, data)
             .then(res => {
                 this.props.confirmUser();
-                this.props.createMessage("success", res.data.message);
+                // this.props.createMessage("success", res.data.message);
+                this.props.createMessage(
+                    "Επιβεβαίωση email",
+                    "Παρακαλούμε ενεργοποιήστε τον λογαριασμό σας ακολουθώντας τον σύνδεσμο που σας έχουμε στείλει στο email σας."
+                );
             })
             .catch(err => {
                 this.props.createMessage('Συνέβη κάποιο σφάλμα!', err.response.data.message);
