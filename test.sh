@@ -22,6 +22,10 @@ server() {
   inspect $? supplyit-users
   docker-compose exec supplyit-users flake8 project
   inspect $? supplyit-users-lint
+  docker-compose exec products python manage.py test
+  inspect $? products
+  docker-compose exec products flake8 project
+  inspect $? products-lint
   docker-compose down
 }
 
@@ -36,11 +40,11 @@ client() {
 
 # run e2e tests
 e2e() {
-  docker-compose -f docker-compose-prod.yml up -d --build
-  docker-compose -f docker-compose-prod.yml exec supplyit-users python manage.py recreate_db
+  docker-compose -f docker-compose-stage.yml up -d --build
+  docker-compose -f docker-compose-stage.yml exec supplyit-users python manage.py recreate_db
   ./node_modules/.bin/cypress run --config baseUrl=${BASE_URL}
   inspect $? e2e
-  docker-compose -f docker-compose-prod.yml down
+  docker-compose -f docker-compose-stage.yml down
 }
 
 # run all tests
@@ -50,6 +54,10 @@ all() {
   inspect $? supplyit-users
   docker-compose exec supplyit-users flake8 project
   inspect $? supplyit-users-lint
+  docker-compose exec products python manage.py test
+  inspect $? products
+  docker-compose exec products flake8 project
+  inspect $? products-lint
   docker-compose exec client npm run coverage
   inspect $? client
   docker-compose down

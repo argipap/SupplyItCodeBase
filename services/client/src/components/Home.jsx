@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import {Container, Row, Col, Button, Nav} from 'react-bootstrap';
-import Form from './forms/Form';
 import styled from 'styled-components';
 import howItWorksImg from '../Assets/howitworks-img.jpg';
 

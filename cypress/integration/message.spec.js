@@ -1,7 +1,8 @@
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
-const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+// const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+const email = '79a7f01e-cd8e-4071-8b40-5fd016d311de@mailslurp.com';
 const password = '12345678';
 const firstName = 'Argi';
 const lastName = 'Pap';
@@ -24,17 +25,17 @@ describe('Message', () => {
         // register user
         cy
             .visit('/getStarted')
-            .get('input[name="firstName"]').type(firstName)
-            .get('input[name="lastName"]').type(lastName)
+            .get('input[name="first_name"]').type(firstName)
+            .get('input[name="last_name"]').type(lastName)
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('input[name="streetName"]').type(streetName)
-            .get('input[name="streetNumber"]').type(streetNumber)
+            .get('input[name="street_name"]').type(streetName)
+            .get('input[name="street_number"]').type(streetNumber)
             .get('input[name="city"]').type(city)
-            .get('input[name="zipCode"]').type(zipCode)
-            .get('input[name="storeName"]').type(storeName)
-            .get('select[name="storeType"]').select(storeType)
+            .get('input[name="zip_code"]').type(zipCode)
+            .get('input[name="store_name"]').type(storeName)
+            .get('select[name="store_type"]').select(storeType)
             .get('button[value="Submit"]').click();
 
         // assert flash messages are removed when user clicks the 'x'

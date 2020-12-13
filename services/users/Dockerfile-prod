@@ -1,5 +1,5 @@
 # base image
-FROM python:3.7.2
+FROM python:3.7.2-slim
 
 # create and set working directory
 RUN mkdir -p /usr/src/app
@@ -18,13 +18,10 @@ COPY ./Pipfile.lock /usr/src/app
 RUN pip install pipenv \
 && pipenv lock -r > /usr/src/app/requirements.txt
 RUN pip install -r /usr/src/app/requirements.txt
-
-# add entrypoint-prod.sh
-COPY ./entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
-RUN chmod +x /usr/src/app/entrypoint-prod.sh
+RUN pip install "celery[redis]"
 
 # add app
 COPY . /usr/src/app
 
 # run server
-CMD ["/usr/src/app/entrypoint-prod.sh"]
+CMD gunicorn -b 0.0.0.0:5000 manage:app

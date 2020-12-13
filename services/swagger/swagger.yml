@@ -4,11 +4,11 @@ info:
   title: Supplyit Users Service
   description: Swagger spec for documenting the users service
 servers:
-- url: http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com
+- url: http://localhost
 paths:
   /users/ping:
     get:
-      summary: Just a sanity check
+      summary: Just a sanity check for users service
       responses:
         '200':
           description: Will return 'pong!'
@@ -17,7 +17,7 @@ paths:
       summary: Returns all users
       responses:
         '200':
-          description: user object
+          description: list of user objects
   /users/{user_type}:
     get:
       summary: Returns all retail or wholesale users
@@ -160,6 +160,225 @@ paths:
       responses:
         '200':
           description: Store object
+
+  # products service
+  /products/ping:
+    get:
+      summary: Just a sanity check for products service
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Will return 'pong!'
+
+  /products:
+    get:
+      summary: Returns all products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: company
+          in: query
+          description: company which products belongs to
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of product objects
+
+    post:
+      summary: Adds a new product
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Product to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product-add'
+      responses:
+        '200':
+          description: Product {product_name} added successfully
+  /products/id/{id}:
+    get:
+      summary: Returns a product based on a single product_id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: id of product to fetch
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: product object
+    delete:
+      summary: Deletes a product based on a single product_id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: id of product to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Product deleted successfully
+    put:
+      summary: Updates a product's name, code, quantity, image based on a single product_id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: id of product to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Product's fields to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product-add'
+      responses:
+        '200':
+          description: Product updated successfully
+  /products/name/{name}:
+    get:
+      summary: Returns a product based on a single name
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: name of product to fetch
+          required: true
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: company which product belongs to
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: product object
+    delete:
+      summary: Deletes a product based on a single [name, company] record
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: code of product to delete
+          required: true
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: company which product with the specific code will be removed
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted successfully
+    put:
+      summary: Updates a product's name, code, quantity, image based on a single [name, company] record
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: name of product to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Product's fields to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product-add'
+      responses:
+        '200':
+          description: Product updated successfully
+  /products/code/{code}:
+    get:
+      summary: Returns a product based on single [code, company] record or a List of products with the specific code if company argument is not set
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          description: code of product to fetch
+          required: true
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: company which product belongs to
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: product object
+    delete:
+      summary: Deletes a product based on a single [code, company] record
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          description: code of product to delete
+          required: true
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: company which product with the specific code will be removed
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted successfully
+    put:
+      summary: Updates a product's name, code, quantity, image based on a single [code, company] record
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          description: code of product to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Product's fields to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product-add'
+      responses:
+        '200':
+          description: Product updated successfully
+
 components:
   securitySchemes:
     bearerAuth:
@@ -226,3 +445,14 @@ components:
       enum:
       - retail
       - wholesale
+
+    product-add:
+      properties:
+        name:
+          type: string
+        category:
+          type: string
+        code:
+          type: string
+        company:
+          type: string

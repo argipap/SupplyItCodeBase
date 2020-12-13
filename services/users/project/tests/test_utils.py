@@ -26,9 +26,14 @@ class TestUtils:
         return token
 
     @classmethod
-    def add_user(cls, username, email, password, user_type=None):
+    def add_user(cls, username, email, password, first_name, last_name, user_type=None):
         user = UserModel(
-            username=username, email=email, password=password, user_type=user_type
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            user_type=user_type,
         )
         db.session.add(user)
         db.session.commit()
@@ -62,7 +67,7 @@ class TestUtils:
 
     @classmethod
     def add_store(
-        cls, retailer_id, store_name, address_id, store_type=StoreType.cafeBar
+        cls, retailer_id, store_name, address_id, store_type=StoreType.coffee_and_drinks
     ):
         supplier = StoreModel(
             retailer_id=retailer_id,

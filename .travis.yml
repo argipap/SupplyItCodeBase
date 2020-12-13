@@ -16,6 +16,8 @@ env:
   SWAGGER: supplyit-swagger
   SWAGGER_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
   SECRET_KEY: my_precious
+  REDIS: supplyit-redis
+  REDIS_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/redis
 
 addons:
   apt:
@@ -38,3 +40,4 @@ script:
 after_success:
   - bash ./docker-push.sh
   - bash ./docker-deploy-stage.sh
+  - bash ./docker-deploy-prod.sh

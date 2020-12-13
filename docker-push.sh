@@ -15,7 +15,9 @@ then
     export REACT_APP_USERS_SERVICE_URL="http://supplyit-staging-alb-1452295330.us-east-1.elb.amazonaws.com"
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
-    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-1320313720.us-east-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://supplyit-production-alb-643743255.us-east-1.elb.amazonaws.com"
+    export DATABASE_URL="$AWS_RDS_URI"
+    export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]] || \
@@ -58,12 +60,21 @@ then
     docker push $REPO/$CLIENT:$TAG
     inspect $? client_docker_push
     # swagger
+    echo "building swagger repo: {$SWAGGER_REPO} ..."
     docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f Dockerfile-$DOCKER_ENV
     inspect $? swagger_docker_build
     docker tag $SWAGGER:$COMMIT $REPO/$SWAGGER:$TAG
     inspect $? swagger_docker_tag
     docker push $REPO/$SWAGGER:$TAG
     inspect $? swagger_docker_push
+    # redis
+    echo "building redis repo: {$REDIS_REPO} ..."
+    docker build $REDIS_REPO -t $REDIS:$COMMIT -f Dockerfile
+    inspect $? redis_docker_build
+    docker tag $REDIS:$COMMIT $REPO/$REDIS:$TAG
+    inspect $? redis_docker_tag
+    docker push $REPO/$REDIS:$TAG
+    inspect $? redis_docker_push
 
     # return proper code
     if [[ -n "${fails}" ]]; then

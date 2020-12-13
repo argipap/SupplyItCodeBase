@@ -4,7 +4,7 @@ import datetime
 import enum
 import jwt
 from sqlalchemy.sql import func
-from flask import current_app
+from flask import current_app, request
 from project import db, bcrypt
 from project.api.models.confirmations import ConfirmationModel
 from project.utils.tasks import send_async_mail_task
@@ -23,6 +23,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+    first_name = db.Column(db.String(128), nullable=False)
+    last_name = db.Column(db.String(128), nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
     admin = db.Column(db.Boolean, default=False, nullable=False)
     user_type = db.Column(db.Enum(UserType), default=UserType.retail, nullable=False)
@@ -40,13 +42,22 @@ class UserModel(db.Model):
     )
 
     def __init__(
-        self, username, email, password, admin=False, user_type=UserType.retail,
+        self,
+        username,
+        email,
+        password,
+        first_name,
+        last_name,
+        admin=False,
+        user_type=UserType.retail,
     ):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
+        self.first_name = first_name
+        self.last_name = last_name
         self.user_type = user_type
         self.admin = admin
 
@@ -102,7 +113,7 @@ class UserModel(db.Model):
     def send_confirmation_mail(self):
         subject = "Registration Confirmation"
         link = (
-            f"{current_app.config.get('REACT_APP_USERS_SERVICE_URL')}"
+            f"{request.url_root[:-1]}"
             f"/auth/confirmation/{self.most_recent_confirmation.id}"
         )
         text = f"Please click the link to confirm your registration: {link}"

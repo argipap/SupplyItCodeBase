@@ -2,8 +2,8 @@ const {MailSlurp} = require('mailslurp-client');
 const randomstring = require('randomstring');
 
 const username = randomstring.generate();
-// const email = `${username}@mailslurp.com`;
-const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+// const email = '26edbe8f-5b62-4620-b617-0cad9e4a725e@mailslurp.com';
+const email = '79a7f01e-cd8e-4071-8b40-5fd016d311de@mailslurp.com';
 const password = '12345678';
 const firstName = 'Argi';
 const lastName = 'Pap';
@@ -20,8 +20,9 @@ describe('Sign In', () => {
         cy
             .visit('/login')
             .get('h1').contains('Σύνδεση')
-            .get('form')
-            .get('button[disabled]');
+            .get('form');
+            // .get('button[disabled]');
+
         // .get('.validation-list')
         // .get('.validation-list > .error').first().contains(
         // 'Email is required.');
@@ -36,19 +37,18 @@ describe('Sign In', () => {
 
         // register user
         cy
-            .wait(500)
             .visit('/getStarted')
-            .get('input[name="firstName"]').type(firstName)
-            .get('input[name="lastName"]').type(lastName)
+            .get('input[name="first_name"]').type(firstName)
+            .get('input[name="last_name"]').type(lastName)
             .get('input[name="username"]').type(username)
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
-            .get('input[name="streetName"]').type(streetName)
-            .get('input[name="streetNumber"]').type(streetNumber)
+            .get('input[name="street_name"]').type(streetName)
+            .get('input[name="street_number"]').type(streetNumber)
             .get('input[name="city"]').type(city)
-            .get('input[name="zipCode"]').type(zipCode)
-            .get('input[name="storeName"]').type(storeName)
-            .get('select[name="storeType"]').select(storeType)
+            .get('input[name="zip_code"]').type(zipCode)
+            .get('input[name="store_name"]').type(storeName)
+            .get('select[name="store_type"]').select(storeType)
             .get('button[value="Submit"]').click()
             .wait(100);
 
@@ -74,16 +74,19 @@ describe('Sign In', () => {
             .get('button[value="Submit"]').click();
 
         // log a user out
-        cy.get('.navbar-collapse').click();
-        cy.contains('Αποσύνδεση').click();
+        cy.get('a.btn-square.btn.btn-outline-danger').click();
 
         // log a user in
+        cy.get('.navbar-collapse').click();
+
         cy
-            .get('a').contains('Σύνδεση').click()
+            .get('a.btn-square').contains('Σύνδεση').click()
             .get('input[name="email"]').type(email)
             .get('input[name="password"]').type(password)
             .get('button[value="Submit"]').click()
             .wait(100);
+
+        cy.get('.toast-header').contains('Καλώς Ήλθατε!');
 
         // assert user is redirected to '/'
         // assert '/' is displayed properly
@@ -92,9 +95,9 @@ describe('Sign In', () => {
             .get('table')
             .find('tbody > tr').last()
             .find('td').contains(username);
-        cy.get('.fade.toast').contains('Καλώς Ήλθατε!');
+
         cy.get('.navbar-collapse').click();
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status')
                 .get('a.btn-square').contains('Αποσύνδεση')
@@ -110,7 +113,7 @@ describe('Sign In', () => {
 
         // assert '/logout' is displayed properly
         cy.get('.fade.toast').contains('Εις το επανιδείν!');
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status').should('not.be.visible')
                 .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
@@ -132,7 +135,7 @@ describe('Sign In', () => {
         cy.contains('Χρήστες').should('not.be.visible');
         cy.contains('Σύνδεση');
         cy.get('.navbar-collapse').click();
-        cy.get('.navbar-nav').within(() => {
+        cy.get('.ml-auto.navbar-nav').within(() => {
             cy
                 .get('.nav-link').contains('Status').should('not.be.visible')
                 .get('a.btn-square').contains('Αποσύνδεση').should('not.be.visible')
@@ -155,7 +158,6 @@ describe('Sign In', () => {
 
         // assert user login failed
         cy.contains('Χρήστες').should('not.be.visible');
-        cy.contains('Σύνδεση');
         cy.get('.navbar-collapse').click();
         cy.get('.ml-auto.navbar-nav').within(() => {
             cy

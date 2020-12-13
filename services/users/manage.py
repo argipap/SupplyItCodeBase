@@ -4,19 +4,20 @@ import unittest
 import coverage
 
 from flask.cli import FlaskGroup
-from project import create_app, db
-from project.api.models.confirmations import ConfirmationModel
-from project.api.models.users import UserModel, UserType
-from project.api.models.retailers import RetailerModel
-from project.api.models.suppliers import SupplierModel
-from project.api.models.stores import StoreModel, StoreType
-from project.api.models.companies import CompanyModel, CompanyType
-from project.api.models.addresses import AddressModel
 
 COV = coverage.coverage(
     branch=True, include="project/*", omit=["project/tests/*", "project/config.py"]
 )
 COV.start()
+
+from project import create_app, db  # noqa:E402
+from project.api.models.confirmations import ConfirmationModel  # noqa:E402
+from project.api.models.users import UserModel, UserType  # noqa:E402
+from project.api.models.retailers import RetailerModel  # noqa:E402
+from project.api.models.suppliers import SupplierModel  # noqa:E402
+from project.api.models.stores import StoreModel, StoreType  # noqa:E402
+from project.api.models.companies import CompanyModel, CompanyType  # noqa:E402
+from project.api.models.addresses import AddressModel  # noqa:E402
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -53,6 +54,8 @@ def seed_db():
         username="user_1",
         email="user_1@gmail.com",
         password="supplyit",
+        first_name="user_1",
+        last_name="user_1",
         admin=True,
         user_type=UserType.wholesale,
     )
@@ -62,15 +65,25 @@ def seed_db():
         username="user_2",
         email="user_2@gmail.com",
         password="supplyit",
+        first_name="user_2",
+        last_name="user_2",
         user_type=UserType.wholesale,
     )
     db.session.add(user_2_s)
     user_3_r = UserModel(
-        username="user_3", email="user_3@gmail.com", password="supplyit"
+        username="user_3",
+        email="user_3@gmail.com",
+        password="supplyit",
+        first_name="user_3",
+        last_name="user_3",
     )
     db.session.add(user_3_r)
     user_4_r = UserModel(
-        username="user_4", email="user_4@gmail.com", password="supplyit"
+        username="user_4",
+        email="user_4@gmail.com",
+        password="supplyit",
+        first_name="user_4",
+        last_name="user_4",
     )
     db.session.add(user_4_r)
     db.session.commit()
@@ -143,7 +156,7 @@ def seed_db():
     store_1 = StoreModel(
         retailer_id=retailer_1.id,
         store_name="store_1",
-        store_type=StoreType.cafeBar.name,
+        store_type=StoreType.coffee_and_drinks.name,
         address_id=address_4.id,
     )
     db.session.add(store_1)

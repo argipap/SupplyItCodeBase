@@ -44,10 +44,24 @@ def is_admin(user_id):
 
 
 def add_user_to_db(
-    username, password, email, user_type, street_name, street_number, city, zip_code
+    username,
+    password,
+    email,
+    first_name,
+    last_name,
+    user_type,
+    street_name,
+    street_number,
+    city,
+    zip_code,
 ):
     new_user = UserModel(
-        username=username, password=password, email=email, user_type=user_type
+        username=username,
+        password=password,
+        email=email,
+        first_name=first_name,
+        last_name=last_name,
+        user_type=user_type,
     )
     db.session.add(new_user)
     # add address
@@ -66,6 +80,8 @@ def add_retail_user_to_db(
     username,
     password,
     email,
+    first_name,
+    last_name,
     street_name,
     street_number,
     city,
@@ -80,6 +96,8 @@ def add_retail_user_to_db(
         username=username,
         password=password,
         email=email,
+        first_name=first_name,
+        last_name=last_name,
         user_type=UserType.retail.name,
         street_name=street_name,
         street_number=street_number,
@@ -106,6 +124,8 @@ def add_wholesale_user_to_db(
     username,
     password,
     email,
+    first_name,
+    last_name,
     street_name,
     street_number,
     city,
@@ -120,6 +140,8 @@ def add_wholesale_user_to_db(
         username=username,
         password=password,
         email=email,
+        first_name=first_name,
+        last_name=last_name,
         user_type=UserType.wholesale.name,
         street_name=street_name,
         street_number=street_number,

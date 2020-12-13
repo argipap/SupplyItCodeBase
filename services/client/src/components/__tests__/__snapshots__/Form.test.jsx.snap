@@ -1,561 +1,858 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`When not authenticated BecomeSupplier Form renders a snapshot properly 1`] = `
-<div
-  className=""
->
-  <div>
-    <ul
-      className="validation-list"
-    >
-      <li
-        className="error"
-      >
-        Username must be greater than 3 characters.
-      </li>
-      <li
-        className="error"
-      >
-        Email must be greater than 5 characters.
-      </li>
-      <li
-        className="error"
-      >
-        Email must be a valid email address.
-      </li>
-      <li
-        className="error"
-      >
-        Password must be greater than 7 characters.
-      </li>
-    </ul>
-    <br />
-  </div>
-  <hr />
-  <form
-    onSubmit={[Function]}
+<DocumentFragment>
+  <div
+    class="Register"
   >
-    <div
-      className="form-row"
+    <hr />
+    <br />
+    <form
+      class=""
     >
       <div
-        className="form-group col"
+        class="form-row"
       >
-        <input
-          className="form-control"
-          id="formFirstName"
-          name="firstName"
-          onChange={[Function]}
-          placeholder="Όνομα"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="input is-medium form-control"
-          id="formLastName"
-          name="lastName"
-          onChange={[Function]}
-          placeholder="Επίθετο"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formUsername"
-          name="username"
-          onChange={[Function]}
-          placeholder="Όνομα χρήστη"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formEmail"
-          name="email"
-          onChange={[Function]}
-          placeholder="your@email.com"
-          required={true}
-          type="email"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formPassword"
-          name="password"
-          onChange={[Function]}
-          placeholder="Κωδικός"
-          required={true}
-          type="password"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formAddress"
-          name="streetName"
-          onChange={[Function]}
-          placeholder="Οδός"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formAddressNumber"
-          name="streetNumber"
-          onChange={[Function]}
-          placeholder="Αριθμός"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formCity"
-          name="city"
-          onChange={[Function]}
-          placeholder="Πόλη"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formZip"
-          name="zipCode"
-          onChange={[Function]}
-          placeholder="Τ.Κ."
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formStore"
-          name="companyName"
-          onChange={[Function]}
-          placeholder="Όνομα εταιρείας"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <select
-          className="form-control"
-          id="ForCompanyType"
-          name="companyType"
-          onChange={[Function]}
-          placeholder="Είδος προιόντων"
-          required={true}
-          value=""
+        <div
+          class="form-group col"
+          role="formGroup"
         >
-          <option
-            value=""
+          <div
+            class="input-group"
           >
-            Είδος προιόντων
-          </option>
-          <option
-            value="meat_and_poultry"
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formfirst_name"
+              name="first_name"
+              placeholder="Όνομα"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
           >
-            Κρεατικά
-          </option>
-          <option
-            value="coffee_and_drinks"
-          >
-            Καφές και ποτά
-          </option>
-          <option
-            value="other"
-          >
-            Άλλο
-          </option>
-        </select>
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user-plus"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formlast_name"
+              name="last_name"
+              placeholder="Επίθετο"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
       </div>
-    </div>
-    <button
-      className="button btn-square btn btn-danger"
-      disabled={true}
-      type="submit"
-      value="Submit"
-    >
-      Εγγραφή
-    </button>
-  </form>
-</div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user-secret"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formUsername"
+              name="username"
+              placeholder="Όνομα χρήστη"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-envelope"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formEmail"
+              name="email"
+              placeholder="your@email.com"
+              type="email"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-key"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formPassword"
+              name="password"
+              placeholder="Κωδικός"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-home"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formAddress"
+              name="street_name"
+              placeholder="Οδός"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-map-marker-alt"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formAddressNumber"
+              name="street_number"
+              placeholder="Αριθμός"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-building"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formCity"
+              name="city"
+              placeholder="Πόλη"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-archive"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formZip"
+              name="zip_code"
+              placeholder="Τ.Κ."
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <input
+            class="input form-control"
+            id="formCompany"
+            name="company_name"
+            placeholder="Όνομα εταιρείας"
+            type="text"
+            value=""
+          />
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <select
+            class="input form-control"
+            id="Formcompany_type"
+            name="company_type"
+            placeholder="Είδος προιόντων"
+          >
+            <option
+              value=""
+            >
+              Είδος προιόντων
+            </option>
+            <option
+              value="meat_and_poultry"
+            >
+              Κρεατικά
+            </option>
+            <option
+              value="coffee_and_drinks"
+            >
+              Καφές και ποτά
+            </option>
+            <option
+              value="other"
+            >
+              Άλλο
+            </option>
+          </select>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <button
+        class="button btn-square btn btn-danger"
+        type="submit"
+        value="Submit"
+      >
+        Εγγραφή
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`When not authenticated GetStarted Form renders a snapshot properly 1`] = `
-<div
-  className=""
->
-  <div>
-    <ul
-      className="validation-list"
-    >
-      <li
-        className="error"
-      >
-        Username must be greater than 3 characters.
-      </li>
-      <li
-        className="error"
-      >
-        Email must be greater than 5 characters.
-      </li>
-      <li
-        className="error"
-      >
-        Email must be a valid email address.
-      </li>
-      <li
-        className="error"
-      >
-        Password must be greater than 7 characters.
-      </li>
-    </ul>
-    <br />
-  </div>
-  <hr />
-  <form
-    onSubmit={[Function]}
+<DocumentFragment>
+  <div
+    class="Register"
   >
-    <div
-      className="form-row"
+    <hr />
+    <br />
+    <form
+      class=""
     >
       <div
-        className="form-group col"
+        class="form-row"
       >
-        <input
-          className="form-control"
-          id="formFirstName"
-          name="firstName"
-          onChange={[Function]}
-          placeholder="Όνομα"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="input is-medium form-control"
-          id="formLastName"
-          name="lastName"
-          onChange={[Function]}
-          placeholder="Επίθετο"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formUsername"
-          name="username"
-          onChange={[Function]}
-          placeholder="Όνομα χρήστη"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formEmail"
-          name="email"
-          onChange={[Function]}
-          placeholder="your@email.com"
-          required={true}
-          type="email"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formPassword"
-          name="password"
-          onChange={[Function]}
-          placeholder="Κωδικός"
-          required={true}
-          type="password"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formAddress"
-          name="streetName"
-          onChange={[Function]}
-          placeholder="Οδός"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formAddressNumber"
-          name="streetNumber"
-          onChange={[Function]}
-          placeholder="Αριθμός"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formCity"
-          name="city"
-          onChange={[Function]}
-          placeholder="Πόλη"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formZip"
-          name="zipCode"
-          onChange={[Function]}
-          placeholder="Τ.Κ."
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formStore"
-          name="storeName"
-          onChange={[Function]}
-          placeholder="Όνομα εταιρείας"
-          required={true}
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <select
-          className="form-control"
-          id="FormStoreType"
-          name="storeType"
-          onChange={[Function]}
-          placeholder="Είδος προιόντων"
-          required={true}
-          value=""
+        <div
+          class="form-group col"
+          role="formGroup"
         >
-          <option
-            value=""
+          <div
+            class="input-group"
           >
-            Είδος μαγαζιού
-          </option>
-          <option
-            value="other"
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formfirst_name"
+              name="first_name"
+              placeholder="Όνομα"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
           >
-            Άλλο
-          </option>
-          <option
-            value="coffee_and_drinks"
-          >
-            Cafe - Bar
-          </option>
-          <option
-            value="restaurant"
-          >
-            Εστιατόριο
-          </option>
-          <option
-            value="quick_service_restaurant"
-          >
-            Fast-food
-          </option>
-        </select>
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user-plus"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formlast_name"
+              name="last_name"
+              placeholder="Επίθετο"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
       </div>
-    </div>
-    <button
-      className="button btn-square btn btn-danger"
-      disabled={true}
-      type="submit"
-      value="Submit"
-    >
-      Εγγραφή
-    </button>
-  </form>
-</div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-user-secret"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formUsername"
+              name="username"
+              placeholder="Όνομα χρήστη"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-envelope"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formEmail"
+              name="email"
+              placeholder="your@email.com"
+              type="email"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-key"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formPassword"
+              name="password"
+              placeholder="Κωδικός"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-home"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formAddress"
+              name="street_name"
+              placeholder="Οδός"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-map-marker-alt"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formAddressNumber"
+              name="street_number"
+              placeholder="Αριθμός"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-building"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formCity"
+              name="city"
+              placeholder="Πόλη"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-archive"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formZip"
+              name="zip_code"
+              placeholder="Τ.Κ."
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-warehouse"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formStore"
+              name="store_name"
+              placeholder="Όνομα καταστήματος"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <select
+            class="input form-control"
+            id="formstore_type"
+            name="store_type"
+            placeholder="Είδος προιόντων"
+          >
+            <option
+              value=""
+            >
+              Είδος καταστήματος
+            </option>
+            <option
+              value="other"
+            >
+              Άλλο
+            </option>
+            <option
+              value="coffee_and_drinks"
+            >
+              Cafe - Bar
+            </option>
+            <option
+              value="restaurant"
+            >
+              Εστιατόριο
+            </option>
+            <option
+              value="quick_service_restaurant"
+            >
+              Fast-food
+            </option>
+          </select>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <button
+        class="button btn-square btn btn-danger"
+        type="submit"
+        value="Submit"
+      >
+        Εγγραφή
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`When not authenticated Login Form renders a snapshot properly 1`] = `
-<div
-  className=""
->
-  <div>
-    <ul
-      className="validation-list"
-    >
-      <li
-        className="error"
-      >
-        Email is required.
-      </li>
-      <li
-        className="error"
-      >
-        Password is required.
-      </li>
-    </ul>
-    <br />
-  </div>
-  <h1>
-    Σύνδεση
-  </h1>
-  <hr />
-  <br />
-  <form
-    onSubmit={[Function]}
+<DocumentFragment>
+  <div
+    class="Login"
   >
-    <div
-      className="form-row"
-    >
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formEmail"
-          name="email"
-          onChange={[Function]}
-          placeholder="your@email.com"
-          required={true}
-          type="email"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group col"
-      >
-        <input
-          className="form-control"
-          id="formPassword"
-          name="password"
-          onChange={[Function]}
-          placeholder="Κωδικός"
-          required={true}
-          type="password"
-          value=""
-        />
-      </div>
-    </div>
-    <button
-      className="button btn-square btn btn-success"
-      disabled={true}
-      type="submit"
-      value="Submit"
+    <h1
+      class="title is-1"
+      title="Login"
     >
       Σύνδεση
-    </button>
-  </form>
-</div>
+    </h1>
+    <hr />
+    <form
+      class=""
+    >
+      <div
+        class="form-row"
+      >
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-envelope"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formEmail"
+              name="email"
+              placeholder="your@email.com"
+              type="email"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+        <div
+          class="form-group col"
+          role="formGroup"
+        >
+          <div
+            class="input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  class="fas fa-lock"
+                />
+              </span>
+            </div>
+            <input
+              class="input form-control"
+              id="formPassword"
+              name="password"
+              placeholder="Κωδικός"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="form-message invalid"
+          />
+        </div>
+      </div>
+      <button
+        class="button btn-square btn btn-success"
+        type="submit"
+        value="Submit"
+      >
+        Σύνδεση
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
 `;
