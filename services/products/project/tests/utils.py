@@ -55,6 +55,8 @@ class TestUtils:
     user_data_retail = {
         "username": "testuser",
         "email": f"{MailSlurpClient.INBOX_ID}@mailslurp.com",
+        "first_name": "testuserfirstname",
+        "last_name": "testuserlastname",
         "password": "123abc!",
         "store_name": "testStore",
         "store_type": "other",
@@ -121,6 +123,8 @@ class TestUtils:
         username,
         email,
         password,
+        first_name,
+        last_name,
         store_name,
         store_type,
         street_name,
@@ -137,6 +141,8 @@ class TestUtils:
                 {
                     "email": email,
                     "username": username,
+                    "first_name": first_name,
+                    "last_name": last_name,
                     "password": password,
                     "store_name": store_name,
                     "store_type": store_type,
@@ -150,8 +156,10 @@ class TestUtils:
         )
         data = json.loads(response.text)
         if response.status_code == 200 and data["status"] == "success":
+            print(data)
             return data
         else:
+            print(response.text)
             return response.text
 
     @classmethod
